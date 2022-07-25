@@ -80,6 +80,6 @@ With the rise in popularity of metaverses, we are excited to announce our additi
 * Likes
 
 ## ERD ##
-![image info](../pictures/P2_ERD_FinalFinal.png)
+![Screenshot](P2_ERD_FinalFinal.png)
 
 
