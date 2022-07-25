@@ -22,7 +22,9 @@ With the rise in popularity of metaverses, we are excited to announce our additi
 * Posting Content
 * Editing profile
 * Search/view/add friend
-* You gain gold/food through social interaction goals
+* Resource/Economics system
+    * When posting/commenting on posts/being liked/making new friends generates a finite amount of resources
+    * In-game marketplace that allows users to trade food/gold/eggs
 * Pet interactions
     * Petting
     * Feeding - use your resources to accomplish this
@@ -30,4 +32,31 @@ With the rise in popularity of metaverses, we are excited to announce our additi
             * Pet sale days where people can buy your pet resources at a discounted rate
     * Conversation based on pet status
         * Happy, sad, sick, angry, silly, tired....
+* Companion Customization/Equipment
+    * Stock elemental companions (volcanic, glacial, forest, sky, holy, dark) 
+    * Stock attributes for companions for permutation (Str, Dex, Int)
+    * Heath, magic points, food, and attack power (these are dependent upon attributes)
+    * Creature species name, and also a nickname
+
+## Stretch Goals ##
+* Companion adventure/battle
+    * Procedurally generated dungeons (easy, medium, hard) that can be run through many times as long as the companion food requirement is met
+        * Mostly text-based but a graphic mini map
+    * Infinite dungeon where you can try once a day:
+        * Async multiplayer via assisting combatants (friends’ main companion)
+        * Leaderboard
+    * Dungeon rewards include gold(80%), food and gold(15%), eggs(5%)
+    * Creature hunger level - depletes with dungeon runs
+    * No pvp or co-op at first, but that can be a super stretch goal
+* Hunger now influences the companions' combat stats
+* In-game shop where you can use gold to buy food or items (mtx)
+    * Items can be healing/offensive/or temporary power ups
+    * Eventually more eggs or creature parts
+* Daily item spinner/reward
+* Customization/Theme
+* Visual/Audio Feedback
+* Teams/Guilds
+* Time limited events
+* Inter-pet conversation
+
 
