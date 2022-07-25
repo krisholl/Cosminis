@@ -59,4 +59,26 @@ With the rise in popularity of metaverses, we are excited to announce our additi
 * Time limited events
 * Inter-pet conversation
 
+## Tech Stack ##
+* C#
+* SQL
+* ASP.NET
+* ADO.NET
+* Azure Cloud Server
+* Angular
+* HTML
+* CSS
+* Typescript
+* Github Action
+* Entity Core Framework
+
+## Tables ##
+* Users
+* Posts
+* Friends
+* Companions
+* Likes
+
+## ERD ##
+
 
