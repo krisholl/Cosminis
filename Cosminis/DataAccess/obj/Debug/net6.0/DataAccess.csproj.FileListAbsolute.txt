@@ -1,0 +1,14 @@
+D:\Schoolstuff\TrainingCode\P2\We-Are-Losing-S-team-P2\Cosminis\DataAccess\bin\Debug\net6.0\DataAccess.deps.json
+D:\Schoolstuff\TrainingCode\P2\We-Are-Losing-S-team-P2\Cosminis\DataAccess\bin\Debug\net6.0\DataAccess.runtimeconfig.json
+D:\Schoolstuff\TrainingCode\P2\We-Are-Losing-S-team-P2\Cosminis\DataAccess\bin\Debug\net6.0\DataAccess.dll
+D:\Schoolstuff\TrainingCode\P2\We-Are-Losing-S-team-P2\Cosminis\DataAccess\bin\Debug\net6.0\DataAccess.pdb
+D:\Schoolstuff\TrainingCode\P2\We-Are-Losing-S-team-P2\Cosminis\DataAccess\obj\Debug\net6.0\DataAccess.csproj.AssemblyReference.cache
+D:\Schoolstuff\TrainingCode\P2\We-Are-Losing-S-team-P2\Cosminis\DataAccess\obj\Debug\net6.0\DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+D:\Schoolstuff\TrainingCode\P2\We-Are-Losing-S-team-P2\Cosminis\DataAccess\obj\Debug\net6.0\DataAccess.AssemblyInfoInputs.cache
+D:\Schoolstuff\TrainingCode\P2\We-Are-Losing-S-team-P2\Cosminis\DataAccess\obj\Debug\net6.0\DataAccess.AssemblyInfo.cs
+D:\Schoolstuff\TrainingCode\P2\We-Are-Losing-S-team-P2\Cosminis\DataAccess\obj\Debug\net6.0\DataAccess.csproj.CoreCompileInputs.cache
+D:\Schoolstuff\TrainingCode\P2\We-Are-Losing-S-team-P2\Cosminis\DataAccess\obj\Debug\net6.0\DataAccess.dll
+D:\Schoolstuff\TrainingCode\P2\We-Are-Losing-S-team-P2\Cosminis\DataAccess\obj\Debug\net6.0\refint\DataAccess.dll
+D:\Schoolstuff\TrainingCode\P2\We-Are-Losing-S-team-P2\Cosminis\DataAccess\obj\Debug\net6.0\DataAccess.pdb
+D:\Schoolstuff\TrainingCode\P2\We-Are-Losing-S-team-P2\Cosminis\DataAccess\obj\Debug\net6.0\DataAccess.genruntimeconfig.cache
+D:\Schoolstuff\TrainingCode\P2\We-Are-Losing-S-team-P2\Cosminis\DataAccess\obj\Debug\net6.0\ref\DataAccess.dll
