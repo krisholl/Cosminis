@@ -1,39 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using Models;
 
 namespace DataAccess.Entities
 {
-    public enum ElementSpecies              
-    {
-        Volcanic, Glacial, Forest, Sky, Holy, Dark
-    }
-
     public partial class Species
     { 
-        /// <summary>
-        /// Takes a ElementSpecies and return the string equivalent of the enumeration
-        /// </summary>
-        /// <param name="elementSpecies"></param>
-        /// <returns>String of the particular element</returns>
-        /// <exception cref="ElementNotFound">Occurs if no element exist matching the given input</exception>
-        public string ElementToString(ElementSpecies elementSpecies)                                   
+        public Species(Models.Species Species)
         {
-            Dictionary<ElementSpecies,string> dictElement = new Dictionary<ElementSpecies, string>()
-            {
-                {ElementSpecies.Volcanic, "Volcanic"},
-                {ElementSpecies.Glacial, "Glacial"},
-                {ElementSpecies.Forest, "Forest"},
-                {ElementSpecies.Sky, "Sky"},
-                {ElementSpecies.Holy, "Holy"},
-                {ElementSpecies.Dark, "Dark"}
-            };
-
-            if(dictElement.ContainsKey(elementSpecies))
-            {
-                return dictElement[elementSpecies];
-            };
-            return "NotFound";
+            Companions = new HashSet<Companion>();
+            this.BaseDex = Species.BaseDex;
+            this.BaseInt = Species.BaseInt;
+            this.BaseStr = Species.BaseStr;
+            this.Description = Species.Description;
+            this.SpeciesId = Species.SpeciesId;
+            this.SpeciesName = Species.SpeciesName;
+            this.FoodElementIdFk = Species.FoodElementIdFk;
+            this.ElementType = Species.ElementToString(Species.ElementType); //This is the only important line that allows us to communicate internally in enum but when we talk to the database it will be string
         }
-
     }
 }

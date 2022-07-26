@@ -1,0 +1,52 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace Models
+{
+    public enum ElementSpecies              
+    {
+        Volcanic, Glacial, Forest, Sky, Holy, Dark
+    }
+
+    public class Species
+    { 
+        /// <summary>
+        /// Takes a ElementSpecies and return the string equivalent of the enumeration
+        /// </summary>
+        /// <param name="elementSpecies"></param>
+        /// <returns>String of the particular element</returns>
+        /// <exception cref="ElementNotFound">Occurs if no element exist matching the given input</exception>
+        public string ElementToString(ElementSpecies elementSpecies)                                   
+        {
+            Dictionary<ElementSpecies,string> dictElement = new Dictionary<ElementSpecies, string>()
+            {
+                {ElementSpecies.Volcanic, "Volcanic"},
+                {ElementSpecies.Glacial, "Glacial"},
+                {ElementSpecies.Forest, "Forest"},
+                {ElementSpecies.Sky, "Sky"},
+                {ElementSpecies.Holy, "Holy"},
+                {ElementSpecies.Dark, "Dark"}
+            };
+
+            if(dictElement.ContainsKey(elementSpecies))
+            {
+                return dictElement[elementSpecies];
+            };
+            return "NotFound";
+        }
+
+        public Species()
+        {
+            
+        }
+
+        public int SpeciesId { get; set; }
+        public int FoodElementIdFk { get; set; }
+        public string SpeciesName { get; set; } = null!;
+        public string Description { get; set; } = null!;
+        public int? BaseStr { get; set; }
+        public int? BaseDex { get; set; }
+        public int? BaseInt { get; set; }
+        public ElementSpecies ElementType { get; set; }
+    }
+}
