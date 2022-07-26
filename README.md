@@ -81,6 +81,7 @@ With the rise in popularity of metaverses, we are excited to announce our additi
 * Food
 * FoodType
 * User_Has_Food
+* Species
 
 ## ERD ##
 ![Screenshot](P2_ERD_FinalFinal.png)
