@@ -78,6 +78,9 @@ With the rise in popularity of metaverses, we are excited to announce our additi
 * Friends
 * Companions
 * Likes
+* Food
+* FoodType
+* User_Has_Food
 
 ## ERD ##
 ![Screenshot](P2_ERD_FinalFinal.png)
