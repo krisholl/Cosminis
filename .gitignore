@@ -6,6 +6,7 @@
 appsettings.Development.json
 appsettings.json
 Properties/
+todoList.txt
 
 # User-specific files
 *.rsuser
