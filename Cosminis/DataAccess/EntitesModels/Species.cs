@@ -21,7 +21,14 @@ namespace DataAccess.Entities
 
         public override string ToString()
         { 
-            return $"SpeciesId: {this.SpeciesId}, SpeciesName: {this.SpeciesName}, Description: {this.Description}, ElementType: {this.ElementType}, BaseStr: {this.BaseStr}, BaseDex: {this.BaseDex}, BaseInt: {this.BaseInt}";
+            return 
+                $"SpeciesId: {this.SpeciesId}, " + 
+                $"SpeciesName: {this.SpeciesName}, " + 
+                $"Description: {this.Description}, " + 
+                $"ElementType: {this.ElementType}, " + 
+                $"BaseStr: {this.BaseStr}, " + 
+                $"BaseDex: {this.BaseDex}, " + 
+                $"BaseInt: {this.BaseInt}";
         }  
     }
 }
