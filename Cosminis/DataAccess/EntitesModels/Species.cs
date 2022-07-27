@@ -18,5 +18,10 @@ namespace DataAccess.Entities
             this.FoodElementIdFk = Species.FoodElementIdFk;
             this.ElementType = Species.ElementToString(Species.ElementType); //This is the only important line that allows us to communicate internally in enum but when we talk to the database it will be string
         }
+
+        public override string ToString()
+        { 
+            return $"SpeciesId: {this.SpeciesId}, SpeciesName: {this.SpeciesName}, Description: {this.Description}, ElementType: {this.ElementType}, BaseStr: {this.BaseStr}, BaseDex: {this.BaseDex}, BaseInt: {this.BaseInt}";
+        }  
     }
 }
