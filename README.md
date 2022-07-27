@@ -25,12 +25,12 @@ With the rise in popularity of metaverses, we are excited to announce our additi
 * Resource/Economics system
     * When posting/commenting on posts/being liked/making new friends generates a finite amount of resources
     * In-game marketplace that allows users to trade food/gold/eggs
-* Pet interactions
+* Companion interactions
     * Petting
     * Feeding - use your resources to accomplish this
-        * Sharing resources with other players and their pets
-            * Pet sale days where people can buy your pet resources at a discounted rate
-    * Conversation based on pet status
+        * Sharing resources with other players and their Companions
+            * Companion sale days where people can buy your Companion resources at a discounted rate
+    * Conversation based on Companion status
         * Happy, sad, sick, angry, silly, tired....
 * Companion Customization/Equipment
     * Stock elemental companions (volcanic, glacial, forest, sky, holy, dark) 
