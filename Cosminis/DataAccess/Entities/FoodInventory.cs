@@ -5,7 +5,6 @@ namespace DataAccess.Entities
 {
     public partial class FoodInventory
     {
-        
         public int UserIdFk { get; set; }
         public int FoodStatsIdFk { get; set; }
         public int? FoodCount { get; set; }

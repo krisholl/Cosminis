@@ -8,7 +8,7 @@ namespace Models
         Volcanic, Glacial, Forest, Sky, Holy, Dark
     }
 
-    public class Species
+    public class SpeciesWithEnum
     { 
         /// <summary>
         /// Takes a ElementSpecies and return the string equivalent of the enumeration
@@ -35,7 +35,7 @@ namespace Models
             return "NotFound";
         }
 
-        public Species()
+        public SpeciesWithEnum()
         {
             
         }
@@ -49,4 +49,10 @@ namespace Models
         public int? BaseInt { get; set; }
         public ElementSpecies ElementType { get; set; }
     }
+    /*  This toString is just serving as an example for other places we might use it.
+    public override string ToString()
+    { 
+        return $"UserId: {this.userId}, Legal Name: {this.legalName}, Userame: {this.userName}, Role: {RoleToString(this.role)}";
+    }
+    */   
 }

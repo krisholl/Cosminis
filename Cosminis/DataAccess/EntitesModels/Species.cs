@@ -6,7 +6,7 @@ namespace DataAccess.Entities
 {
     public partial class Species
     { 
-        public Species(Models.Species Species)
+        public Species(Models.SpeciesWithEnum Species)
         {
             Companions = new HashSet<Companion>();
             this.BaseDex = Species.BaseDex;

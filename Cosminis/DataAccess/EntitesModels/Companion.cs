@@ -9,5 +9,9 @@ namespace DataAccess.Entities
     }
     public partial class Companion
     {
+        public override string ToString()
+        { 
+            return $"CreatureId: {this.CreatureId}, Nickname: {this.Nickname}, Mood: {this.Mood}, Hunger: {this.Hunger}";
+        }  
     }
 }
