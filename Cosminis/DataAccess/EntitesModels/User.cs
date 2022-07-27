@@ -16,12 +16,17 @@ namespace DataAccess.Entities
         
         public User(int UserId, string username, string password, int? Goldcount, int? Eggcount, int? Eggtimer)
         {
-            UserId = this.UserId;
-            username = this.Username;
-            password = this.Password;
-            Goldcount = this.GoldCount;
-            Eggcount = this.EggCount;
-            Eggtimer = this.EggTimer;
+            this.UserId = UserId;
+
+            this.Username = username;
+
+            this.Password = password;
+
+            this.GoldCount = Goldcount;
+
+            this.EggCount = Eggcount;
+
+            this.EggTimer = Eggtimer;
         }
     }
 }
