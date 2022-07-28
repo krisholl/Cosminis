@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CustomExceptions;
 
 namespace Models
 {
@@ -32,7 +33,7 @@ namespace Models
             {
                 return dictElement[foodElement];
             };
-            return "NotFound";
+            throw new FoodElementNotFound();
         }
 
         public FoodElementWithEnum()
