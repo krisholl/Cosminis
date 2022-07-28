@@ -1,5 +1,5 @@
-﻿using DataAccess;
-using Exceptions;
+﻿using DataAccess.Entities;
+using CustomExceptions;
 using Models;
 using System;
 using System.Data;
@@ -17,7 +17,7 @@ namespace DataAccess
         /// <exception cref="RecordNotFoundException">exception descriptions</exception>
         public User GetUserByUserName()
         {
-            
+            throw new ResourceNotFound();
         }
     }
 }
