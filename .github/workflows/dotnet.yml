@@ -19,7 +19,7 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore Cosminis/WebAPI/WebAPI.csproj
+      run: dotnet restore Cosminis/WebAPI
     - name: Build
       run: dotnet build --no-restore
     - name: Test
