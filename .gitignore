@@ -7,7 +7,7 @@ appsettings.Development.json
 appsettings.json
 Properties/
 todoList.txt
-unitTest/
+*/unitTest/
 
 # User-specific files
 *.rsuser
