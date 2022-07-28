@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CustomExceptions;
 
 namespace Models;
 
@@ -40,7 +41,7 @@ namespace Models;
             {
                 return dictMood[Mood];
             }
-            return "NotFound";
+            throw new MoodNotFound();
         }
 
         public override string ToString()
