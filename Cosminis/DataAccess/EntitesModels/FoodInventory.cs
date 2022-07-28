@@ -7,6 +7,6 @@ namespace DataAccess.Entities;
         public override string ToString()
         {
             return
-            $"FoodCount: {this.FoodCount}";
+                $"FoodCount: {this.FoodCount}";
         }
     }
