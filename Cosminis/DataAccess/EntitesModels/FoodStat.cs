@@ -8,8 +8,7 @@ namespace DataAccess.Entities
         public override string ToString()
         {
             return
-                $"FoodStatsId: {this.FoodStatsId}, " + 
-                $"FoodElementFk: {this.FoodElementFk}, " + 
+                $"FoodStatsId: {this.FoodStatsId}, " +
                 $"Description: {this.Description}, " + 
                 $"FoodName: {this.FoodName}, " + 
                 $"HungerRestore: {this.HungerRestore}, ";
