@@ -1,4 +1,4 @@
-using DataAccess.Entities;
+﻿using DataAccess.Entities;
 using CustomExceptions;
 using Models;
 using System;
@@ -21,4 +21,6 @@ public class UserRepo
     {
         throw new ResourceNotFound();
     }
+
+    public string StinkyPooPoo = "Pudding";
 }
