@@ -9,12 +9,11 @@ namespace DataAccess.Entities
         { 
             int goldCount = this.GoldCount ?? 0;
             int eggCount = this.EggCount ?? 0;
-            int eggTimer = this.EggTimer ?? 0;
-            return String.Format("UserId: {0}, Username: {1}, GoldCount: {2}, EggCount: {3}, EggTimer: {4}", this.UserId, this.Username, goldCount, eggCount, eggTimer);
+            return String.Format("UserId: {0}, Username: {1}, GoldCount: {2}, EggCount: {3}, EggTimer: {4}", this.UserId, this.Username, goldCount, eggCount, EggTimer.ToString());
         }  
 
         
-        public User(int UserId, string username, string password, int? Goldcount, int? Eggcount, int? Eggtimer)
+        public User(int UserId, string username, string password, int? Goldcount, int? Eggcount, DateTime Eggtimer)
         {
             this.UserId = UserId;
 

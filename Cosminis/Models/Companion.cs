@@ -11,7 +11,7 @@ namespace Models;
 
     public class CompanionMoodWithEnum
     { 
-        public int CreatureId { get; set; }
+        public int CompanionId { get; set; }
         public int UserFk { get; set; }
         public int SpeciesFk { get; set; }
         public string? Nickname { get; set; }
@@ -47,7 +47,7 @@ namespace Models;
         public override string ToString()
         { 
             return 
-                $"CreatureId: {this.CreatureId}, " + 
+                $"CreatureId: {this.CompanionId}, " + 
                 $"Nickname: {this.Nickname}, " + 
                 $"Mood: {this.Mood}, " + 
                 $"Hunger: {this.Hunger}"; 

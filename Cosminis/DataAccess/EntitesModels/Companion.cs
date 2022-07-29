@@ -8,7 +8,7 @@ namespace DataAccess.Entities
     { 
         public Companion(Models.CompanionMoodWithEnum Companion)
         {
-            this.CreatureId = Companion.CreatureId;
+            this.CompanionId = Companion.CompanionId;
             this.UserFk = Companion.UserFk;
             this.SpeciesFk = Companion.SpeciesFk;
             this.Nickname = Companion.Nickname;
@@ -19,7 +19,7 @@ namespace DataAccess.Entities
         public override string ToString()
         { 
             return 
-                $"CreatureId: {this.CreatureId}, " + 
+                $"CreatureId: {this.CompanionId}, " + 
                 $"Nickname: {this.Nickname}, " + 
                 $"Mood: {this.Mood}, " + 
                 $"Hunger: {this.Hunger}"; 

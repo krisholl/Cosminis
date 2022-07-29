@@ -7,6 +7,7 @@ namespace DataAccess.Entities
     {
         public Post()
         {
+            Comments = new HashSet<Comment>();
             UserIdFks = new HashSet<User>();
         }
 
@@ -15,6 +16,7 @@ namespace DataAccess.Entities
         public string Content { get; set; } = null!;
 
         public virtual User UserIdFkNavigation { get; set; } = null!;
+        public virtual ICollection<Comment> Comments { get; set; }
 
         public virtual ICollection<User> UserIdFks { get; set; }
     }
