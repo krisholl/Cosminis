@@ -8,6 +8,7 @@ appsettings.json
 Properties/
 todoList.txt
 */unitTest/
+Sensitive.cs
 
 # User-specific files
 *.rsuser

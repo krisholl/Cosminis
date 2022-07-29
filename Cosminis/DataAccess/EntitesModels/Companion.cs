@@ -6,6 +6,10 @@ namespace DataAccess.Entities
 {
     public partial class Companion
     { 
+        public Companion()
+        {
+            
+        }
         public Companion(Models.CompanionMoodWithEnum Companion)
         {
             this.CompanionId = Companion.CompanionId;

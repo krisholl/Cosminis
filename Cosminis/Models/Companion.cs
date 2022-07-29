@@ -17,11 +17,6 @@ namespace Models;
         public string? Nickname { get; set; }
         public MoodCompanion Mood { get; set; }
         public int? Hunger { get; set; }
-
-        public CompanionMoodWithEnum()
-        {
-            
-        }
        
         public string MoodToString(MoodCompanion Mood)                                   
         {

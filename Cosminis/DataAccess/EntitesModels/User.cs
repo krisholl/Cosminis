@@ -13,7 +13,7 @@ namespace DataAccess.Entities
         }  
 
         
-        public User(int UserId, string username, string password, int? Goldcount, int? Eggcount, DateTime Eggtimer)
+        public User(int? UserId, string username, DateTime AccountAge, string password, int? Goldcount, int? Eggcount, DateTime Eggtimer)
         {
             this.UserId = UserId;
 
@@ -26,6 +26,8 @@ namespace DataAccess.Entities
             this.EggCount = Eggcount;
 
             this.EggTimer = Eggtimer;
+
+            this.AccountAge = AccountAge;
         }
     }
 }
