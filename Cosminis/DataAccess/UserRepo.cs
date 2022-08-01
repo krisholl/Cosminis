@@ -20,7 +20,7 @@ public class UserRepo
 
     public User CreateUser(User user)
     {
-        _context.Add(user); //Add a new user into the table
+        _context.Users.Add(user); //Add a new user into the table
 
         _context.SaveChanges(); //persist the change
 

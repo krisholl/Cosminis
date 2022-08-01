@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<wearelosingsteamContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("WALS_P2")));
-builder.Services.AddScoped<User>();
 builder.Services.AddScoped<UserRepo>();
 
 builder.Services.AddEndpointsApiExplorer();
