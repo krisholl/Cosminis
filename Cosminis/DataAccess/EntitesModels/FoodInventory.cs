@@ -7,6 +7,8 @@ namespace DataAccess.Entities;
         public override string ToString()
         {
             return
+                $"UserFK: {this.UserIdFk}, " +
+                $"FoodFK: {this.FoodStatsIdFk}, " + 
                 $"FoodCount: {this.FoodCount}";
         }
     }
