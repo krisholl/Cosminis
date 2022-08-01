@@ -22,9 +22,4 @@ app.UseSwaggerUI();
 
 app.MapGet("/", () => "Hello World!");
 
-app.MapPost("/createUser", (User user, UserRepo repo) => 
-{
-	return repo.CreateUser(user);
-});
-
 app.Run();
