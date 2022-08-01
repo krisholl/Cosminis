@@ -11,22 +11,22 @@ namespace DataAccess;
  
 public class UserRepo
 {
-    private readonly DbContext _context;
+    private readonly wearelosingsteamContext _context;
 
-    public UserRepo(DbContext context)
+    public UserRepo(wearelosingsteamContext context)
     {
         _context = context;
     }
 
     public User CreateUser(User user)
     {
-        _context.Add(user);
+        _context.Users.Add(user); //Add a new user into the table
 
-        _context.SaveChanges();
+        _context.SaveChanges(); //persist the change
 
-        _context.ChangeTracker.Clear();
+        _context.ChangeTracker.Clear(); //clear the tracker for the next person
 
-        return user;
+        return user; //return the inputed user info
     }
   
    /* public User GetUserByUserName()
