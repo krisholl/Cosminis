@@ -24,31 +24,28 @@ public class CompanionRepo// : ICompanionDAO
     /// <param newCompanion="New companion to be generated."></param>
     /// <returns>Will create and add a companion into the users inventory.</returns>
     /// <exception cref="Exception">exception descriptions</exception>
-    /*    
-    public bool GenerateCompanion(Companion newCompanion, User user2Add2) commented out to run with new webapi
+     
+    public User GenerateCompanion(string username)
     {
         Random randomCreature = new Random();
         int creatureRoulette = randomCreature.Next(6);
 
-        _context.newCompanion.SpeciesFk(creatureRoulette);
+        Random randomStat = new Random();
 
-        _context.newCompanion.SetCompanionMood();
+        int baseStr = randomStat.Next(3, 18);
+        int baseDex = randomStat.Next(3, 18);
+        int baseInt = randomStat.Next(3, 18);
 
-        _context.user2Add2.Add(newCompanion);
-        */
-        /*                                                                          I think all this belongs in the service layer.
-        hatchTimer = (expiryDate - DateTime.Now).TotalDays > 3;
+        User identifiedUser = GetUserByUserName(username);
 
-        if(user.companions.Count() == 0 || user.EggTimer >= hatchTimer)
-        {
+        usersId = identifiedUser.UserId;
 
-            _context.user.companions
-        }
-        */
-        //SetCompanionMood();                                                         
+        Companion companionToAdd = new Companion(UserFk usersId, SpeciesFk creatureRoulette, string? nickname, MoodCompanion Happy, 69);
 
-        //return true;
-    //}
+        identifiedUser.Companions = Insert(companionToAdd);
+
+        return identifiedUser;                                                        
+    }
     
     /// <summary>
     /// Generates a companion for the user. If the user is a new user, the companion will be generated from an egg one minute after the egg has been obtained.
