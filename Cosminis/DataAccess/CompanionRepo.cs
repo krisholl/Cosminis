@@ -24,21 +24,32 @@ public class CompanionRepo// : ICompanionDAO
     /// <param newCompanion="New companion to be generated."></param>
     /// <returns>Will create and add a companion into the users inventory.</returns>
     /// <exception cref="Exception">exception descriptions</exception>
-    /*
-    public Companion GenerateCompanion(Companion newCompanion)
+    /*    
+    public bool GenerateCompanion(Companion newCompanion, User user2Add2) commented out to run with new webapi
     {
         Random randomCreature = new Random();
         int creatureRoulette = randomCreature.Next(6);
 
-        User newUser = new User();
+        _context.newCompanion.SpeciesFk(creatureRoulette);
 
-        if(newUser.Companion)
+        _context.newCompanion.SetCompanionMood();
 
-        //MoodMethod();
+        _context.user2Add2.Add(newCompanion);
+        */
+        /*                                                                          I think all this belongs in the service layer.
+        hatchTimer = (expiryDate - DateTime.Now).TotalDays > 3;
 
-        throw new Exception();
-    }
-    */
+        if(user.companions.Count() == 0 || user.EggTimer >= hatchTimer)
+        {
+
+            _context.user.companions
+        }
+        */
+        //SetCompanionMood();                                                         
+
+        //return true;
+    //}
+    
     /// <summary>
     /// Generates a companion for the user. If the user is a new user, the companion will be generated from an egg one minute after the egg has been obtained.
     /// Otherwise any eggs will hatch 72 hours after they have been generated.
@@ -46,7 +57,7 @@ public class CompanionRepo// : ICompanionDAO
     /// <param mood="Daily mood of the companion"></param>
     /// <returns>Will create and add a companion into the users inventory.</returns>
     /// <exception cref="Exception">exception descriptions</exception>
-    public Companion SetCompanionMood(MoodCompanion mood)
+    public Companion SetCompanionMood(Companion moodToBeSet)
     {
         Random randomMood = new Random();
         int moodOfCreature = randomMood.Next(7);
@@ -54,6 +65,26 @@ public class CompanionRepo// : ICompanionDAO
 
 
         throw new Exception();
+    }
+
+    /// <summary>
+    /// Generates a companion for the user. If the user is a new user, the companion will be generated from an egg one minute after the egg has been obtained.
+    /// Otherwise any eggs will hatch 72 hours after they have been generated.
+    /// </summary>
+    /// <param mood="Daily mood of the companion"></param>
+    /// <returns>Will create and add a companion into the users inventory.</returns>
+    /// <exception cref="Exception">exception descriptions</exception>    
+    public Companion SetCompanionNicknme(int companionId, string? nickname)
+    {
+        Companion selectCompanion = GetCompanionByCompanionId(companionId);
+
+        selectCompanion.Nickname = nickname;
+
+        _context.SaveChanges();
+
+        _context.ChangeTracker.Clear();
+
+        return selectCompanion;                                
     }
 
     /// <summary>
@@ -75,8 +106,20 @@ public class CompanionRepo// : ICompanionDAO
     /// <param mood="Daily mood of the companion"></param>
     /// <returns>Will create and add a companion into the users inventory.</returns>
     /// <exception cref="Exception">exception descriptions</exception>    
-    public List<Companion> GetCompanionsByUserId(User username)
+    public Companion GetCompanionsByUser(int userId)
     {
-        return _context.Companions.ToList();                           
+        return _context.Companions.FirstOrDefault(companionUser => companionUser.UserFk == userId) ?? throw new ResourceNotFound("User has no companion to display.");
+    }
+
+    /// <summary>
+    /// Generates a companion for the user. If the user is a new user, the companion will be generated from an egg one minute after the egg has been obtained.
+    /// Otherwise any eggs will hatch 72 hours after they have been generated.
+    /// </summary>
+    /// <param mood="Daily mood of the companion"></param>
+    /// <returns>Will create and add a companion into the users inventory.</returns>
+    /// <exception cref="Exception">exception descriptions</exception>
+    public Companion GetCompanionByCompanionId(int companionId)
+    {
+        return _context.Companions.FirstOrDefault(companionToBeFound => companionToBeFound.CompanionId == companionId) ?? throw new ResourceNotFound("No companion with this ID exists.");
     }
 }
