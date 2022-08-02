@@ -1,8 +1,6 @@
 ﻿using DataAccess.Entities;
 using CustomExceptions;
 using Models;
-using System;
-using System.Data;
 using System.Data.SqlClient;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;

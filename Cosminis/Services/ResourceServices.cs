@@ -2,12 +2,14 @@ using DataAccess;
 using CustomExceptions;
 using Models;
 using DataAccess.Entities;
+
 namespace Services;
-public class ResourceServies
+
+public class ResourceServices
 {
     private readonly IResourceGen _ResourceRepo;
     private readonly UserRepo _UserRepo;
-    public ResourceServies(IResourceGen ResourceRepo, UserRepo UserRepo) //This line also will ask for the user repo when it is done
+    public ResourceServices(IResourceGen ResourceRepo, UserRepo UserRepo) //This line also will ask for the user repo when it is done
     {
         _ResourceRepo = ResourceRepo;
         _UserRepo = UserRepo;
