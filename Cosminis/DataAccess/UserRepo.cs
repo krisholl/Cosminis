@@ -29,10 +29,10 @@ public class UserRepo
         return user; //return the inputed user info
     }
   
-   /* public User GetUserByUserName()
-    {
-        throw new ResourceNotFound();
-    }*/
+    public User GetUserByUserName(string username) //FirstOrDefault helps to bypass the issues that arise from deferred execution because now the query is being enumerated
+    {                                              //selects and returns all of the user information where table username = input username
+        return _context.Users.FirstOrDefault(user => user.Username == username) ?? throw new ResourceNotFound("No user with that username was found.");     
+    }
 
    
 }
