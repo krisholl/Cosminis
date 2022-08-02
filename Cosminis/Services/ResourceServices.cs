@@ -6,15 +6,16 @@ namespace Services;
 public class ResourceServies
 {
     private readonly IResourceGen _ResourceRepo;
-    //private readonly UserRepo _UserRepo;
-    public ResourceServies(IResourceGen ResourceRepo) //This line also will ask for the user repo when it is done
+    private readonly UserRepo _UserRepo;
+    public ResourceServies(IResourceGen ResourceRepo, UserRepo UserRepo) //This line also will ask for the user repo when it is done
     {
         _ResourceRepo = ResourceRepo;
+        _UserRepo = UserRepo;
     }
 
     public bool AddGold(User User, int Amount)
     {
-        /*Check if the user actually exist
+        //Check if the user actually exist
         try
         {
             User checkUser = _UserRepo.GetUserByUserName(User.Username);
@@ -24,17 +25,17 @@ public class ResourceServies
             }
             return _ResourceRepo.AddGold(User,Amount);
         }
-        catch (exception)
+        catch (Exception E)
         {
             throw;
         }
-        */
+        
         return false;
     }
 
     public bool AddEgg(User User, int Amount)
     {
-        /*Check if the user actually exist
+        //Check if the user actually exist
         try
         {
             User checkUser = _UserRepo.GetUserByUserName(User.Username);
@@ -44,17 +45,17 @@ public class ResourceServies
             }
             return _ResourceRepo.AddEgg(User,Amount);
         }
-        catch (exception)
+        catch (Exception E)
         {
             throw;
         }
-        */
+
         return false;
     }
 
     public bool AddFood(User User, int Amount, FoodStat Food2Add)
     {
-        /*Check if the user actually exist
+        //Check if the user actually exist
         try
         {
             User checkUser = _UserRepo.GetUserByUserName(User.Username);
@@ -64,11 +65,11 @@ public class ResourceServies
             }
             return _ResourceRepo.AddFood(User,Amount,Food2Add);
         }
-        catch (exception)
+        catch (Exception E)
         {
             throw;
         }
-        */
+  
         return false;
     }
 }
