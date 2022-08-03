@@ -23,39 +23,27 @@ public class CompanionRepo// : ICompanionDAO
     /// </summary>
     /// <param newCompanion="New companion to be generated."></param>
     /// <returns>Will create and add a companion into the users inventory.</returns>
-    /// <exception cref="Exception">exception descriptions</exception>
-    
-    public Companion GenerateCompanion(Companion newCompanion, string username)
+    /// <exception cref="Exception">exception descriptions</exception>   
+    public Companion GenerateCompanion(string username)
     {
+        Companion newCompanion = new Companion();
+        User identifiedUser = new User();
+
+        identifiedUser.Username = username;
+
         Random randomCreature = new Random();
         int creatureRoulette = randomCreature.Next(6);
 
-        Random randomStat = new Random();
+        newCompanion.SpeciesFk = creatureRoulette;
 
-        int baseStr = randomStat.Next(3, 18); //take the result and add or subtract to the base of 10
-        int baseDex = randomStat.Next(3, 18);
-        int baseInt = randomStat.Next(3, 18);
+        int? usersId = identifiedUser.UserId;
 
-        try
-        {
-        User identifiedUser = GetUserByUserName(username);
-        }
-        catch(Exception e)
-        {
-            throw;
-        }
-
-        usersId = identifiedUser.UserId;
-
-        string baseMood = SetCompanionMood();
-
-        newCompanion.UserFk = usersId;
-        newCompanion.SpeciesFk = creatureRoulette
-        newCompanion.Mood = baseMood;
+        newCompanion.UserFk = usersId == null ? default(int) : usersId.Value;
+        newCompanion.Mood = (SetCompanionMood(newCompanion.CompanionId)).ToString();
         newCompanion.Hunger = 100;
         newCompanion.CompanionBirthday = DateTime.Now;
 
-        identifiedUser.Companions = Insert(companionToAdd);
+        identifiedUser.Companions.Add(newCompanion);
 
         return newCompanion;                                                        
     }
