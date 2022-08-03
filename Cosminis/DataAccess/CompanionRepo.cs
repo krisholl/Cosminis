@@ -24,27 +24,40 @@ public class CompanionRepo// : ICompanionDAO
     /// <param newCompanion="New companion to be generated."></param>
     /// <returns>Will create and add a companion into the users inventory.</returns>
     /// <exception cref="Exception">exception descriptions</exception>
-     
-    public User GenerateCompanion(string username)
+    
+    public Companion GenerateCompanion(Companion newCompanion, string username)
     {
         Random randomCreature = new Random();
         int creatureRoulette = randomCreature.Next(6);
 
         Random randomStat = new Random();
 
-        int baseStr = randomStat.Next(3, 18);
+        int baseStr = randomStat.Next(3, 18); //take the result and add or subtract to the base of 10
         int baseDex = randomStat.Next(3, 18);
         int baseInt = randomStat.Next(3, 18);
 
+        try
+        {
         User identifiedUser = GetUserByUserName(username);
+        }
+        catch(Exception e)
+        {
+            throw;
+        }
 
         usersId = identifiedUser.UserId;
 
-        Companion companionToAdd = new Companion(UserFk usersId, SpeciesFk creatureRoulette, string? nickname, MoodCompanion Happy, 69);
+        string baseMood = SetCompanionMood();
+
+        newCompanion.UserFk = usersId;
+        newCompanion.SpeciesFk = creatureRoulette
+        newCompanion.Mood = baseMood;
+        newCompanion.Hunger = 100;
+        newCompanion.CompanionBirthday = DateTime.Now;
 
         identifiedUser.Companions = Insert(companionToAdd);
 
-        return identifiedUser;                                                        
+        return newCompanion;                                                        
     }
     
     /// <summary>
@@ -54,14 +67,52 @@ public class CompanionRepo// : ICompanionDAO
     /// <param mood="Daily mood of the companion"></param>
     /// <returns>Will create and add a companion into the users inventory.</returns>
     /// <exception cref="Exception">exception descriptions</exception>
-    public Companion SetCompanionMood(Companion moodToBeSet)
+    public Companion SetCompanionMood(int companionId)
     {
         Random randomMood = new Random();
-        int moodOfCreature = randomMood.Next(7);
+        int companionMood = randomMood.Next(7);
 
+        Companion companionNeedsMood = GetCompanionByCompanionId(companionId);
 
+        switch(companionMood) 
+        {
+        case 0:
+            companionNeedsMood.Mood = MoodCompanion.Happy.ToString();
+            break;
+        case 1:
+            companionNeedsMood.Mood = MoodCompanion.Sad.ToString();
+            break;
+        case 2:
+            companionNeedsMood.Mood = MoodCompanion.Angry.ToString();
+            break;
+        case 3:
+            companionNeedsMood.Mood = MoodCompanion.Tired.ToString();
+            break;
+        case 4:
+            companionNeedsMood.Mood = MoodCompanion.Anxious.ToString();
+            break;
+        case 5:
+            companionNeedsMood.Mood = MoodCompanion.Excited.ToString();
+            break;
+        case 6:
+            companionNeedsMood.Mood = MoodCompanion.Chill.ToString();
+            break;        
+        default:
+            companionNeedsMood.Mood = MoodCompanion.Happy.ToString();
+            break;
+        };
 
-        throw new Exception();
+        //string[] moodArray = new string [7]{ "Happy", "Sad", "Angry", "Tired", "Anxious", "Excited", "Chill" };
+
+        //mood = moodArray[companionMood];
+
+        //Companion.MoodToString(mood);
+
+        return companionNeedsMood;
+
+        //foreach(string s in Enum.GetNames(typeof(Colors)))
+
+        //throw new Exception();
     }
 
     /// <summary>
