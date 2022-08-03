@@ -44,21 +44,33 @@ public class CompanionServices
         }
     }
 
-    //newCompanion.UserFk = userIdInput;// == null ? default(int) : usersId.Value;
-    
-        //int? usersId = identifiedUser.UserId;
-
-    public Companion SetCompanionNicknme(int companionId, string? nickname)
+    public Companion SetCompanionNickname(int companionId, string? nickname)
     {
-        //Check if the user actually exist
         try
         {
             Companion checkCompanion = _CompanionRepo.GetCompanionByCompanionId(companionId);
-            if(checkCompanion == null) //if such user does not exist, throw an exception
+            if(checkCompanion == null)
             {
                 throw new ResourceNotFound("No companion with this ID exists.");
             }
             return _CompanionRepo.SetCompanionNickname(companionId, nickname);
+        }
+        catch (Exception E)
+        {
+            throw;
+        }
+    }
+
+    public Companion SetCompanionMood(int companionId)
+    {
+        try
+        {
+            Companion checkCompanion = _CompanionRepo.GetCompanionByCompanionId(companionId);
+            if(checkCompanion == null)
+            {
+                throw new ResourceNotFound("No companion with this ID exists.");
+            }
+            return _CompanionRepo.SetCompanionMood(companionId);
         }
         catch (Exception E)
         {
@@ -73,11 +85,10 @@ public class CompanionServices
 
     public Companion GetCompanionsByUser(int userId)
     {
-        //Check if the user actually exist
         try
         {
             Companion checkUser = _CompanionRepo.GetCompanionsByUser(userId);
-            if(checkUser == null) //if such user does not exist, throw an exception
+            if(checkUser == null)
             {
                 throw new ResourceNotFound("No companion with this ID exists.");
             }

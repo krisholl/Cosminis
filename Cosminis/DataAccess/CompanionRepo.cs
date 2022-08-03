@@ -29,16 +29,13 @@ public class CompanionRepo : ICompanionDAO
         Companion newCompanion = new Companion();
         User identifiedUser = new User();
 
-        newCompanion.UserFk = userIdInput;// == null ? default(int) : usersId.Value;
+        newCompanion.UserFk = userIdInput;
 
         Random randomCreature = new Random();
         int creatureRoulette = randomCreature.Next(6);
 
         newCompanion.SpeciesFk = creatureRoulette;
 
-        //int? usersId = identifiedUser.UserId;
-
-        
         newCompanion.Mood = (SetCompanionMood(newCompanion.CompanionId)).ToString();
         newCompanion.Hunger = 100;
         newCompanion.CompanionBirthday = DateTime.Now;
