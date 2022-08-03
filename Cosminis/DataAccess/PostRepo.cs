@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess;
  
-public class PostRepo
+public class PostRepo : IPostDAO
 {
     private readonly wearelosingsteamContext _context;
 
@@ -16,7 +16,7 @@ public class PostRepo
         _context = context;
     }
 
-     public Post SubmitPost(Post post)
+    public Post SubmitPost(Post post)
     {
         _context.Posts.Add(post); //Add a new post into the table
 

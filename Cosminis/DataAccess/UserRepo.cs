@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess;
  
-public class UserRepo
+public class UserRepo : IUserDAO
 {
     private readonly wearelosingsteamContext _context;
 
