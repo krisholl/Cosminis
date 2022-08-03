@@ -19,9 +19,9 @@ public class UserController
 
     public IResult SearchFriend(string username)
     {
-    	User userInfo = _userServices.SearchFriend(username);
     	try
     	{
+    		User userInfo = _userServices.SearchFriend(username);
     		return Results.Ok(userInfo); 
     	}
     	catch(ResourceNotFound)

@@ -9,7 +9,7 @@ using Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<wearelosingsteamContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString()));
+builder.Services.AddDbContext<wearelosingsteamContext>(options => options.UseSqlServer());
 builder.Services.AddScoped<IUserDAO, UserRepo>();
 builder.Services.AddScoped<IPostDAO, PostRepo>();
 builder.Services.AddScoped<IResourceGen, ResourceRepo>();

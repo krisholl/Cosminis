@@ -18,10 +18,10 @@ public class PostController
     }
 
     public IResult SubmitPostResourceGen(Post post)
-    {
-        Post postInfo = _postServices.SubmitPostResourceGen(post); 
+    { 
         try
         {
+            Post postInfo = _postServices.SubmitPostResourceGen(post);
             return Results.Ok(postInfo); 
         }
         catch(ResourceNotFound)

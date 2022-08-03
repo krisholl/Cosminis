@@ -24,7 +24,7 @@ public class UserServices
     	}
     	catch(ResourceNotFound)
         {
-            throw; //is this right?
+            throw;
         }	
     }
 }
