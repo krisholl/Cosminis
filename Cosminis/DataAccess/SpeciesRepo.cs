@@ -1,4 +1,3 @@
-/*
 using DataAccess.Entities;
 using CustomExceptions;
 using Models;
@@ -18,7 +17,7 @@ public class SpeciesRepo// : ICompanionDAO
         _context = context;
     }
 
-    public species GenerateStats(int creatureId)
+    public Species GenerateBaseStats(int speciesId)
     {
         Species speciesInstance = new Species();
 
@@ -28,9 +27,12 @@ public class SpeciesRepo// : ICompanionDAO
         int baseDex = -7 + randomStat.Next(16);
         int baseInt = -7 + randomStat.Next(16);
 
-        speciesInstance.BaseStr = BaseStr + baseStr;
-        speciesInstance.BaseDex = BaseDex + baseDex;
-        speciesInstance.BaseInt = BaseInt + baseInt;
+        speciesInstance.BaseStr = speciesInstance.BaseStr + baseStr;
+        speciesInstance.BaseDex = speciesInstance.BaseDex + baseDex;
+        speciesInstance.BaseInt = speciesInstance.BaseInt + baseInt;
+
+        speciesInstance.FoodElementIdFk = speciesId;
+
+        return speciesInstance;
     }
 }
-*/

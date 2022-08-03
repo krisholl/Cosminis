@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess;
  
-public class CompanionRepo// : ICompanionDAO
+public class CompanionRepo : ICompanionDAO
 {
     private readonly wearelosingsteamContext _context;
 
@@ -24,26 +24,30 @@ public class CompanionRepo// : ICompanionDAO
     /// <param newCompanion="New companion to be generated."></param>
     /// <returns>Will create and add a companion into the users inventory.</returns>
     /// <exception cref="Exception">exception descriptions</exception>   
-    public Companion GenerateCompanion(string username)
+    public Companion GenerateCompanion(int userIdInput)
     {
         Companion newCompanion = new Companion();
         User identifiedUser = new User();
 
-        identifiedUser.Username = username;
+        newCompanion.UserFk = userIdInput;// == null ? default(int) : usersId.Value;
 
         Random randomCreature = new Random();
         int creatureRoulette = randomCreature.Next(6);
 
         newCompanion.SpeciesFk = creatureRoulette;
 
-        int? usersId = identifiedUser.UserId;
+        //int? usersId = identifiedUser.UserId;
 
-        newCompanion.UserFk = usersId == null ? default(int) : usersId.Value;
+        
         newCompanion.Mood = (SetCompanionMood(newCompanion.CompanionId)).ToString();
         newCompanion.Hunger = 100;
         newCompanion.CompanionBirthday = DateTime.Now;
 
         identifiedUser.Companions.Add(newCompanion);
+
+         _context.SaveChanges();
+
+        _context.ChangeTracker.Clear(); 
 
         return newCompanion;                                                        
     }
@@ -90,17 +94,11 @@ public class CompanionRepo// : ICompanionDAO
             break;
         };
 
-        //string[] moodArray = new string [7]{ "Happy", "Sad", "Angry", "Tired", "Anxious", "Excited", "Chill" };
+        _context.SaveChanges();
 
-        //mood = moodArray[companionMood];
-
-        //Companion.MoodToString(mood);
+        _context.ChangeTracker.Clear();        
 
         return companionNeedsMood;
-
-        //foreach(string s in Enum.GetNames(typeof(Colors)))
-
-        //throw new Exception();
     }
 
     /// <summary>
@@ -110,7 +108,7 @@ public class CompanionRepo// : ICompanionDAO
     /// <param mood="Daily mood of the companion"></param>
     /// <returns>Will create and add a companion into the users inventory.</returns>
     /// <exception cref="Exception">exception descriptions</exception>    
-    public Companion SetCompanionNicknme(int companionId, string? nickname)
+    public Companion SetCompanionNickname(int companionId, string? nickname)
     {
         Companion selectCompanion = GetCompanionByCompanionId(companionId);
 
