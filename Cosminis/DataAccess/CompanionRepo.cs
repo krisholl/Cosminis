@@ -27,6 +27,7 @@ public class CompanionRepo : ICompanionDAO
     public Companion GenerateCompanion(int userIdInput)
     {
         Companion newCompanion = new Companion();
+
         User identifiedUser = new User();
 
         newCompanion.UserFk = userIdInput;
@@ -36,7 +37,7 @@ public class CompanionRepo : ICompanionDAO
 
         newCompanion.SpeciesFk = creatureRoulette;
 
-        newCompanion.Mood = (SetCompanionMood(newCompanion.CompanionId)).ToString();
+        newCompanion.Mood = (SetCompanionMood(userIdInput)).ToString();
         newCompanion.Hunger = 100;
         newCompanion.CompanionBirthday = DateTime.Now;
 
@@ -56,12 +57,12 @@ public class CompanionRepo : ICompanionDAO
     /// <param mood="Daily mood of the companion"></param>
     /// <returns>Will create and add a companion into the users inventory.</returns>
     /// <exception cref="Exception">exception descriptions</exception>
-    public Companion SetCompanionMood(int companionId)
+    public Companion SetCompanionMood(int userId)
     {
         Random randomMood = new Random();
         int companionMood = randomMood.Next(7);
 
-        Companion companionNeedsMood = GetCompanionByCompanionId(companionId);
+        Companion companionNeedsMood = GetCompanionByUser(userId);
 
         switch(companionMood) 
         {
@@ -137,7 +138,7 @@ public class CompanionRepo : ICompanionDAO
     /// <param mood="Daily mood of the companion"></param>
     /// <returns>Will create and add a companion into the users inventory.</returns>
     /// <exception cref="Exception">exception descriptions</exception>    
-    public Companion GetCompanionsByUser(int userId)
+    public Companion GetCompanionByUser(int userId)
     {
         return _context.Companions.FirstOrDefault(companionUser => companionUser.UserFk == userId) ?? throw new ResourceNotFound("User has no companion to display.");
     }

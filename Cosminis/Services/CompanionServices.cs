@@ -83,16 +83,16 @@ public class CompanionServices
         return _CompanionRepo.GetAllCompanions();
     }
 
-    public Companion GetCompanionsByUser(int userId)
+    public Companion GetCompanionByUser(int userId)
     {
         try
         {
-            Companion checkUser = _CompanionRepo.GetCompanionsByUser(userId);
+            Companion checkUser = _CompanionRepo.GetCompanionByUser(userId);
             if(checkUser == null)
             {
                 throw new ResourceNotFound("No companion with this ID exists.");
             }
-            return _CompanionRepo.GetCompanionsByUser(userId);
+            return _CompanionRepo.GetCompanionByUser(userId);
         }
         catch (Exception E)
         {
@@ -100,13 +100,13 @@ public class CompanionServices
         }
     }
 
-    public Companion GetCompanionsByCompanionId(int companionId)
+    public Companion GetCompanionByCompanionId(int companionId)
     {
         Companion checkCompanion = _CompanionRepo.GetCompanionByCompanionId(companionId);
         if(checkCompanion == null)
         {
             throw new ResourceNotFound("No companion with this ID exists.");
         }
-        return _CompanionRepo.GetCompanionsByUser(companionId);
+        return _CompanionRepo.GetCompanionByCompanionId(companionId);
     }        
 }

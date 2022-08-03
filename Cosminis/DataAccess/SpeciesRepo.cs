@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess;
  
-public class SpeciesRepo// : ICompanionDAO
+public class SpeciesRepo : ISpeciesDAO
 {
     private readonly wearelosingsteamContext _context;
 
@@ -23,9 +23,9 @@ public class SpeciesRepo// : ICompanionDAO
 
         Random randomStat = new Random();
 
-        int baseStr = -7 + randomStat.Next(16); //take the result and add or subtract to the base of 10
-        int baseDex = -7 + randomStat.Next(16);
-        int baseInt = -7 + randomStat.Next(16);
+        int baseStr = -7 + randomStat.Next(10, 27); 
+        int baseDex = -7 + randomStat.Next(10, 27);
+        int baseInt = -7 + randomStat.Next(10, 27);
 
         speciesInstance.BaseStr = speciesInstance.BaseStr + baseStr;
         speciesInstance.BaseDex = speciesInstance.BaseDex + baseDex;
