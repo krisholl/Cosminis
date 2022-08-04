@@ -26,24 +26,24 @@ public class CompanionRepo : ICompanionDAO
     /// <exception cref="Exception">exception descriptions</exception>   
     public Companion GenerateCompanion(int userIdInput)
     {
-        Companion newCompanion = new Companion();
+        Random randomCreature = new Random();
+        int creatureRoulette = randomCreature.Next(1,6);        
+        
+        Companion newCompanion = new Companion()
+        {
+            UserFk = userIdInput,
+            SpeciesFk = creatureRoulette,
+            Mood = SetCompanionMood(),
+            Hunger = 100,
+            CompanionBirthday = DateTime.Now
+        };
+        Console.WriteLine(newCompanion);
 
         User identifiedUser = new User();
 
-        newCompanion.UserFk = userIdInput;
-
-        Random randomCreature = new Random();
-        int creatureRoulette = randomCreature.Next(6);
-
-        newCompanion.SpeciesFk = creatureRoulette;
-
-        newCompanion.Mood = (SetCompanionMood(userIdInput)).ToString();
-        newCompanion.Hunger = 100;
-        newCompanion.CompanionBirthday = DateTime.Now;
-
         identifiedUser.Companions.Add(newCompanion);
 
-         _context.SaveChanges();
+        _context.SaveChanges();
 
         _context.ChangeTracker.Clear(); 
 
@@ -57,46 +57,42 @@ public class CompanionRepo : ICompanionDAO
     /// <param mood="Daily mood of the companion"></param>
     /// <returns>Will create and add a companion into the users inventory.</returns>
     /// <exception cref="Exception">exception descriptions</exception>
-    public Companion SetCompanionMood(int userId)
+    public string SetCompanionMood()
     {
         Random randomMood = new Random();
         int companionMood = randomMood.Next(7);
 
-        Companion companionNeedsMood = GetCompanionByUser(userId);
+        string setMood = "Happy";
 
         switch(companionMood) 
         {
         case 0:
-            companionNeedsMood.Mood = MoodCompanion.Happy.ToString();
+            setMood = MoodCompanion.Happy.ToString();
             break;
         case 1:
-            companionNeedsMood.Mood = MoodCompanion.Sad.ToString();
+            setMood = MoodCompanion.Sad.ToString();
             break;
         case 2:
-            companionNeedsMood.Mood = MoodCompanion.Angry.ToString();
+            setMood = MoodCompanion.Angry.ToString();
             break;
         case 3:
-            companionNeedsMood.Mood = MoodCompanion.Tired.ToString();
+            setMood = MoodCompanion.Tired.ToString();
             break;
         case 4:
-            companionNeedsMood.Mood = MoodCompanion.Anxious.ToString();
+            setMood = MoodCompanion.Anxious.ToString();
             break;
         case 5:
-            companionNeedsMood.Mood = MoodCompanion.Excited.ToString();
+            setMood = MoodCompanion.Excited.ToString();
             break;
         case 6:
-            companionNeedsMood.Mood = MoodCompanion.Chill.ToString();
+            setMood = MoodCompanion.Chill.ToString();
             break;        
         default:
-            companionNeedsMood.Mood = MoodCompanion.Happy.ToString();
+            setMood = MoodCompanion.Happy.ToString();
             break;
         };
 
-        _context.SaveChanges();
-
-        _context.ChangeTracker.Clear();        
-
-        return companionNeedsMood;
+        return setMood;
     }
 
     /// <summary>

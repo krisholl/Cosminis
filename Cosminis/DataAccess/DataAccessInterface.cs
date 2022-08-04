@@ -7,7 +7,7 @@ namespace DataAccess;
 public interface ICompanionDAO
 {
     public Companion GenerateCompanion(int userIdInput);
-    public Companion SetCompanionMood(int companionId);
+    public string SetCompanionMood();
     public Companion SetCompanionNickname(int companionId, string? nickname);
     public List<Companion> GetAllCompanions();
     public Companion GetCompanionByUser(int userId);
@@ -21,8 +21,9 @@ public interface IResourceGen
     bool AddEgg(User User, int Amount);
     public bool AddFood(User User, int Amount, FoodStat Food2Add);
 }
-
+/* Currently unnecessary code
 public interface ISpeciesDAO
 {
     public Species GenerateBaseStats(int creatureId);
 }
+*/ 

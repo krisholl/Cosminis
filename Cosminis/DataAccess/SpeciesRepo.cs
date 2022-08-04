@@ -1,3 +1,4 @@
+/*            *This code could be use to expand our project in case we decide to implement "stats" going forward*
 using DataAccess.Entities;
 using CustomExceptions;
 using Models;
@@ -16,7 +17,7 @@ public class SpeciesRepo : ISpeciesDAO
     {
         _context = context;
     }
-
+             
     public Species GenerateBaseStats(int speciesId)
     {
         Species speciesInstance = new Species();
@@ -36,3 +37,4 @@ public class SpeciesRepo : ISpeciesDAO
         return speciesInstance;
     }
 }
+*/

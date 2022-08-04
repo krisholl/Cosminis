@@ -8,19 +8,16 @@ namespace Services;
 public class CompanionServices
 {
     private readonly ICompanionDAO _CompanionRepo;
-
-    private readonly ISpeciesDAO _SpeciesRepo;
     
     private readonly UserRepo _UserRepo;
 
-    public CompanionServices(ICompanionDAO CompanionRepo, ISpeciesDAO SpeciesRepo, UserRepo UserRepo) //This line also will ask for the user repo when it is done
+    public CompanionServices(ICompanionDAO CompanionRepo, UserRepo UserRepo) //This line also will ask for the user repo when it is done
     {
         _CompanionRepo = CompanionRepo;
-        _SpeciesRepo = SpeciesRepo;
         _UserRepo = UserRepo;
     }
 
-    public Companion GenerateStartingCompanion(string username)
+    public int? HatchCompanion(string username)
     {
         try
         {
@@ -30,13 +27,11 @@ public class CompanionServices
                 throw new ResourceNotFound("No user with this username exists");
             }
 
-            int companionGenerationInput = (int)newUser.UserId;
+            Companion companionToGenerate = _CompanionRepo.GenerateCompanion((int)newUser.UserId);
 
-            Companion companionToGenerate = _CompanionRepo.GenerateCompanion(companionGenerationInput);
 
-            _SpeciesRepo.GenerateBaseStats(companionToGenerate.SpeciesFk);
+            return companionToGenerate.CompanionId;
 
-            return companionToGenerate;
         }
         catch (Exception E)
         {
@@ -60,7 +55,7 @@ public class CompanionServices
             throw;
         }
     }
-
+/*
     public Companion SetCompanionMood(int companionId)
     {
         try
@@ -77,7 +72,7 @@ public class CompanionServices
             throw;
         }
     }
-
+*/
     public List<Companion> GetAllCompanions()
     {
         return _CompanionRepo.GetAllCompanions();
