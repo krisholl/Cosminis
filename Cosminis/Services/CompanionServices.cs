@@ -11,7 +11,7 @@ public class CompanionServices
     
     private readonly UserRepo _UserRepo;
 
-    public CompanionServices(ICompanionDAO CompanionRepo, UserRepo UserRepo) //This line also will ask for the user repo when it is done
+    public CompanionServices(ICompanionDAO CompanionRepo, UserRepo UserRepo)
     {
         _CompanionRepo = CompanionRepo;
         _UserRepo = UserRepo;
@@ -55,24 +55,7 @@ public class CompanionServices
             throw;
         }
     }
-/*
-    public Companion SetCompanionMood(int companionId)
-    {
-        try
-        {
-            Companion checkCompanion = _CompanionRepo.GetCompanionByCompanionId(companionId);
-            if(checkCompanion == null)
-            {
-                throw new ResourceNotFound("No companion with this ID exists.");
-            }
-            return _CompanionRepo.SetCompanionMood(companionId);
-        }
-        catch (Exception E)
-        {
-            throw;
-        }
-    }
-*/
+
     public List<Companion> GetAllCompanions()
     {
         return _CompanionRepo.GetAllCompanions();
@@ -82,10 +65,11 @@ public class CompanionServices
     {
         try
         {
+            Console.WriteLine("We are in services");
             Companion checkUser = _CompanionRepo.GetCompanionByUser(userId);
             if(checkUser == null)
             {
-                throw new ResourceNotFound("No companion with this ID exists.");
+                throw new ResourceNotFound("No user with this Id exists.");
             }
             return _CompanionRepo.GetCompanionByUser(userId);
         }
@@ -97,11 +81,19 @@ public class CompanionServices
 
     public Companion GetCompanionByCompanionId(int companionId)
     {
-        Companion checkCompanion = _CompanionRepo.GetCompanionByCompanionId(companionId);
-        if(checkCompanion == null)
+        try
         {
-            throw new ResourceNotFound("No companion with this ID exists.");
+            Console.WriteLine("We are in services");
+            Companion checkCompanion = _CompanionRepo.GetCompanionByCompanionId(companionId);
+            if(checkCompanion == null)
+            {
+                throw new ResourceNotFound("No companion with this ID exists.");
+            }
+            return _CompanionRepo.GetCompanionByCompanionId(companionId);
         }
-        return _CompanionRepo.GetCompanionByCompanionId(companionId);
+        catch (Exception E)
+        {
+            throw;
+        }
     }        
 }
