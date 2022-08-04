@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess;
  
-public class UserRepo
+public class UserRepo : IUserDAO
 {
     private readonly wearelosingsteamContext _context;
 
@@ -27,8 +27,9 @@ public class UserRepo
         return user; //return the inputed user info
     }
   
-    public User GetUserByUserName(string username) //FirstOrDefault helps to bypass the issues that arise from deferred execution because now the query is being enumerated
-    {                                              //selects and returns all of the user information where table username = input username
+    //FirstOrDefault helps to bypass the issues that arise from deferred execution because now the query is being enumerated
+    public User GetUserByUserName(string username) //selects and returns all of the user information where table username = input username
+    {                                              
         return _context.Users.FirstOrDefault(user => user.Username == username) ?? throw new ResourceNotFound("No user with that username was found.");     
     }
 
