@@ -99,26 +99,25 @@ public class CompanionRepo : ICompanionDAO
     {
         try
         { 
-        List<Companion> companionList = new List<Companion>();
+            List<Companion> companionList = new List<Companion>();
 
-        IEnumerable<Companion> companionQuery =
-            from Companions in _context.Companions
-            where Companions.UserFk == userId
-            select Companions;
-    
-        foreach(Companion companionReturn in companionQuery)
-        {
-            companionList.Add(companionReturn);
-        }        
+            IEnumerable<Companion> companionQuery =
+                from Companions in _context.Companions
+                where Companions.UserFk == userId
+                select Companions;
+        
+            foreach(Companion companionReturn in companionQuery)
+            {
+                companionList.Add(companionReturn);
+            }        
 
-        if(companionList.Count() < 1)
-        {
-            throw new Exception("This user has no companions.");
+            if(companionList.Count() < 1)
+            {
+                throw new Exception("This user has no companions.");
+            }
+
+            return companionList;
         }
-
-        return companionList;
-        }
-
         catch(Exception E)
         {
             throw;
