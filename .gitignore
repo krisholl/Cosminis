@@ -9,6 +9,7 @@ Properties/
 todoList.txt
 */unitTest/
 Sensitive.cs
+*/testAPI/
 
 # User-specific files
 *.rsuser

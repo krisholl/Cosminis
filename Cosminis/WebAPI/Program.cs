@@ -10,13 +10,16 @@ using Controllers;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<wearelosingsteamContext>(options => options.UseSqlServer());
+builder.Services.AddScoped<ICompanionDAO, CompanionRepo>();
 builder.Services.AddScoped<IUserDAO, UserRepo>();
 builder.Services.AddScoped<IPostDAO, PostRepo>();
 builder.Services.AddScoped<IResourceGen, ResourceRepo>();
 
+builder.Services.AddScoped<CompanionServices>();
 builder.Services.AddScoped<UserServices>();
 builder.Services.AddScoped<PostServices>();
 
+builder.Services.AddScoped<CompanionController>();
 builder.Services.AddScoped<UserController>();
 builder.Services.AddScoped<PostController>();
 
@@ -46,5 +49,15 @@ app.MapPost("/submitPost", (Post post, PostController controller) =>
 {
 	return controller.SubmitPostResourceGen(post);
 });
+
+app.MapGet("/GetAllCompanions", (CompanionController CompControl) => CompControl.GetAllCompanions());
+
+app.MapGet("/companions/SearchByCompanionId", (int companionId, CompanionController CompControl) => CompControl.SearchForCompanionById(companionId));
+
+app.MapGet("/companions/SearchByUserId", (int userId, CompanionController CompControl) => CompControl.SearchForCompanionByUserId(userId));
+
+app.MapPost("/companions/Nickname", (int companionId, string? nickname, CompanionController CompControl) => CompControl.NicknameCompanion(companionId, nickname));
+
+app.MapPost("/companions/GenerateCompanion", (string username, CompanionController CompControl) => CompControl.GenerateCompanion(username));
 
 app.Run();
