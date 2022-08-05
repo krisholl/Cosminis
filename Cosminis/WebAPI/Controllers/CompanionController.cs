@@ -37,7 +37,7 @@ public class CompanionController
     {
         try
         {   
-            Companion queriedCompanion = _service.GetCompanionByUser(userId);
+            List<Companion> queriedCompanion = _service.GetCompanionByUser(userId);
             return Results.Ok(queriedCompanion);
         }
         catch(Exception e)

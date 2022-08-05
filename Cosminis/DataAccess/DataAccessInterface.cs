@@ -10,7 +10,7 @@ public interface ICompanionDAO
     public string SetCompanionMood();
     public Companion SetCompanionNickname(int companionId, string? nickname);
     public List<Companion> GetAllCompanions();
-    public Companion GetCompanionByUser(int userId);
+    public List<Companion> GetCompanionByUser(int userId);
     public Companion GetCompanionByCompanionId(int companionId);
 }
 

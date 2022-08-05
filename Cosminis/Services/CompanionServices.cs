@@ -61,12 +61,12 @@ public class CompanionServices
         return _CompanionRepo.GetAllCompanions();
     }
 
-    public Companion GetCompanionByUser(int userId)
+    public List<Companion> GetCompanionByUser(int userId)
     {
         try
         {
             Console.WriteLine("We are in services");
-            Companion checkUser = _CompanionRepo.GetCompanionByUser(userId);
+            List<Companion> checkUser = _CompanionRepo.GetCompanionByUser(userId);
             if(checkUser == null)
             {
                 throw new ResourceNotFound("No user with this Id exists.");
