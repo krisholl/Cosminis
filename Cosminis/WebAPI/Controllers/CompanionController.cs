@@ -17,7 +17,7 @@ public class CompanionController
     public IResult GetAllCompanions()
     {
         List<Companion> companionList = _service.GetAllCompanions();
-        return Results.Accepted("/GetAllCompanions", companionList);
+        return Results.Ok(companionList);
     }
 
     public IResult SearchForCompanionById(int companionId)
