@@ -3,7 +3,7 @@ using Models;
 using Services;
 using DataAccess.Entities;
 
-namespace TestAPI.Controllers;
+namespace Controllers;
 
 public class CompanionController
 {

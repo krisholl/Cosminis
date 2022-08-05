@@ -9,19 +9,19 @@ public class CompanionServices
 {
     private readonly ICompanionDAO _CompanionRepo;
     
-    private readonly UserRepo _UserRepo;
+	private readonly IUserDAO _userRepo;
 
-    public CompanionServices(ICompanionDAO CompanionRepo, UserRepo UserRepo)
+    public CompanionServices(ICompanionDAO CompanionRepo, IUserDAO userRepo)
     {
         _CompanionRepo = CompanionRepo;
-        _UserRepo = UserRepo;
+        _userRepo = userRepo;
     }
 
     public int? HatchCompanion(string username)
     {
         try
         {
-            User newUser = _UserRepo.GetUserByUserName(username);
+            User newUser = _userRepo.GetUserByUserName(username);
             if(newUser == null)
             {
                 throw new ResourceNotFound("No user with this username exists");
