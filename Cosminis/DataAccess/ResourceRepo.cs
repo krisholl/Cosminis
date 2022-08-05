@@ -13,17 +13,17 @@ public class ResourceRepo : IResourceGen
     {
         _context = context;
     }
-    /// <summary>
+    /*/// <summary>
     /// Add a certain amount of gold to a user
     /// </summary>
     /// <param name="User"></param>
     /// <param name="Amount"></param>
     /// <returns>1 if operation is successful, it will never return false at the moment</returns>
-    /// <exception cref="ResourceNotFound">Occurs if no user exist matching the given User object</exception>
+    /// <exception cref="ResourceNotFound">Occurs if no user exist matching the given User object</exception>*/
     public bool AddGold(User User, int Amount)
     {
         User User2Add2 = _context.Users.Find(User.UserId); //let us hope this works
-        if(User == null) //such user does not exist
+        if(User2Add2 == null) //such user does not exist
         {
             throw new ResourceNotFound();
         }
@@ -33,17 +33,17 @@ public class ResourceRepo : IResourceGen
         _context.ChangeTracker.Clear(); //clear the tracker for the next person
         return true;
     }
-    /// <summary>
+    /*/// <summary>
     /// Add a certain amount of Egg to an user
     /// </summary>
     /// <param name="User"></param>
     /// <param name="Amount"></param>
     /// <returns>1 if operation is successful, it will never return false at the moment</returns>
-    /// <exception cref="ResourceNotFound">Occurs if no user exist matching the given User object</exception>
+    /// <exception cref="ResourceNotFound">Occurs if no user exist matching the given User object</exception>*/
     public bool AddEgg(User User, int Amount)
     {   
         User User2Add2 = _context.Users.Find(User.UserId); //let us hope this works
-        if(User == null) //such user does not exist
+        if(User2Add2 == null) //such user does not exist
         {
             throw new ResourceNotFound();
         }
@@ -53,13 +53,13 @@ public class ResourceRepo : IResourceGen
         _context.ChangeTracker.Clear(); //clear the tracker for the next person
         return true;
     }
-    /// <summary>
+    /*/// <summary>
     /// Attach a certain amount of one perticular food to a certain user's inventory
     /// </summary>
     /// <param name="User"></param>
     /// <param name="Amount"></param>
     /// <param name="Food2Add"></param>
-    /// <returns>1 if operation is successful, it will never return false at the moment</returns>
+    /// <returns>1 if operation is successful, it will never return false at the moment</returns>*/
     public bool AddFood(User User, int Amount, FoodStat Food2Add) //remember to check for input validation in the services layer
     {
         FoodInventory Inventory2Add2 = 

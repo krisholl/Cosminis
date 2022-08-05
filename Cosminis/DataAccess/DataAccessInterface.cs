@@ -15,10 +15,22 @@ public interface ICompanionDAO
 }
 
 
+public interface IUserDAO
+{
+    public User CreateUser(User user);
+    public User GetUserByUserName(string username); 
+}
+
+public interface IPostDAO
+{
+    public Post SubmitPost(Post post);  
+}
+
+
 public interface IResourceGen
 {
-    bool AddGold(User User, int Amount);
-    bool AddEgg(User User, int Amount);
+    public bool AddGold(User User, int Amount);
+    public bool AddEgg(User User, int Amount);
     public bool AddFood(User User, int Amount, FoodStat Food2Add);
 }
 /* Currently unnecessary code
