@@ -65,7 +65,6 @@ public class CompanionServices
     {
         try
         {
-            Console.WriteLine("We are in services");
             List<Companion> checkUser = _CompanionRepo.GetCompanionByUser(userId);
             if(checkUser == null)
             {
@@ -83,7 +82,6 @@ public class CompanionServices
     {
         try
         {
-            Console.WriteLine("We are in services");
             Companion checkCompanion = _CompanionRepo.GetCompanionByCompanionId(companionId);
             if(checkCompanion == null)
             {

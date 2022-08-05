@@ -97,9 +97,9 @@ public class CompanionRepo : ICompanionDAO
    
     public List<Companion> GetCompanionByUser(int userId)
     {
+        try
+        { 
         List<Companion> companionList = new List<Companion>();
-
-        //Companion companionInstance = new Companion();
 
         IEnumerable<Companion> companionQuery =
             from Companions in _context.Companions
@@ -110,12 +110,19 @@ public class CompanionRepo : ICompanionDAO
         {
             companionList.Add(companionReturn);
         }        
-        
-        //companionList.Add(companionInstance);
+
+        if(companionList.Count() < 1)
+        {
+            throw new Exception("This user has no companions.");
+        }
 
         return companionList;
+        }
 
-        //return _context.Companions.ToList(companionUser => companionUser.UserFk == userId) ?? throw new ResourceNotFound("User has no companion to display.");
+        catch(Exception E)
+        {
+            throw;
+        }
     }
 
     public Companion GetCompanionByCompanionId(int companionId)
