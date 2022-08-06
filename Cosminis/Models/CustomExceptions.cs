@@ -11,6 +11,26 @@ public class ResourceNotFound : Exception
         System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 }
 
+public class LikeDoesNotExist : Exception
+{
+    public LikeDoesNotExist() { }
+    public LikeDoesNotExist(string message) : base(message) { }
+    public LikeDoesNotExist(string message, System.Exception inner) : base(message, inner) { }
+    protected LikeDoesNotExist(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}
+
+public class DuplicateLikes : Exception
+{
+    public DuplicateLikes() { }
+    public DuplicateLikes(string message) : base(message) { }
+    public DuplicateLikes(string message, System.Exception inner) : base(message, inner) { }
+    protected DuplicateLikes(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}
+
 public class UsernameNotAvailable : Exception
 {
     public UsernameNotAvailable() { }
