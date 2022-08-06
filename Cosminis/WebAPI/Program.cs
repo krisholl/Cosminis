@@ -14,6 +14,7 @@ builder.Services.AddScoped<ICompanionDAO, CompanionRepo>();
 builder.Services.AddScoped<IUserDAO, UserRepo>();
 builder.Services.AddScoped<IPostDAO, PostRepo>();
 builder.Services.AddScoped<IResourceGen, ResourceRepo>();
+builder.Services.AddScoped<LikeRepo>();
 
 builder.Services.AddScoped<CompanionServices>();
 builder.Services.AddScoped<UserServices>();
@@ -59,5 +60,20 @@ app.MapGet("/companions/SearchByUserId", (int userId, CompanionController CompCo
 app.MapPost("/companions/Nickname", (int companionId, string? nickname, CompanionController CompControl) => CompControl.NicknameCompanion(companionId, nickname));
 
 app.MapPost("/companions/GenerateCompanion", (string username, CompanionController CompControl) => CompControl.GenerateCompanion(username));
+
+app.MapPost("/Liking", (int UserID, int PostID, LikeRepo _LikeRepo) => 
+{
+	return _LikeRepo.AddLikes(UserID,PostID);
+});
+
+app.MapPost("/Unliking", (int UserID, int PostID, LikeRepo _LikeRepo) => 
+{
+	return _LikeRepo.RemoveLikes(UserID,PostID);
+});
+
+app.MapPost("/Checking", (int PostID, LikeRepo _LikeRepo) => 
+{
+	return _LikeRepo.LikeCount(PostID);
+});
 
 app.Run();
