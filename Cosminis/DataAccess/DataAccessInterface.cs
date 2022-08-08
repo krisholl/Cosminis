@@ -23,7 +23,9 @@ public interface IUserDAO
 
 public interface IPostDAO
 {
-    public Post SubmitPost(Post post);  
+    public Post SubmitPost(Post post); 
+    public List<Post> GetPostsByUserId(int? userId);
+    public List<Post> GetPostsByUsername(string username);
 }
 
 

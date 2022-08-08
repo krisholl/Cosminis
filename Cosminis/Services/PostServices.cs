@@ -43,8 +43,23 @@ public class PostServices
        return _postRepo.SubmitPost(post);
     }
 
+    public List<Post> GetPostsByUserId(int userId)
+    {
+        List<Post> posts = _postRepo.GetPostsByUserId(userId);
+        if (posts.Count < 1) 
+        {
+            throw new PostsNotFound();
+        }
+        return posts; 
+    }
 
-
-
-
+    public List<Post> GetPostsByUsername(string username)
+    {
+        List<Post> posts = _postRepo.GetPostsByUsername(username);
+        if (posts.Count < 1) 
+        {
+            throw new PostsNotFound();
+        }
+        return posts;
+    }
 }

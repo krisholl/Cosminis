@@ -26,7 +26,7 @@ public class UserController
     	}
     	catch(ResourceNotFound)
         {
-            return Results.BadRequest("No user with that username was found."); 
+            return Results.NotFound("No user with that username was found."); 
         }	
     }
 }

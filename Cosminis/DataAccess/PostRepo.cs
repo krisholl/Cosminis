@@ -10,10 +10,12 @@ namespace DataAccess;
 public class PostRepo : IPostDAO
 {
     private readonly wearelosingsteamContext _context;
+    private readonly IUserDAO _userRepo;
 
-    public PostRepo(wearelosingsteamContext context)
+    public PostRepo(wearelosingsteamContext context, IUserDAO userRepo)
     {
         _context = context;
+        _userRepo = userRepo;
     }
 
     public Post SubmitPost(Post post)
@@ -26,4 +28,17 @@ public class PostRepo : IPostDAO
 
         return post; //return the inputed post info
     }
+
+    public List<Post> GetPostsByUserId(int? userId)
+    {
+        return _context.Posts.Where(post => post.UserIdFk == userId).ToList();
+    }
+
+    public List<Post> GetPostsByUsername(string username)
+    {
+        User userInfo = _userRepo.GetUserByUserName(username);
+        //return _context.Posts.Where(post => post.UserIdFk == userInfo.UserId).ToList();
+        return GetPostsByUserId(userInfo.UserId);
+    } 
+
 }
