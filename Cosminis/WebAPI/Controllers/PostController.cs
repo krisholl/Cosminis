@@ -19,9 +19,9 @@ public class PostController
 
     public IResult SubmitPostResourceGen(Post post)
     { 
-        if (post.Content.Length > 255) 
+        if (post.Content.Length > 600) 
         {
-            return Results.Conflict("Posts' content cannot be greater than 255 characters."); //processing the request would create a conflict within the resource
+            return Results.Conflict("Posts' content cannot be greater than 600 characters."); //processing the request would create a conflict within the resource
         }
         try
         {
@@ -30,8 +30,37 @@ public class PostController
         }
         catch(ResourceNotFound)
         {
-            return Results.BadRequest("Such a user does not exist"); 
+            return Results.NotFound("Such a user does not exist"); 
         }   
-
     }
+
+    public IResult GetPostsByUserId(int userId)
+    {
+        try 
+        {
+            List<Post> posts = _postServices.GetPostsByUserId(userId);
+            return Results.Ok(posts); 
+        }
+        catch(PostsNotFound)
+        {
+            return Results.NotFound("There are no posts associated with that user ID"); 
+        }
+    }
+
+     public IResult GetPostsByUsername(string username)
+     {
+        try 
+        {
+            List<Post> posts = _postServices.GetPostsByUsername(username);
+            return Results.Ok(posts); 
+        }
+        catch(PostsNotFound)
+        {
+            return Results.NotFound("There are no posts associated with that username"); 
+        }  
+        catch(ResourceNotFound)
+        {
+            return Results.NotFound("No user with that username was found."); 
+        }
+     }
 }

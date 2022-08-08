@@ -15,6 +15,7 @@ namespace DataAccess.Entities
         public int UserIdFk { get; set; }
         public string Content { get; set; } = null!;
 
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual User UserIdFkNavigation { get; set; } = null!;
         public virtual ICollection<Comment> Comments { get; set; }
 

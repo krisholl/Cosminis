@@ -69,3 +69,13 @@ public class FoodElementNotFound : Exception
         System.Runtime.Serialization.SerializationInfo info,
         System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 }
+
+public class PostsNotFound : Exception
+{
+    public PostsNotFound() { }
+    public PostsNotFound(string message) : base(message) { }
+    public PostsNotFound(string message, System.Exception inner) : base(message, inner) { }
+    protected PostsNotFound(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}

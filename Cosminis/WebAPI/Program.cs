@@ -39,6 +39,17 @@ app.MapGet("/searchFriend", (string username, UserController controller) =>
 	return controller.SearchFriend(username);
 });
 
+//this is a route parameter
+app.MapGet("/postsBy/{userId}", (int userId, PostController controller) => 
+{
+	return controller.GetPostsByUserId(userId);
+});
+
+app.MapGet("/postsByUser/{username}", (string username, PostController controller) => 
+{
+	return controller.GetPostsByUsername(username);
+});
+
 /*
 app.MapPost("/createUser", (User user, IUserDAO repo) => //to be replaced by registerUser
 {
