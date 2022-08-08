@@ -14,14 +14,17 @@ builder.Services.AddScoped<ICompanionDAO, CompanionRepo>();
 builder.Services.AddScoped<IUserDAO, UserRepo>();
 builder.Services.AddScoped<IPostDAO, PostRepo>();
 builder.Services.AddScoped<IResourceGen, ResourceRepo>();
+builder.Services.AddScoped<ILikeIt, LikeRepo>();
 
 builder.Services.AddScoped<CompanionServices>();
 builder.Services.AddScoped<UserServices>();
 builder.Services.AddScoped<PostServices>();
+builder.Services.AddScoped<LikeServices>();
 
 builder.Services.AddScoped<CompanionController>();
 builder.Services.AddScoped<UserController>();
 builder.Services.AddScoped<PostController>();
+builder.Services.AddScoped<LikeController>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -59,5 +62,20 @@ app.MapGet("/companions/SearchByUserId", (int userId, CompanionController CompCo
 app.MapPost("/companions/Nickname", (int companionId, string? nickname, CompanionController CompControl) => CompControl.NicknameCompanion(companionId, nickname));
 
 app.MapPost("/companions/GenerateCompanion", (string username, CompanionController CompControl) => CompControl.GenerateCompanion(username));
+
+app.MapPost("/Liking", (int UserID, int PostID, LikeController _LikeCon) => 
+{
+	return _LikeCon.AddLikes(UserID,PostID);
+});
+
+app.MapPut("/Unliking", (int UserID, int PostID, LikeController _LikeCon) => 
+{
+	return _LikeCon.RemoveLikes(UserID,PostID);
+});
+
+app.MapGet("/Checking", (int PostID, LikeController _LikeCon) => 
+{
+	return _LikeCon.LikeCount(PostID);
+});
 
 app.Run();

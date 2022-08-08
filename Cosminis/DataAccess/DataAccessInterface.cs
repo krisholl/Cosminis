@@ -39,3 +39,10 @@ public interface ISpeciesDAO
     public Species GenerateBaseStats(int creatureId);
 }
 */ 
+
+public interface ILikeIt
+{
+    public bool RemoveLikes(int UserID, int PostID);
+    public bool AddLikes(int UserID, int PostID);
+    public int LikeCount(int PostID);
+}
