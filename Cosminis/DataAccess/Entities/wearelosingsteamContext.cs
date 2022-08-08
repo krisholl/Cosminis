@@ -21,6 +21,7 @@ namespace DataAccess.Entities
         public virtual DbSet<FoodElement> FoodElements { get; set; } = null!;
         public virtual DbSet<FoodInventory> FoodInventories { get; set; } = null!;
         public virtual DbSet<FoodStat> FoodStats { get; set; } = null!;
+        public virtual DbSet<Friend> Friends { get; set; } = null!;
         public virtual DbSet<Post> Posts { get; set; } = null!;
         public virtual DbSet<Species> Species { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
@@ -46,13 +47,13 @@ namespace DataAccess.Entities
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.PostIdFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__comments__postId__2EDAF651");
+                    .HasConstraintName("FK__comments__postId__5BAD9CC8");
 
                 entity.HasOne(d => d.UserIdFkNavigation)
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.UserIdFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__comments__userId__2DE6D218");
+                    .HasConstraintName("FK__comments__userId__5AB9788F");
             });
 
             modelBuilder.Entity<Companion>(entity =>
@@ -162,6 +163,37 @@ namespace DataAccess.Entities
                     .HasConstraintName("FK__foodStats__foodE__00200768");
             });
 
+            modelBuilder.Entity<Friend>(entity =>
+            {
+                entity.HasKey(e => e.RelationshipId)
+                    .HasName("PK__friends__4BCCCED70F129545");
+
+                entity.ToTable("friends", "WALS_P2");
+
+                entity.Property(e => e.RelationshipId).HasColumnName("relationshipId");
+
+                entity.Property(e => e.Status)
+                    .HasMaxLength(8)
+                    .IsUnicode(false)
+                    .HasColumnName("status");
+
+                entity.Property(e => e.UserIdFrom).HasColumnName("userId_from");
+
+                entity.Property(e => e.UserIdTo).HasColumnName("userId_to");
+
+                entity.HasOne(d => d.UserIdFromNavigation)
+                    .WithMany(p => p.FriendUserIdFromNavigations)
+                    .HasForeignKey(d => d.UserIdFrom)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__friends__userId___4F47C5E3");
+
+                entity.HasOne(d => d.UserIdToNavigation)
+                    .WithMany(p => p.FriendUserIdToNavigations)
+                    .HasForeignKey(d => d.UserIdTo)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__friends__userId___503BEA1C");
+            });
+
             modelBuilder.Entity<Post>(entity =>
             {
                 entity.ToTable("posts", "WALS_P2");
@@ -169,7 +201,7 @@ namespace DataAccess.Entities
                 entity.Property(e => e.PostId).HasColumnName("postId");
 
                 entity.Property(e => e.Content)
-                    .HasMaxLength(255)
+                    .HasMaxLength(600)
                     .IsUnicode(false)
                     .HasColumnName("content");
 
@@ -179,7 +211,7 @@ namespace DataAccess.Entities
                     .WithMany(p => p.Posts)
                     .HasForeignKey(d => d.UserIdFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__posts__userId_fk__2739D489");
+                    .HasConstraintName("FK__posts__userId_fk__540C7B00");
             });
 
             modelBuilder.Entity<Species>(entity =>
@@ -253,51 +285,17 @@ namespace DataAccess.Entities
                     .WithMany(p => p.UserIdFks)
                     .UsingEntity<Dictionary<string, object>>(
                         "Like",
-                        l => l.HasOne<Post>().WithMany().HasForeignKey("PostIdFk").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__likes__postId_fk__2B0A656D"),
-                        r => r.HasOne<User>().WithMany().HasForeignKey("UserIdFk").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__likes__userId_fk__2A164134"),
+                        l => l.HasOne<Post>().WithMany().HasForeignKey("PostIdFk").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__likes__postId_fk__57DD0BE4"),
+                        r => r.HasOne<User>().WithMany().HasForeignKey("UserIdFk").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__likes__userId_fk__56E8E7AB"),
                         j =>
                         {
-                            j.HasKey("UserIdFk", "PostIdFk").HasName("PK__likes__20D2FDE6D54397CA");
+                            j.HasKey("UserIdFk", "PostIdFk").HasName("PK__likes__20D2FDE6EE730DCD");
 
                             j.ToTable("likes", "WALS_P2");
 
                             j.IndexerProperty<int>("UserIdFk").HasColumnName("userId_fk");
 
                             j.IndexerProperty<int>("PostIdFk").HasColumnName("postId_fk");
-                        });
-
-                entity.HasMany(d => d.UserIdFk1s)
-                    .WithMany(p => p.UserIdFk2s)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "Friend",
-                        l => l.HasOne<User>().WithMany().HasForeignKey("UserIdFk1").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__friends__userId___236943A5"),
-                        r => r.HasOne<User>().WithMany().HasForeignKey("UserIdFk2").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__friends__userId___245D67DE"),
-                        j =>
-                        {
-                            j.HasKey("UserIdFk1", "UserIdFk2").HasName("PK__friends__1E77AD5BF256BF84");
-
-                            j.ToTable("friends", "WALS_P2");
-
-                            j.IndexerProperty<int>("UserIdFk1").HasColumnName("userId_fk1");
-
-                            j.IndexerProperty<int>("UserIdFk2").HasColumnName("userId_fk2");
-                        });
-
-                entity.HasMany(d => d.UserIdFk2s)
-                    .WithMany(p => p.UserIdFk1s)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "Friend",
-                        l => l.HasOne<User>().WithMany().HasForeignKey("UserIdFk2").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__friends__userId___245D67DE"),
-                        r => r.HasOne<User>().WithMany().HasForeignKey("UserIdFk1").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__friends__userId___236943A5"),
-                        j =>
-                        {
-                            j.HasKey("UserIdFk1", "UserIdFk2").HasName("PK__friends__1E77AD5BF256BF84");
-
-                            j.ToTable("friends", "WALS_P2");
-
-                            j.IndexerProperty<int>("UserIdFk1").HasColumnName("userId_fk1");
-
-                            j.IndexerProperty<int>("UserIdFk2").HasColumnName("userId_fk2");
                         });
             });
 
