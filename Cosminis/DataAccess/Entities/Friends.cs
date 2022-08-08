@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DataAccess.Entities
 {
-    public partial class Friend
+    public partial class Friends
     {
         public int RelationshipId { get; set; }
         public int UserIdFrom { get; set; }

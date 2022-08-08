@@ -14,11 +14,18 @@ public interface ICompanionDAO
     public Companion GetCompanionByCompanionId(int companionId);
 }
 
+public interface IFriendsDAO
+{
+    //public List<Friends> ViewAllFriends(int userId);
+    public List<Friends> GetAllRelationships();
+    public List<Friends> ViewRelationShipsByStatus(string status);
+}
 
 public interface IUserDAO
 {
     public User CreateUser(User user);
-    public User GetUserByUserName(string username); 
+    public User GetUserByUserName(string username);
+    public User GetUserByUserId(int userId); 
 }
 
 public interface IPostDAO
@@ -42,7 +49,7 @@ public interface ISpeciesDAO
 }
 */ 
 
-public interface ILikeIt
+public interface ILikeIt //I hate this (jkjk i love this but I thought the joke was funny XDXD)
 {
     public bool RemoveLikes(int UserID, int PostID);
     public bool AddLikes(int UserID, int PostID);

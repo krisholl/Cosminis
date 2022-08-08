@@ -64,15 +64,30 @@ app.MapPost("/submitPost", (Post post, PostController controller) =>
 	return controller.SubmitPostResourceGen(post);
 });
 
-app.MapGet("/GetAllCompanions", (CompanionController CompControl) => CompControl.GetAllCompanions());
+app.MapGet("/GetAllCompanions", (CompanionController CompControl) => 
+{
+	return CompControl.GetAllCompanions();
+});
 
-app.MapGet("/companions/SearchByCompanionId", (int companionId, CompanionController CompControl) => CompControl.SearchForCompanionById(companionId));
+app.MapGet("/companions/SearchByCompanionId", (int companionId, CompanionController CompControl) => 
+{
+	return CompControl.SearchForCompanionById(companionId);
+});
 
-app.MapGet("/companions/SearchByUserId", (int userId, CompanionController CompControl) => CompControl.SearchForCompanionByUserId(userId));
+app.MapGet("/companions/SearchByUserId", (int userId, CompanionController CompControl) => 
+{
+	return CompControl.SearchForCompanionByUserId(userId);
+});
 
-app.MapPost("/companions/Nickname", (int companionId, string? nickname, CompanionController CompControl) => CompControl.NicknameCompanion(companionId, nickname));
+app.MapPost("/companions/Nickname", (int companionId, string? nickname, CompanionController CompControl) => 
+{
+	return CompControl.NicknameCompanion(companionId, nickname);
+});
 
-app.MapPost("/companions/GenerateCompanion", (string username, CompanionController CompControl) => CompControl.GenerateCompanion(username));
+app.MapPost("/companions/GenerateCompanion", (string username, CompanionController CompControl) => 
+{
+	return CompControl.GenerateCompanion(username);
+});
 
 app.MapPost("/Liking", (int UserID, int PostID, LikeController _LikeCon) => 
 {
