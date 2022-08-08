@@ -10,27 +10,27 @@ namespace DataAccess.Entities
             Comments = new HashSet<Comment>();
             Companions = new HashSet<Companion>();
             FoodInventories = new HashSet<FoodInventory>();
+            FriendUserIdFromNavigations = new HashSet<Friend>();
+            FriendUserIdToNavigations = new HashSet<Friend>();
             Posts = new HashSet<Post>();
             PostIdFks = new HashSet<Post>();
-            UserIdFk1s = new HashSet<User>();
-            UserIdFk2s = new HashSet<User>();
         }
 
         public int? UserId { get; set; }
         public string Username { get; set; } = null!;
         public string Password { get; set; } = null!;
-        public DateTime AccountAge { get; set; }
-        public int? GoldCount { get; set; }
+        public DateTime AccountAge { get; set; } = DateTime.Now;
+        public int? GoldCount { get; set; } 
         public int? EggCount { get; set; }
-        public DateTime EggTimer { get; set; }
+        public DateTime EggTimer { get; set; } = DateTime.Now;
 
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Companion> Companions { get; set; }
         public virtual ICollection<FoodInventory> FoodInventories { get; set; }
+        public virtual ICollection<Friend> FriendUserIdFromNavigations { get; set; }
+        public virtual ICollection<Friend> FriendUserIdToNavigations { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
 
         public virtual ICollection<Post> PostIdFks { get; set; }
-        public virtual ICollection<User> UserIdFk1s { get; set; }
-        public virtual ICollection<User> UserIdFk2s { get; set; }
     }
 }

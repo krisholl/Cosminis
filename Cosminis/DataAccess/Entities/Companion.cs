@@ -11,7 +11,7 @@ namespace DataAccess.Entities
         public string? Nickname { get; set; }
         public string Mood { get; set; } = null!;
         public int? Hunger { get; set; }
-        public DateTime? CompanionBirthday { get; set; }
+        public DateTime? CompanionBirthday { get; set; } = DateTime.Now;
 
         public virtual Species SpeciesFkNavigation { get; set; } = null!;
         public virtual User UserFkNavigation { get; set; } = null!;
