@@ -89,6 +89,21 @@ app.MapPost("/companions/GenerateCompanion", (string username, CompanionControll
 	return CompControl.GenerateCompanion(username);
 });
 
+app.MapGet("/FriendsList", (int userIdToLookup, FriendsController FriendsControl) => 
+{
+	return FriendsControl.ViewAllFriends(userIdToLookup);
+});
+
+app.MapGet("/ViewAllRelationships", (FriendsController FriendsControl) => 
+{
+	return FriendsControl.ViewAllRelationships();
+});
+
+app.MapGet("/ViewRelationshipsByStatus", (string status, FriendsController FriendsControl) => 
+{
+	return FriendsControl.ViewRelationshipsByStatus(status);
+});
+
 app.MapPost("/Liking", (int UserID, int PostID, LikeController _LikeCon) => 
 {
 	return _LikeCon.AddLikes(UserID,PostID);
