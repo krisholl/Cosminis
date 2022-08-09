@@ -21,7 +21,7 @@ public class FriendServices
         try
         {
             List<Friends> checkRelationship = _friendsRepo.GetAllRelationships();
-            if(checkRelationship== null)
+            if(checkRelationship == null)
             {
                 throw new ResourceNotFound("No relationship with this Id exists.");
             }
@@ -38,7 +38,7 @@ public class FriendServices
         try
         {
             List<Friends> checkRelationship = _friendsRepo.ViewRelationShipsByStatus(status);
-            if(checkRelationship== null)
+            if(checkRelationship == null)
             {
                 throw new ResourceNotFound("No relationship with this status exists.");
             }
@@ -49,21 +49,43 @@ public class FriendServices
             throw;
         }
     }        
-/*
-    public List<Friends> ViewAllFriends(int userId)
+
+    public List<Friends> ViewAllFriends(int userIdToLookup)
     {
         try
         {
-            List<Friends> checkUser = _friendsRepo.ViewAllFriends(userId);
-            if(checkUser == null)
+            List<Friends> checkRelationship = _friendsRepo.ViewAllFriends(userIdToLookup);
+            if(checkRelationship == null)
             {
-                throw new ResourceNotFound("No user with this Id exists.");
+                throw new ResourceNotFound("This user has no friends.");
             }
-            return _friendsRepo.ViewAllFriends(userId);
+            return _friendsRepo.ViewAllFriends(userIdToLookup);
         }
         catch (Exception E)
         {
             throw;
         }
-    }*/
+    }   
+/*
+    public bool AddFriend(int requesterId, int addedId)
+    {
+        try
+        {
+            bool checkRelationship = _friendsRepo.AddFriend(requesterId, addedId);
+            if(checkRelationship == false)
+            {
+                throw new DuplicateFriends("No relationship with this status exists.");
+            }
+
+            int goldToAdd = 5;
+
+            _resourceRepo.AddGold(addedId, goldToAdd);
+        }
+        catch (Exception E)
+        {
+            throw;
+        }
+
+         return true;//maybe later return the new relationship w/Id
+    }  */  
 }

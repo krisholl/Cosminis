@@ -11,60 +11,40 @@ namespace DataAccess;
 public class FriendsRepo : IFriendsDAO
 {
     private readonly wearelosingsteamContext _context;
+    private readonly IUserDAO _userRepo;
 
-    public FriendsRepo(wearelosingsteamContext context)
+    public FriendsRepo(wearelosingsteamContext context, IUserDAO userRepo)
     {
         _context = context;
+        _userRepo = userRepo;
     }
 
     public List<Friends> GetAllRelationships()
     {
         return _context.Friends.ToList();
     }
-/*
-    public List<Friends> ViewAllFriends(int userId)
+
+    public List<Friends> ViewAllFriends(int userIdToLookup)
     {
-        Friends friendsInstance = _context.Friends.Find(userId);       
-        if(friendsInstance == null)
-        {
-            throw new ResourceNotFound("No user with this ID exists.");
-        }
+        User userToLookup = _context.Users.Find(userIdToLookup);
+
+        IEnumerable<Friends> friendsQuery =
+            (from Friends in _context.Friends
+            where (Friends.UserIdTo == userToLookup.UserId) || (Friends.UserIdFrom == userToLookup.UserId)
+            select Friends);
+
+        //if(friendsQuery == null)
+        //{
+            //throw new ResourceNotFound("This is one lonely user. At this point they should simply quit social media.");
+        //}
 
         try
         {       
-            List<Friends> friendsList = new List<Friends>();
-
-            _context.Entry(friendsInstance).Collection("UserIdFrom").Load();
-            _context.Entry(friendsInstance).Collection("UserIdTo").Load();
+            List<Friends> friendsList = friendsQuery.ToList();
             
-            foreach(User friendReturn in userInstance.UserIdFk2s)
-            {
-                if(userInstance.UserIdFk1s == userInstance)
-                {
-                    return null;
-                }
-                friendsList.Add(friendReturn);
-            } 
-
-            foreach(User friendReturn in userInstance.UserIdFk1s)
-            {
-                if(userInstance.UserIdFk2s == userInstance)
-                {
-                    return null;
-                }
-                friendsList.Add(friendReturn);
-            } 
-
-            //List<User> friendsList = userInstance.UserIdFk2s.ToList();
-
-            //friendsList2 = userInstance.UserIdFk2s.ToList();
-
-            //friendsList.AddRange(friendsList2);
-            //friendsList = friendsList.Concat(userInstance.UserIdFk2s);
-
             if(friendsList.Count() < 1)
             {
-                throw new Exception("This user has no friends.");
+                throw new Exception("This user has no friends. IDK how this got this far");
             }
 
             return friendsList;
@@ -74,48 +54,7 @@ public class FriendsRepo : IFriendsDAO
             throw;
         }                                  
     }
-*/
-    /*
-    public User AddFriend()
-    {
-        Console.WriteLine("DAO1");
-
-        User userInstance = _context.Users.Find(userId);       
-        
-        if(userInstance == null)
-        {
-            throw new ResourceNotFound("No user with this ID exists.");
-        }
-
-        try
-        {       
-            _context.Entry(userInstance).Collection("UserIdFk1s").Load();
-            _context.Entry(userInstance).Collection("UserIdFk2s").Load();
-            
-            Console.WriteLine("DAO2");
-
-            //List<User> friendsList = userInstance.UserIdFk2s.ToList();
-
-            //friendsList2 = userInstance.UserIdFk2s.ToList();
-
-            //friendsList.AddRange(friendsList2);
-            //friendsList = friendsList.Concat(userInstance.UserIdFk2s);
-
-            if(friendsList.Count() < 1)
-            {
-                throw new Exception("This user has no friends.");
-            }
-            
-            Console.WriteLine("DAO3");
-            
-            return friendsList;
-        }
-        catch(Exception E)
-        {
-            throw;
-        }                                  
-    }
-    */
+    
     /*
     public User AcceptFriendRequest(string username)
     {   
@@ -159,7 +98,7 @@ public class FriendsRepo : IFriendsDAO
     
     public List<Friends> ViewRelationShipsByStatus(string status)
     {
-        List<Friends> relationsLits = new List<Friends>();
+        List<Friends> relationsList = new List<Friends>();
 
         switch(status) 
         {
@@ -173,15 +112,15 @@ public class FriendsRepo : IFriendsDAO
 
             foreach(Friends friendsReturn in statusQuery)
             {
-                relationsLits.Add(friendsReturn);
+                relationsList.Add(friendsReturn);
             }  
 
-            if(relationsLits.Count() < 1)
+            if(relationsList.Count() < 1)
             {
                 throw new Exception("There are no relationships with this status.");
             }
 
-            return relationsLits;
+            return relationsList;
             }
             catch(Exception E)
             {
@@ -198,15 +137,15 @@ public class FriendsRepo : IFriendsDAO
 
             foreach(Friends friendsReturn in statusQuery)
             {
-                relationsLits.Add(friendsReturn);
+                relationsList.Add(friendsReturn);
             }  
 
-            if(relationsLits.Count() < 1)
+            if(relationsList.Count() < 1)
             {
                 throw new Exception("There are no relationships with this status.");
             }
 
-            return relationsLits;
+            return relationsList;
             }
             catch(Exception E)
             {
@@ -223,15 +162,15 @@ public class FriendsRepo : IFriendsDAO
 
             foreach(Friends friendsReturn in statusQuery)
             {
-                relationsLits.Add(friendsReturn);
+                relationsList.Add(friendsReturn);
             }  
 
-            if(relationsLits.Count() < 1)
+            if(relationsList.Count() < 1)
             {
                 throw new Exception("There are no relationships with this status.");
             }
 
-            return relationsLits;
+            return relationsList;
             }
             catch(Exception E)
             {
@@ -248,15 +187,15 @@ public class FriendsRepo : IFriendsDAO
 
             foreach(Friends friendsReturn in statusQuery)
             {
-                relationsLits.Add(friendsReturn);
+                relationsList.Add(friendsReturn);
             }  
 
-            if(relationsLits.Count() < 1)
+            if(relationsList.Count() < 1)
             {
                 throw new Exception("There are no relationships with this status.");
             }
 
-            return relationsLits;
+            return relationsList;
             }
             catch(Exception E)
             {
@@ -273,15 +212,15 @@ public class FriendsRepo : IFriendsDAO
 
             foreach(Friends friendsReturn in statusQuery)
             {
-                relationsLits.Add(friendsReturn);
+                relationsList.Add(friendsReturn);
             }  
 
-            if(relationsLits.Count() < 1)
+            if(relationsList.Count() < 1)
             {
                 throw new Exception("There are no relationships with this status.");
             }
 
-            return relationsLits;
+            return relationsList;
             }
             catch(Exception E)
             {
@@ -290,6 +229,40 @@ public class FriendsRepo : IFriendsDAO
             break;
         };
 
-        return relationsLits;                  
+        return relationsList;                  
     }
+/*
+    public bool AddFriend(int requesterId, int addedId)
+    {
+        Friends editingFriend = _context.Friends.Find(requesterId);
+        Friends friend2BeAdded = _context.Friends.Find(addedId);*/
+/*
+        Friends newRelationship = 
+        (from RelationshipId in _context.Friends
+        where (userIdFrom == editingFriend.UserId) && (IV.FoodStatsIdFk == Food2Add.FoodStatsId)
+        select IV).FirstOrDefault();
+  */     /* 
+        try
+        {
+        newRelationship = new Friends
+            {
+                UserIdFrom = editingFriend,
+                UserIdTo = friend2BeAdded,
+                Status = "Pending"
+            };
+
+        _context.Friends.Add(newRelationship);
+
+        _context.SaveChanges();
+
+        _context.ChangeTracker.Clear();
+
+        }
+        catch(Exception E)
+        {
+            throw;
+        }
+
+        return true;                  
+    } */   
 }
