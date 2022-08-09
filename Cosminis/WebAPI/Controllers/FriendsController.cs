@@ -121,11 +121,11 @@ public class FriendsController
         }	
     }      
 
-    public IResult AddFriend(int requesterId, int addedId)
+    public IResult AddFriendByUserId(int requesterId, int addedId)
     {
     	try
     	{
-    		Friends newFriends = _friendServices.AddFriend(requesterId, addedId);
+    		Friends newFriends = _friendServices.AddFriendByUserId(requesterId, addedId);
     		return Results.Created("/Friends/AddFriend", newFriends); 
     	}
         catch(ResourceNotFound)
@@ -137,4 +137,21 @@ public class FriendsController
             return Results.Conflict("You are either friends or never will be!!"); 
         }	
     }
+
+    public IResult AddFriendByUsername(string requesterUsername, string addedUsername)
+    {
+    	try
+    	{
+    		Friends newFriends = _friendServices.AddFriendByUsername(requesterUsername, addedUsername);
+    		return Results.Created("/Friends/AddFriendByUsername", newFriends); 
+    	}
+        catch(ResourceNotFound)
+        {
+            return Results.BadRequest("There is no user with this username in our system.");
+        }
+    	catch(DuplicateFriends)
+        {
+            return Results.Conflict("You are either friends or never will be!!"); 
+        }	
+    }     
 }

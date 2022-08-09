@@ -76,7 +76,7 @@ public class FriendsRepo : IFriendsDAO
         return returnRelationship;
     }
     
-    public Friends EditFriendship(int editingUserID, int user2BeEdited, string status) //this will be for accepting, blocking, and removing. Thus adding, blocking, removing, and accepting will be done.
+    public Friends EditFriendship(int editingUserID, int user2BeEdited, string status)//this does not delete removed/blocked friends. I may add this later.
     {   
         User editingUser = _context.Users.Find(editingUserID);
         User friend2BeEdited = _context.Users.Find(user2BeEdited);
@@ -150,7 +150,7 @@ public class FriendsRepo : IFriendsDAO
 
         return statusList;
     }    
-/* MAKING THE ONE I AM WORKING ON A LIST OF ALL FRIENDS BY STATUS OF A PARTICULAR USER
+    /* More methods to come for more specificity? -Get relationship by usernames and status, userID's and status, and then one by two usernames...
     public Friends CheckRelationshipStatusByUserId(int searchingId, int friendsId, string status)
     {   
         User quieriedUser = _context.Users.Find(searchingId);
@@ -311,7 +311,7 @@ public class FriendsRepo : IFriendsDAO
         return relationsList;                  
     }
 
-    public Friends AddFriend(int requesterId, int addedId)
+    public Friends AddFriendByUserId(int requesterId, int addedId)
     {
         User addingUser = _context.Users.Find(requesterId);
         User requestReceiver = _context.Users.Find(addedId);
@@ -381,5 +381,77 @@ public class FriendsRepo : IFriendsDAO
         Friends existingRelationship = FriendsByUserIds((int)addingUser.UserId, (int)requestReceiver.UserId);
         
         return existingRelationship;  
-    } 
+    }
+
+    public Friends AddFriendByUsername(string requesterUsername, string addedUsername)
+    {
+        User addingUser = _userRepo.GetUserByUserName(requesterUsername);
+        User requestReceiver = _userRepo.GetUserByUserName(addedUsername);
+
+        if(addingUser == null || requestReceiver == null)
+        {
+            throw new ResourceNotFound();
+        }
+
+        IEnumerable<Friends> checkIfExists =
+            (from Friends in _context.Friends
+            where (Friends.UserIdTo == addingUser.UserId) || (Friends.UserIdFrom == addingUser.UserId)
+            select Friends);
+
+            try
+            {  
+                if(checkIfExists == null)
+                {
+                    Friends newRelationship = new Friends
+                    {
+                        UserIdFrom = (int)addingUser.UserId,
+                        UserIdTo = (int)requestReceiver.UserId,
+                        Status = "Pending"
+                    };
+
+                    _context.Friends.Add(newRelationship);
+
+                    _context.SaveChanges();
+
+                    _context.ChangeTracker.Clear();
+
+                    return newRelationship;
+                }
+                else
+                {
+                    List<Friends> friendsList = checkIfExists.ToList();
+
+                    foreach(Friends friendInstance in friendsList)
+                    {
+                        if((friendInstance.UserIdTo == requestReceiver.UserId) || (friendInstance.UserIdFrom == requestReceiver.UserId))
+                        {
+                            throw new DuplicateFriends();
+                        }
+                    }
+                }
+
+                Friends newRelationshipChance2 = new Friends
+                    {
+                        UserIdFrom = (int)addingUser.UserId,
+                        UserIdTo = (int)requestReceiver.UserId,
+                        Status = "Pending"
+                    };
+            
+                _context.Friends.Add(newRelationshipChance2);
+
+                _context.SaveChanges();
+
+                _context.ChangeTracker.Clear();
+
+                return newRelationshipChance2;
+            }
+            catch(Exception E)
+            {
+                throw;
+            }
+
+        Friends existingRelationship = FriendsByUserIds((int)addingUser.UserId, (int)requestReceiver.UserId);
+        
+        return existingRelationship;  
+    }    
 }

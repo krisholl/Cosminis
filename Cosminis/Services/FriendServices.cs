@@ -86,7 +86,7 @@ public class FriendServices
         }
     }
 
-    Friends EditFriendship(int editingUserID, int user2BeEdited, string status)
+    public Friends EditFriendship(int editingUserID, int user2BeEdited, string status)
     {
         try
         {
@@ -154,19 +154,13 @@ public class FriendServices
         }
     }   
 
-    public Friends AddFriend(int requesterId, int addedId)
+    public Friends AddFriendByUserId(int requesterId, int addedId)
     {
         User user2Add2 = new User();
         user2Add2.UserId = addedId;
         try
         {
-            Friends checkRelationship = _friendsRepo.AddFriend(requesterId, addedId);
-            /*
-            if(checkRelationship == null)
-            {
-                throw new DuplicateFriends();
-            }
-            */
+            Friends checkRelationship = _friendsRepo.AddFriendByUserId(requesterId, addedId);
             
             int goldToAdd = 5;
 
@@ -178,5 +172,25 @@ public class FriendServices
         {
             throw;
         }
-    }  
+    }
+
+    public Friends AddFriendByUsername(string requesterUsername, string addedUsername)
+    {
+        User user2Add2 = new User();
+        user2Add2.Username = addedUsername;
+        try
+        {
+            Friends checkRelationship = _friendsRepo.AddFriendByUsername(requesterUsername, addedUsername);
+            
+            int goldToAdd = 5;
+
+            _ResourceRepo.AddGold(user2Add2, goldToAdd);
+
+            return checkRelationship;
+        }
+        catch (Exception E)
+        {
+            throw;
+        }
+    }      
 }

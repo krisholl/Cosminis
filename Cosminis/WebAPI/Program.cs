@@ -127,14 +127,19 @@ app.MapGet("/Friends/RelationshipStatusByUsername", (string username, string sta
 	return FriendsControl.CheckRelationshipStatusByUsername(username, status);
 });
 
-app.MapPost("/Friends/EditFriendshipStatus", (int editingUserID, int user2BeEdited, string status, FriendsController FriendsControl) => 
+app.MapPut("/Friends/EditFriendshipStatus", (int editingUserID, int user2BeEdited, string status, FriendsController FriendsControl) => 
 {
 	return FriendsControl.EditStatus(editingUserID, user2BeEdited, status);
 });
 
-app.MapPost("/Friends/AddFriend", (int requesterId, int addedId, FriendsController FriendsControl) => 
+app.MapPost("/Friends/AddFriendByUserId", (int requesterId, int addedId, FriendsController FriendsControl) => 
 {
-	return FriendsControl.AddFriend(requesterId, addedId);
+	return FriendsControl.AddFriendByUserId(requesterId, addedId);
+});
+
+app.MapPost("/Friends/AddFriendByUsername", (string requesterUsername, string addedUsername, FriendsController FriendsControl) => 
+{
+	return FriendsControl.AddFriendByUsername(requesterUsername, addedUsername);
 });
 
 app.MapPost("/Liking", (int UserID, int PostID, LikeController _LikeCon) => 

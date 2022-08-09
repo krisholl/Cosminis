@@ -16,7 +16,8 @@ public interface ICompanionDAO
 
 public interface IFriendsDAO
 {
-    public Friends AddFriend(int requestedId, int addedId);
+    public Friends AddFriendByUsername(string requesterUsername, string addedUsername);
+    public Friends AddFriendByUserId(int requestedId, int addedId);
     public List<Friends> GetAllRelationships();
     public List<Friends> ViewAllFriends(int userIdToLookup);
     public List<Friends> ViewRelationShipsByStatus(string status);
