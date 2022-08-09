@@ -12,6 +12,7 @@ namespace DataAccess.Entities
 
         [System.Text.Json.Serialization.JsonIgnore]
         public virtual User UserIdFromNavigation { get; set; } = null!;
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual User UserIdToNavigation { get; set; } = null!;
     }
 }

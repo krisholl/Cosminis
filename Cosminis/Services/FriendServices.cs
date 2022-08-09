@@ -10,10 +10,12 @@ namespace Services;
 public class FriendServices
 {
 	private readonly IFriendsDAO _friendsRepo;
+    private readonly IResourceGen _ResourceRepo;
 
-    public FriendServices(IFriendsDAO friendsRepo)
+    public FriendServices(IFriendsDAO friendsRepo, IResourceGen ResourceRepo)
     {
         _friendsRepo = friendsRepo;
+        _ResourceRepo = ResourceRepo;
     }
 
     public List<Friends> ViewAllRelationships()
@@ -48,7 +50,41 @@ public class FriendServices
         {
             throw;
         }
-    }        
+    } 
+
+    public List<Friends> CheckRelationshipStatusByUserId(int searchingId, string status)
+    {
+        try
+        {
+            List<Friends> checkRelationship = _friendsRepo.CheckRelationshipStatusByUserId(searchingId, status);
+            if(checkRelationship == null)
+            {
+                throw new ResourceNotFound("No relationship with this status exists.");
+            }
+            return _friendsRepo.CheckRelationshipStatusByUserId(searchingId, status);
+        }
+        catch (Exception E)
+        {
+            throw;
+        }
+    }            
+
+    public List<Friends> CheckRelationshipStatusByUsername(string username, string status)
+    {
+        try
+        {
+            List<Friends> checkRelationship = _friendsRepo.CheckRelationshipStatusByUsername(username, status);
+            if(checkRelationship == null)
+            {
+                throw new ResourceNotFound("No relationship with this status exists.");
+            }
+            return _friendsRepo.CheckRelationshipStatusByUsername(username, status);
+        }
+        catch (Exception E)
+        {
+            throw;
+        }
+    } 
 
     public List<Friends> ViewAllFriends(int userIdToLookup)
     {
@@ -67,25 +103,29 @@ public class FriendServices
         }
     }   
 /*
-    public bool AddFriend(int requesterId, int addedId)
+    public Friends AddFriend(int requesterId, int addedId)
     {
+        User user2Add2 = new User();
+        user2Add2.UserId = addedId;
         try
         {
-            bool checkRelationship = _friendsRepo.AddFriend(requesterId, addedId);
-            if(checkRelationship == false)
+            Friends checkRelationship = _friendsRepo.AddFriend(requesterId, addedId);
+            /*
+            if(checkRelationship == null)
             {
-                throw new DuplicateFriends("No relationship with this status exists.");
+                throw new DuplicateFriends();
             }
-
+            */
+            /*
             int goldToAdd = 5;
 
-            _resourceRepo.AddGold(addedId, goldToAdd);
+            _ResourceRepo.AddGold(user2Add2, goldToAdd);
+
+            return checkRelationship;
         }
         catch (Exception E)
         {
             throw;
         }
-
-         return true;//maybe later return the new relationship w/Id
-    }  */  
+    } */  
 }
