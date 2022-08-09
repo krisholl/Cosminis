@@ -11,17 +11,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<wearelosingsteamContext>(options => options.UseSqlServer());
 builder.Services.AddScoped<ICompanionDAO, CompanionRepo>();
+builder.Services.AddScoped<IFriendsDAO, FriendsRepo>();
 builder.Services.AddScoped<IUserDAO, UserRepo>();
 builder.Services.AddScoped<IPostDAO, PostRepo>();
 builder.Services.AddScoped<IResourceGen, ResourceRepo>();
 builder.Services.AddScoped<ILikeIt, LikeRepo>();
 
 builder.Services.AddScoped<CompanionServices>();
+builder.Services.AddScoped<FriendServices>();
 builder.Services.AddScoped<UserServices>();
 builder.Services.AddScoped<PostServices>();
 builder.Services.AddScoped<LikeServices>();
 
 builder.Services.AddScoped<CompanionController>();
+builder.Services.AddScoped<FriendsController>();
 builder.Services.AddScoped<UserController>();
 builder.Services.AddScoped<PostController>();
 builder.Services.AddScoped<LikeController>();
