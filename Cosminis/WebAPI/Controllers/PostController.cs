@@ -17,15 +17,15 @@ public class PostController
         _postServices = postServices;
     }
 
-    public IResult SubmitPostResourceGen(Post post)
+    public IResult SubmitPostResourceGen(string Content, int PosterID)
     { 
-        if (post.Content.Length > 600) 
+        if (Content.Length > 600) 
         {
             return Results.Conflict("Posts' content cannot be greater than 600 characters."); //processing the request would create a conflict within the resource
         }
         try
         {
-            Post postInfo = _postServices.SubmitPostResourceGen(post);
+            Post postInfo = _postServices.SubmitPostResourceGen(Content, PosterID);
             return Results.Created("/submitPost", postInfo);   
         }
         catch(ResourceNotFound)
