@@ -27,7 +27,7 @@ public class ResourceRepo : IResourceGen
         {
             throw new ResourceNotFound();
         }
-
+        
         User2Add2.GoldCount = User2Add2.GoldCount + Amount; //make the change
         _context.SaveChanges(); //persist the change
         _context.ChangeTracker.Clear(); //clear the tracker for the next person
