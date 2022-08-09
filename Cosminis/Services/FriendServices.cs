@@ -35,6 +35,23 @@ public class FriendServices
         }
     }
 
+    public Friends SearchByRelationshipId(int relationshipId)
+    {
+        try
+        {
+            Friends checkRelationship = _friendsRepo.SearchByRelationshipId(relationshipId);
+            if(checkRelationship == null)
+            {
+                throw new ResourceNotFound("No relationship with this Id exists.");
+            }
+            return _friendsRepo.SearchByRelationshipId(relationshipId);
+        }
+        catch (Exception E)
+        {
+            throw;
+        }
+    }   
+
     public List<Friends> ViewRelationShipsByStatus(string status)
     {
         try
@@ -51,6 +68,40 @@ public class FriendServices
             throw;
         }
     } 
+
+    public Friends FriendsByUserIds(int searchingUserId, int user2BeSearchedFor)
+    {
+        try
+        {
+            Friends checkFriendship = _friendsRepo.FriendsByUserIds(searchingUserId, user2BeSearchedFor);
+            if(checkFriendship == null)
+            {
+                throw new ResourceNotFound();
+            }
+            return _friendsRepo.FriendsByUserIds(searchingUserId, user2BeSearchedFor);
+        }
+        catch (Exception E)
+        {
+            throw;
+        }
+    }
+
+    Friends EditFriendship(int editingUserID, int user2BeEdited, string status)
+    {
+        try
+        {
+            Friends editFriendship = _friendsRepo.EditFriendship(editingUserID, user2BeEdited, status);
+            if(editFriendship == null)
+            {
+                throw new ResourceNotFound();
+            }
+            return _friendsRepo.EditFriendship(editingUserID, user2BeEdited, status);
+        }
+        catch (Exception E)
+        {
+            throw;
+        }
+    }    
 
     public List<Friends> CheckRelationshipStatusByUserId(int searchingId, string status)
     {
@@ -102,7 +153,7 @@ public class FriendServices
             throw;
         }
     }   
-/*
+
     public Friends AddFriend(int requesterId, int addedId)
     {
         User user2Add2 = new User();
@@ -116,7 +167,7 @@ public class FriendServices
                 throw new DuplicateFriends();
             }
             */
-            /*
+            
             int goldToAdd = 5;
 
             _ResourceRepo.AddGold(user2Add2, goldToAdd);
@@ -127,5 +178,5 @@ public class FriendServices
         {
             throw;
         }
-    } */  
+    }  
 }

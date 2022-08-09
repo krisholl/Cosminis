@@ -92,19 +92,49 @@ app.MapPost("/companions/GenerateCompanion", (string username, CompanionControll
 	return CompControl.GenerateCompanion(username);
 });
 
-app.MapGet("/FriendsList", (int userIdToLookup, FriendsController FriendsControl) => 
+app.MapGet("/Friends/FriendsList", (int userIdToLookup, FriendsController FriendsControl) => 
 {
 	return FriendsControl.ViewAllFriends(userIdToLookup);
 });
 
-app.MapGet("/ViewAllRelationships", (FriendsController FriendsControl) => 
+app.MapGet("/Friends/ViewAllRelationships", (FriendsController FriendsControl) => 
 {
 	return FriendsControl.ViewAllRelationships();
 });
 
-app.MapGet("/ViewRelationshipsByStatus", (string status, FriendsController FriendsControl) => 
+app.MapGet("/Friends/SearchByRelationshipId", (int relationshipId, FriendsController FriendsControl) => 
+{
+	return FriendsControl.SearchByRelationshipId(relationshipId);
+});
+
+app.MapGet("/Friends/FriendsByUserIds", (int searchingUserId, int user2BeSearchedFor, FriendsController FriendsControl) => 
+{
+	return FriendsControl.FriendsByUserIds(searchingUserId, user2BeSearchedFor);
+});
+
+app.MapGet("/Friends/ViewAllRelationshipsByStatus", (string status, FriendsController FriendsControl) => 
 {
 	return FriendsControl.ViewRelationshipsByStatus(status);
+});
+
+app.MapGet("/Friends/RelationshipStatusByUserId", (int searchingId, string status, FriendsController FriendsControl) => 
+{
+	return FriendsControl.CheckRelationshipStatusByUserId(searchingId, status);
+});
+
+app.MapGet("/Friends/RelationshipStatusByUsername", (string username, string status, FriendsController FriendsControl) => 
+{
+	return FriendsControl.CheckRelationshipStatusByUsername(username, status);
+});
+
+app.MapPost("/Friends/EditFriendshipStatus", (int editingUserID, int user2BeEdited, string status, FriendsController FriendsControl) => 
+{
+	return FriendsControl.EditStatus(editingUserID, user2BeEdited, status);
+});
+
+app.MapPost("/Friends/AddFriend", (int requesterId, int addedId, FriendsController FriendsControl) => 
+{
+	return FriendsControl.AddFriend(requesterId, addedId);
 });
 
 app.MapPost("/Liking", (int UserID, int PostID, LikeController _LikeCon) => 

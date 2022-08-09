@@ -55,20 +55,48 @@ public class FriendsRepo : IFriendsDAO
         }                                  
     }
     
-    /*
-    public User EditFriendShip(string username) //this will be for accepting, blocking, and removing. Thus adding, blocking, removing, and accepting will be done.
+    public Friends FriendsByUserIds(int searchingUserId, int user2BeSearchedFor)
+    {
+        User searchingUser = _context.Users.Find(searchingUserId);
+        User friend2BFound = _context.Users.Find(user2BeSearchedFor);
+
+        List<Friends> quieriedFriendsList = ViewAllFriends((int)searchingUser.UserId);
+
+        List<Friends> searchedFriendsList = ViewAllFriends((int)friend2BFound.UserId);
+
+        Friends returnRelationship = new Friends();
+
+        foreach(Friends friendInstance in quieriedFriendsList)
+        {
+            if(searchedFriendsList.Contains(friendInstance))
+            {
+                returnRelationship = friendInstance;
+            }
+        }
+        return returnRelationship;
+    }
+    
+    public Friends EditFriendship(int editingUserID, int user2BeEdited, string status) //this will be for accepting, blocking, and removing. Thus adding, blocking, removing, and accepting will be done.
     {   
-        User newFriend = GetUserByUserName(username);
+        User editingUser = _context.Users.Find(editingUserID);
+        User friend2BeEdited = _context.Users.Find(user2BeEdited);
         
-        _context.Companions.Add(newCompanion);
+        Friends statusToBeEdited = FriendsByUserIds((int)editingUser.UserId, (int)friend2BeEdited.UserId);
+
+        statusToBeEdited.Status = status;
 
         _context.SaveChanges();
 
         _context.ChangeTracker.Clear(); 
 
-        return newCompanion;  
+        return statusToBeEdited;  
     }
-*/
+
+    public Friends SearchByRelationshipId(int relationshipId)
+    {
+        return _context.Friends.FirstOrDefault(friends => friends.RelationshipId == relationshipId) ?? throw new ResourceNotFound();
+    }
+
     public List<Friends> CheckRelationshipStatusByUsername(string username, string status)
     {   
         User quieriedUser = _userRepo.GetUserByUserName(username);
@@ -282,77 +310,76 @@ public class FriendsRepo : IFriendsDAO
 
         return relationsList;                  
     }
-/*
+
     public Friends AddFriend(int requesterId, int addedId)
     {
-        User addingFriend = _context.Users.Find(requesterId);
-        User friend2BeAdded = _context.Users.Find(addedId);
+        User addingUser = _context.Users.Find(requesterId);
+        User requestReceiver = _context.Users.Find(addedId);
 
-        IEnumerable<Friends> friendsQuery =
-            (from Friends in _context.Friends
-            where (Friends.UserIdTo == addingFriend.UserId) || (Friends.UserIdFrom == addingFriend.UserId)
-            select Friends);        
-  
-        List<Friends> addingFriendList = friendsQuery.ToList();;
-        
-        if(addingFriendList == null)
+        if(addingUser == null || requestReceiver == null)
         {
-           try
+            throw new ResourceNotFound();
+        }
+
+        IEnumerable<Friends> checkIfExists =
+            (from Friends in _context.Friends
+            where (Friends.UserIdTo == addingUser.UserId) || (Friends.UserIdFrom == addingUser.UserId)
+            select Friends);
+
+            try
             {  
-                Friends newRelationship = new Friends
+                if(checkIfExists == null)
+                {
+                    Friends newRelationship = new Friends
                     {
-                        UserIdFrom = (int)addingFriend.UserId,
-                        UserIdTo = (int)friend2BeAdded.UserId,
+                        UserIdFrom = (int)addingUser.UserId,
+                        UserIdTo = (int)requestReceiver.UserId,
                         Status = "Pending"
                     };
 
-                _context.Friends.Add(newRelationship);
+                    _context.Friends.Add(newRelationship);
+
+                    _context.SaveChanges();
+
+                    _context.ChangeTracker.Clear();
+
+                    return newRelationship;
+                }
+                else
+                {
+                    List<Friends> friendsList = checkIfExists.ToList();
+
+                    foreach(Friends friendInstance in friendsList)
+                    {
+                        if((friendInstance.UserIdTo == requestReceiver.UserId) || (friendInstance.UserIdFrom == requestReceiver.UserId))
+                        {
+                            throw new DuplicateFriends();
+                        }
+                    }
+                }
+
+                Friends newRelationshipChance2 = new Friends
+                    {
+                        UserIdFrom = (int)addingUser.UserId,
+                        UserIdTo = (int)requestReceiver.UserId,
+                        Status = "Pending"
+                    };
+            
+                _context.Friends.Add(newRelationshipChance2);
 
                 _context.SaveChanges();
 
                 _context.ChangeTracker.Clear();
 
-                return newRelationship;
+                return newRelationshipChance2;
             }
             catch(Exception E)
             {
                 throw;
             }
-        }
-        else
-        {
-            foreach(Friends friendSearch in addingFriendList)
-            {
-                if(friendSearch.UserIdFrom == friend2BeAdded.UserId || friendSearch.UserIdTo == friend2BeAdded.UserId)
-                {
-                    throw new DuplicateFriends();
-                }
-                else
-                {
-                    try
-                    {  
-                        Friends newRelationship = new Friends
-                            {
-                                UserIdFrom = (int)addingFriend.UserId,
-                                UserIdTo = (int)friend2BeAdded.UserId,
-                                Status = "Pending"
-                            };
 
-                        _context.Friends.Add(newRelationship);
-
-                        _context.SaveChanges();
-
-                        _context.ChangeTracker.Clear();
-
-                        return newRelationship;
-                    }
-                    catch(Exception E)
-                    {
-                        throw;
-                    }                    
-                }    
-            }
-        }
-
-    }*/ 
+        Friends existingRelationship = FriendsByUserIds((int)addingUser.UserId, (int)requestReceiver.UserId);
+        
+        return existingRelationship;  
+    } 
 }

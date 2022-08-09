@@ -16,14 +16,15 @@ public interface ICompanionDAO
 
 public interface IFriendsDAO
 {
-    //public Friends AddFriend(int requestedId, int addedId);
+    public Friends AddFriend(int requestedId, int addedId);
     public List<Friends> GetAllRelationships();
     public List<Friends> ViewAllFriends(int userIdToLookup);
     public List<Friends> ViewRelationShipsByStatus(string status);
-    //public User EditFriendShip(string username);
+    public Friends EditFriendship(int editingUserID, int user2BeEdited, string status);
     public List<Friends> CheckRelationshipStatusByUsername(string username, string status);
     public List<Friends> CheckRelationshipStatusByUserId(int userId, string status);
-
+    public Friends FriendsByUserIds(int searchingUserId, int user2BeSearchedFor);
+    public Friends SearchByRelationshipId(int relationshipId);
 }
 
 public interface IUserDAO
