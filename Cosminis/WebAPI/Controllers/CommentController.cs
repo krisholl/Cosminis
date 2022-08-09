@@ -19,6 +19,10 @@ public class CommentController
 
     public IResult SubmitCommentResourceGen(Comment comment)
     { 
+        if (String.IsNullOrWhiteSpace(comment.Content) || String.IsNullOrEmpty(comment.Content)) 
+        {
+            return Results.BadRequest("Cannot have an empty comment"); 
+        }
         if (comment.Content.Length > 255) 
         {
             return Results.Conflict("Comments' content cannot be greater than 255 characters."); //processing the request would create a conflict within the resource
@@ -36,7 +40,10 @@ public class CommentController
         {
             return Results.NotFound("Such a post does not exist"); 
         }
-
+        catch(Exception e)
+        {
+            return Results.BadRequest(e.Message); 
+        }
     }
 
     public IResult GetCommentsByPostId(int postId)

@@ -41,8 +41,14 @@ public class CommentServices
  	
         _resourceRepo.AddGold(shellUser, goldToAdd);
         _commentRepo.AddToPostOwner(comment);
-        
-        return _commentRepo.SubmitComment(comment);
+        try
+        {
+            return _commentRepo.SubmitComment(comment);
+        }
+        catch(Exception)
+        {
+            throw;
+        }
     }
 
     public List<Comment> GetCommentsByPostId(int postId)

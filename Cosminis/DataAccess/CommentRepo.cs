@@ -20,12 +20,18 @@ public class CommentRepo : ICommentDAO
 
     public Comment SubmitComment(Comment comment)
     {
-        _context.Comments.Add(comment); //Add a new comment into the table
+        try
+        {
+            _context.Comments.Add(comment); //Add a new comment into the table
 
-        _context.SaveChanges(); //persist the change
+            _context.SaveChanges(); //persist the change
 
-        _context.ChangeTracker.Clear(); //clear the tracker for the next comment
-
+            _context.ChangeTracker.Clear(); //clear the tracker for the next comment
+        }
+        catch(Exception)
+        {
+            throw;
+        }
         return comment; //return the inputed comment info
     }
 
