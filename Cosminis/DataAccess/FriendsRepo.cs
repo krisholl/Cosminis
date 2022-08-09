@@ -26,7 +26,14 @@ public class FriendsRepo : IFriendsDAO
 
     public List<Friends> ViewAllFriends(int userIdToLookup)
     {
+        try
+        {
         User userToLookup = _context.Users.Find(userIdToLookup);
+
+        if(userToLookup == null)
+        {
+            throw new ResourceNotFound();
+        }
 
         IEnumerable<Friends> friendsQuery =
             (from Friends in _context.Friends
@@ -35,11 +42,9 @@ public class FriendsRepo : IFriendsDAO
 
         if(friendsQuery == null)
         {
-            throw new ResourceNotFound("This is one lonely user. At this point they should simply quit social media.");
+            throw new ResourceNotFound();
         }
-
-        try
-        {       
+               
             List<Friends> friendsList = friendsQuery.ToList();
             
             if(friendsList.Count() < 1)
@@ -49,7 +54,7 @@ public class FriendsRepo : IFriendsDAO
 
             return friendsList;
         }
-        catch(Exception E)
+        catch(ResourceNotFound)
         {
             throw;
         }                                  
@@ -58,11 +63,28 @@ public class FriendsRepo : IFriendsDAO
     public Friends FriendsByUserIds(int searchingUserId, int user2BeSearchedFor)
     {
         User searchingUser = _context.Users.Find(searchingUserId);
+        if(searchingUser == null)
+        {
+            throw new ResourceNotFound();
+        }
         User friend2BFound = _context.Users.Find(user2BeSearchedFor);
-
+        if(friend2BFound == null)
+        {
+            throw new ResourceNotFound();
+        }
         List<Friends> quieriedFriendsList = ViewAllFriends((int)searchingUser.UserId);
 
+        if(quieriedFriendsList == null)
+        {
+            throw new ResourceNotFound();
+        }
+
         List<Friends> searchedFriendsList = ViewAllFriends((int)friend2BFound.UserId);
+
+        if(searchedFriendsList == null)
+        {
+            throw new ResourceNotFound();
+        }
 
         Friends returnRelationship = new Friends();
 
@@ -79,7 +101,16 @@ public class FriendsRepo : IFriendsDAO
     public Friends EditFriendship(int editingUserID, int user2BeEdited, string status)//this does not delete removed/blocked friends. I may add this later.
     {   
         User editingUser = _context.Users.Find(editingUserID);
+        if(editingUser == null)
+        {
+            throw new ResourceNotFound();
+        }
+        
         User friend2BeEdited = _context.Users.Find(user2BeEdited);
+        if(friend2BeEdited == null)
+        {
+            throw new ResourceNotFound();
+        }
         
         Friends statusToBeEdited = FriendsByUserIds((int)editingUser.UserId, (int)friend2BeEdited.UserId);
 
@@ -127,6 +158,10 @@ public class FriendsRepo : IFriendsDAO
     public List<Friends> CheckRelationshipStatusByUserId(int searchingId, string status)
     {   
         User quieriedUser = _context.Users.Find(searchingId);
+        if(quieriedUser == null)
+        {
+            throw new ResourceNotFound();
+        }
 
         List<Friends> quieriedUsersList = ViewAllFriends((int)quieriedUser.UserId);
 

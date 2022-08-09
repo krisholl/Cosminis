@@ -25,11 +25,11 @@ public class FriendServices
             List<Friends> checkRelationship = _friendsRepo.GetAllRelationships();
             if(checkRelationship == null)
             {
-                throw new ResourceNotFound("No relationship with this Id exists.");
+                throw new ResourceNotFound();
             }
             return _friendsRepo.GetAllRelationships();
         }
-        catch (Exception E)
+        catch (ResourceNotFound)
         {
             throw;
         }
@@ -42,11 +42,11 @@ public class FriendServices
             Friends checkRelationship = _friendsRepo.SearchByRelationshipId(relationshipId);
             if(checkRelationship == null)
             {
-                throw new ResourceNotFound("No relationship with this Id exists.");
+                throw new ResourceNotFound();
             }
             return _friendsRepo.SearchByRelationshipId(relationshipId);
         }
-        catch (Exception E)
+        catch (ResourceNotFound)
         {
             throw;
         }
@@ -59,11 +59,11 @@ public class FriendServices
             List<Friends> checkRelationship = _friendsRepo.ViewRelationShipsByStatus(status);
             if(checkRelationship == null)
             {
-                throw new ResourceNotFound("No relationship with this status exists.");
+                throw new ResourceNotFound();
             }
             return _friendsRepo.ViewRelationShipsByStatus(status);
         }
-        catch (Exception E)
+        catch (ResourceNotFound)
         {
             throw;
         }
@@ -80,7 +80,7 @@ public class FriendServices
             }
             return _friendsRepo.FriendsByUserIds(searchingUserId, user2BeSearchedFor);
         }
-        catch (Exception E)
+        catch (ResourceNotFound)
         {
             throw;
         }
@@ -110,11 +110,11 @@ public class FriendServices
             List<Friends> checkRelationship = _friendsRepo.CheckRelationshipStatusByUserId(searchingId, status);
             if(checkRelationship == null)
             {
-                throw new ResourceNotFound("No relationship with this status exists.");
+                throw new ResourceNotFound();
             }
             return _friendsRepo.CheckRelationshipStatusByUserId(searchingId, status);
         }
-        catch (Exception E)
+        catch (ResourceNotFound)
         {
             throw;
         }
@@ -144,11 +144,11 @@ public class FriendServices
             List<Friends> checkRelationship = _friendsRepo.ViewAllFriends(userIdToLookup);
             if(checkRelationship == null)
             {
-                throw new ResourceNotFound("This user has no friends.");
+                throw new ResourceNotFound();
             }
             return _friendsRepo.ViewAllFriends(userIdToLookup);
         }
-        catch (Exception E)
+        catch (ResourceNotFound)
         {
             throw;
         }

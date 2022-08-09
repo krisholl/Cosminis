@@ -26,7 +26,7 @@ public class FriendsController
     	}
     	catch(ResourceNotFound)
         {
-            return Results.BadRequest("Something went very wrong here."); 
+            return Results.NotFound("Something went very wrong here."); 
         }	
     }
 
@@ -39,7 +39,7 @@ public class FriendsController
     	}
     	catch(ResourceNotFound)
         {
-            return Results.BadRequest("This user has no friends!!! Pretty sad for a social media website if you ask me... Definitely no Jimmy."); 
+            return Results.NotFound("This user has no friends!"); 
         }	
     }
 
@@ -52,7 +52,7 @@ public class FriendsController
     	}
     	catch(ResourceNotFound)
         {
-            return Results.BadRequest("This relationship does not exist."); 
+            return Results.NotFound("This relationship does not exist."); 
         }	
     }
 
@@ -65,7 +65,7 @@ public class FriendsController
     	}
     	catch(ResourceNotFound)
         {
-            return Results.BadRequest("Something went very wrong here."); 
+            return Results.NotFound("Something went very wrong here."); 
         }	
     }
 
@@ -78,7 +78,7 @@ public class FriendsController
     	}
     	catch(ResourceNotFound)
         {
-            return Results.BadRequest("This user has no relationships with this status."); 
+            return Results.NotFound("This information is not in our database."); 
         }	
     }  
 
@@ -91,7 +91,7 @@ public class FriendsController
     	}
     	catch(ResourceNotFound)
         {
-            return Results.BadRequest("These users have no established relationship."); 
+            return Results.NotFound("These users have no established relationship."); 
         }	
     }
 
@@ -104,7 +104,7 @@ public class FriendsController
     	}
     	catch(ResourceNotFound)
         {
-            return Results.BadRequest("These users have no established relationship."); 
+            return Results.NotFound("This user doesn't exist in our system."); 
         }	
     }    
 
@@ -147,7 +147,7 @@ public class FriendsController
     	}
         catch(ResourceNotFound)
         {
-            return Results.BadRequest("There is no user with this username in our system.");
+            return Results.NotFound("There is no user with this username in our system.");
         }
     	catch(DuplicateFriends)
         {
