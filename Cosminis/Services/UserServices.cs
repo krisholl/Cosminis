@@ -27,4 +27,16 @@ public class UserServices
             throw;
         }	
     }
+
+    public User SearchUserById(int userId)
+    {
+    	try
+    	{
+    		return _userRepo.GetUserByUserId(userId);
+    	}
+    	catch(ResourceNotFound)
+        {
+            throw;
+        }	
+    }
 }
