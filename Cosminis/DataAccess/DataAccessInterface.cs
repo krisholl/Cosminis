@@ -28,6 +28,14 @@ public interface IPostDAO
     public List<Post> GetPostsByUsername(string username);
 }
 
+public interface ICommentDAO
+{
+    public Comment SubmitComment(Comment comment);
+    public bool AddToPostOwner(Comment comment);
+    public List<Comment> GetCommentsByPostId(int postId);
+    public bool RemoveComment(int commentId);
+}
+
 
 public interface IResourceGen
 {

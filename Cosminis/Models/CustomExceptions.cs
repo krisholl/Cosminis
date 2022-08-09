@@ -99,3 +99,13 @@ public class PostsNotFound : Exception
         System.Runtime.Serialization.SerializationInfo info,
         System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 }
+
+public class CommentsNotFound : Exception 
+{
+    public CommentsNotFound() { }
+    public CommentsNotFound(string message) : base(message) { }
+    public CommentsNotFound(string message, System.Exception inner) : base(message, inner) { }
+    protected CommentsNotFound(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}
