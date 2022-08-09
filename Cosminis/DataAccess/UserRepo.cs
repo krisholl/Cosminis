@@ -4,6 +4,7 @@ using Models;
 using System.Data.SqlClient;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace DataAccess;
  
@@ -15,7 +16,7 @@ public class UserRepo : IUserDAO
     {
         _context = context;
     }
-
+    
     public User CreateUser(User user)
     {
         _context.Users.Add(user); //Add a new user into the table
@@ -33,5 +34,8 @@ public class UserRepo : IUserDAO
         return _context.Users.FirstOrDefault(user => user.Username == username) ?? throw new ResourceNotFound("No user with that username was found.");     
     }
 
-   
+    public User GetUserByUserId(int userId) //selects and returns all of the user information where table username = input username
+    {                                              
+        return _context.Users.FirstOrDefault(user => user.UserId == userId) ?? throw new ResourceNotFound("No user with that userId was found.");     
+    }
 }

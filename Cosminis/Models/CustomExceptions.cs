@@ -109,3 +109,23 @@ public class CommentsNotFound : Exception
         System.Runtime.Serialization.SerializationInfo info,
         System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 }
+
+public class StatusNotFound : Exception
+{
+    public StatusNotFound() { }
+    public StatusNotFound(string message) : base(message) { }
+    public StatusNotFound(string message, System.Exception inner) : base(message, inner) { }
+    protected StatusNotFound(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}
+
+public class DuplicateFriends : Exception
+{
+    public DuplicateFriends() { }
+    public DuplicateFriends(string message) : base(message) { }
+    public DuplicateFriends(string message, System.Exception inner) : base(message, inner) { }
+    protected DuplicateFriends(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}

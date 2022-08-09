@@ -10,8 +10,8 @@ namespace DataAccess.Entities
             Comments = new HashSet<Comment>();
             Companions = new HashSet<Companion>();
             FoodInventories = new HashSet<FoodInventory>();
-            FriendUserIdFromNavigations = new HashSet<Friend>();
-            FriendUserIdToNavigations = new HashSet<Friend>();
+            FriendUserIdFromNavigations = new HashSet<Friends>();
+            FriendUserIdToNavigations = new HashSet<Friends>();
             Posts = new HashSet<Post>();
             PostIdFks = new HashSet<Post>();
         }
@@ -27,8 +27,8 @@ namespace DataAccess.Entities
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Companion> Companions { get; set; }
         public virtual ICollection<FoodInventory> FoodInventories { get; set; }
-        public virtual ICollection<Friend> FriendUserIdFromNavigations { get; set; }
-        public virtual ICollection<Friend> FriendUserIdToNavigations { get; set; }
+        public virtual ICollection<Friends> FriendUserIdFromNavigations { get; set; }
+        public virtual ICollection<Friends> FriendUserIdToNavigations { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
 
         public virtual ICollection<Post> PostIdFks { get; set; }

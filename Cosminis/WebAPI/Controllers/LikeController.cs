@@ -24,6 +24,14 @@ public class LikeController
             _LikeServices.RemoveLikes(UserID, PostID);
             return Results.Accepted("/UnLiked");
         }
+        catch(ResourceNotFound)
+        {
+            return Results.NotFound("Either the user or the post does not exist");
+        }
+        catch(LikeDoesNotExist) //Now different exceptions have different behaviours 
+        {
+            return Results.NotFound("This user didn't like this post in the first place");
+        }
         catch(Exception e)
         {
             return Results.BadRequest(e.Message);
@@ -36,6 +44,14 @@ public class LikeController
         {
             return Results.Created("/Liked", _LikeServices.AddLikes(UserID, PostID));
         }
+        catch(ResourceNotFound)
+        {
+            return Results.NotFound("Either the user or the post does not exist");
+        }
+        catch(DuplicateLikes) //so David can STFU about it
+        {
+            return Results.Conflict("This post has already been liked by this user");
+        }
         catch(Exception e)
         {
             return Results.BadRequest(e.Message);
@@ -47,6 +63,10 @@ public class LikeController
         try
         {
             return Results.Accepted("LikeCount",_LikeServices.LikeCount(PostID));
+        }
+        catch(ResourceNotFound)
+        {
+            return Results.NotFound("Either the user or the post does not exist");
         }
         catch(Exception e)
         {

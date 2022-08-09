@@ -21,7 +21,7 @@ namespace DataAccess.Entities
         public virtual DbSet<FoodElement> FoodElements { get; set; } = null!;
         public virtual DbSet<FoodInventory> FoodInventories { get; set; } = null!;
         public virtual DbSet<FoodStat> FoodStats { get; set; } = null!;
-        public virtual DbSet<Friend> Friends { get; set; } = null!;
+        public virtual DbSet<Friends> Friends { get; set; } = null!;
         public virtual DbSet<Post> Posts { get; set; } = null!;
         public virtual DbSet<Species> Species { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
@@ -163,7 +163,7 @@ namespace DataAccess.Entities
                     .HasConstraintName("FK__foodStats__foodE__00200768");
             });
 
-            modelBuilder.Entity<Friend>(entity =>
+            modelBuilder.Entity<Friends>(entity =>
             {
                 entity.HasKey(e => e.RelationshipId)
                     .HasName("PK__friends__4BCCCED70F129545");
