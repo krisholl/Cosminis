@@ -18,13 +18,20 @@ public class CommentServices
         _resourceRepo = resourceRepo;
     }
 
-    public Comment SubmitCommentResourceGen(Comment comment)
+    public Comment SubmitCommentResourceGen(int commenterID, int postsID, string content)
     {
+        Comment newComment = new Comment()
+        {
+            UserIdFk = commenterID,
+            PostIdFk = postsID,
+            Content = content
+        };
+
     	User shellUser = new User();
-    	shellUser.UserId = comment.UserIdFk; //this sets the shellUser's id to the comment's useridkfk, now shellUser actually has some useful info (a user ID) 
+    	shellUser.UserId = newComment.UserIdFk; //this sets the shellUser's id to the comment's useridkfk, now shellUser actually has some useful info (a user ID) 
 
     	int goldToAdd = 0;
-    	int charCount = comment.Content.Length;  //gets the length of each comment's content
+    	int charCount = newComment.Content.Length;  //gets the length of each comment's content
 
         if (charCount <= 10)
         {
@@ -40,10 +47,10 @@ public class CommentServices
     	}
  	
         _resourceRepo.AddGold(shellUser, goldToAdd);
-        _commentRepo.AddToPostOwner(comment);
+        _commentRepo.AddToPostOwner(newComment);
         try
         {
-            return _commentRepo.SubmitComment(comment);
+            return _commentRepo.SubmitComment(newComment);
         }
         catch(Exception)
         {

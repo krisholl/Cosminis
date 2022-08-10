@@ -80,9 +80,9 @@ app.MapPost("/submitPost", (string Content, int PosterID, PostController control
 	return controller.SubmitPostResourceGen(Content, PosterID);
 });
 
-app.MapPost("/submitComment", (Comment comment, CommentController controller) =>
+app.MapPost("/submitComment", (int commenterID, int postsID, string content, CommentController controller) =>
 {
-	return controller.SubmitCommentResourceGen(comment);
+	return controller.SubmitCommentResourceGen(commenterID, postsID, content);
 });
 
 app.MapGet("/companions/GetAll", (CompanionController CompControl) => 
