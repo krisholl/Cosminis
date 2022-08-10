@@ -75,9 +75,9 @@ app.MapPost("/createUser", (User user, IUserDAO repo) => //to be replaced by reg
 	return repo.CreateUser(user);
 });*/
 
-app.MapPost("/submitPost", (Post post, PostController controller) => 
+app.MapPost("/submitPost", (string Content, int PosterID, PostController controller) => 
 {
-	return controller.SubmitPostResourceGen(post);
+	return controller.SubmitPostResourceGen(Content, PosterID);
 });
 
 app.MapPost("/submitComment", (Comment comment, CommentController controller) =>

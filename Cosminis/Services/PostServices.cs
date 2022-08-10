@@ -18,13 +18,18 @@ public class PostServices
         _resourceRepo = resourceRepo;
     }
 
-    public Post SubmitPostResourceGen(Post post)
+    public Post SubmitPostResourceGen(string Content, int PosterID)
     {
+        Post newPost = new Post()
+        {
+            Content = Content,
+            UserIdFk = PosterID
+        };
     	User shellUser = new User();
-    	shellUser.UserId = post.UserIdFk; //this sets the shellUser's id to the post's useridkfk, now shellUser actually has some useful info (a user ID) 
+    	shellUser.UserId = newPost.UserIdFk; //this sets the shellUser's id to the post's useridkfk, now shellUser actually has some useful info (a user ID) 
 
     	int goldToAdd = 0;
-    	int charCount = post.Content.Length;  //gets the length of each post's content
+    	int charCount = newPost.Content.Length;  //gets the length of each post's content
 
         if (charCount <= 10)
         {
@@ -40,7 +45,7 @@ public class PostServices
     	}
  	
        _resourceRepo.AddGold(shellUser, goldToAdd);
-       return _postRepo.SubmitPost(post);
+       return _postRepo.SubmitPost(newPost);
     }
 
     public List<Post> GetPostsByUserId(int userId)
