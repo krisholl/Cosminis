@@ -28,14 +28,36 @@ public class PostServices
     	User shellUser = new User();
     	shellUser.UserId = newPost.UserIdFk; //this sets the shellUser's id to the post's useridkfk, now shellUser actually has some useful info (a user ID) 
 
-    	int goldToAdd = 0;
+    	int Weight = 30;
+        int goldToAdd = 0;
     	int charCount = newPost.Content.Length;  //gets the length of each post's content
+
+        if (charCount <= 10) //linear scaling
+        {
+        	Weight = 20; //exponential scaling
+        }
+        else if (charCount <= 50)
+        {
+        	Weight = 40;
+        }
+        else if (charCount <= 90)
+        {
+        	Weight = 80;
+        }
+    	else if (charCount <= 130)
+    	{
+    		Weight = 160;
+    	}
+        else if (charCount > 140)
+    	{
+    		Weight = 320;
+    	}
 
         if (charCount <= 10)
         {
         	goldToAdd = 0;
         }
-        else if (charCount > 10 && charCount <= 80)
+        else if (charCount <= 80)
         {
         	goldToAdd = 5;
         }
@@ -43,9 +65,22 @@ public class PostServices
     	{
     		goldToAdd = 10;
     	}
- 	
-       _resourceRepo.AddGold(shellUser, goldToAdd);
-       return _postRepo.SubmitPost(newPost);
+
+        if(!_resourceRepo.AddFood(shellUser, Weight))
+        {
+            throw new ResourceNotFound("Something had gone wrong when adding food, your companion boutta starve");
+        }
+
+        try
+        {
+            _resourceRepo.AddGold(shellUser, goldToAdd);
+        }
+        catch(Exception)
+        {
+            throw;
+        }
+        
+        return _postRepo.SubmitPost(newPost);
     }
 
     public List<Post> GetPostsByUserId(int userId)

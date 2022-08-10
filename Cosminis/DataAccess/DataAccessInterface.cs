@@ -55,7 +55,7 @@ public interface IResourceGen
 {
     public bool AddGold(User User, int Amount);
     public bool AddEgg(User User, int Amount);
-    public bool AddFood(User User, int Amount, FoodStat Food2Add);
+    public bool AddFood(User User, int Weight);
 }
 /* Currently unnecessary code
 public interface ISpeciesDAO
