@@ -26,7 +26,7 @@ env:
 
 on:
   workflow_run:
-    workflows: ["continoue integration"]
+    workflows: ["CI"]
     types:
       - completed
   workflow_dispatch:
