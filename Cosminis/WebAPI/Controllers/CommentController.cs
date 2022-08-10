@@ -17,19 +17,19 @@ public class CommentController
         _commentServices = commentServices;
     }
 
-    public IResult SubmitCommentResourceGen(Comment comment)
+    public IResult SubmitCommentResourceGen(int commenterID, int postsID, string content)
     { 
-        if (String.IsNullOrWhiteSpace(comment.Content) || String.IsNullOrEmpty(comment.Content)) 
+        if (String.IsNullOrWhiteSpace(content) || String.IsNullOrEmpty(content)) 
         {
             return Results.BadRequest("Cannot have an empty comment"); 
         }
-        if (comment.Content.Length > 255) 
+        if (content.Length > 255) 
         {
             return Results.Conflict("Comments' content cannot be greater than 255 characters."); //processing the request would create a conflict within the resource
         }
         try
         {
-            Comment commentInfo = _commentServices.SubmitCommentResourceGen(comment);
+            Comment commentInfo = _commentServices.SubmitCommentResourceGen(commenterID, postsID, content);
             return Results.Created("/submitComment", commentInfo);   
         }
         catch(ResourceNotFound)
