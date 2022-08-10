@@ -76,21 +76,25 @@ public class ResourceRepo : IResourceGen
             return false; //if somehow the while loop failed, return exit failure
         }
 
-        if(seed<=30) //May the RNGesus bless you
+        if(seed <= 10) //May the RNGesus bless you
+        {
+            Amount = 0;
+        }
+        else if(seed<= 30) //this is also exponential scaling, STFU
         {
             Amount = 1;
         }
-        else if(seed<=60)
+        else if(seed<= 90)
         {
             Amount = 2;
         }
-        else if(seed>=60)
+        else if(seed<= 270)
         {
             Amount = 3;
         }
         else
         {
-            Amount = 1;
+            Amount = 0;
         }
 
         FoodInventory Inventory2Add2 = 

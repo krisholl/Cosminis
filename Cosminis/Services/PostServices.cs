@@ -32,21 +32,25 @@ public class PostServices
         int goldToAdd = 0;
     	int charCount = newPost.Content.Length;  //gets the length of each post's content
 
-        if (charCount <= 10)
+        if (charCount <= 10) //linear scaling
         {
-        	Weight = 10;
+        	Weight = 20; //exponential scaling
         }
-        else if (charCount <= 30)
+        else if (charCount <= 50)
         {
-        	Weight = 50;
+        	Weight = 40;
         }
-        else if (charCount <= 80)
+        else if (charCount <= 90)
         {
         	Weight = 80;
         }
-    	else if (charCount > 80)
+    	else if (charCount <= 130)
     	{
-    		Weight = 100;
+    		Weight = 160;
+    	}
+        else if (charCount > 140)
+    	{
+    		Weight = 320;
     	}
 
         if (charCount <= 10)
