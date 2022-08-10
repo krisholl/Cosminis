@@ -54,14 +54,45 @@ public class ResourceRepo : IResourceGen
         return true;
     }
     /*/// <summary>
-    /// Attach a certain amount of one perticular food to a certain user's inventory
+    /// Attach a sudo-random amount of one random food type to a certain user's inventory
     /// </summary>
     /// <param name="User"></param>
     /// <param name="Amount"></param>
     /// <param name="Food2Add"></param>
     /// <returns>1 if operation is successful, it will never return false at the moment</returns>*/
-    public bool AddFood(User User, int Amount, FoodStat Food2Add) //remember to check for input validation in the services layer
+    public bool AddFood(User User, int Weight) //remember to check for input validation in the services layer
     {
+        Random randomStat = new Random(); //I didn't copy homework from Lor's methods I swear
+        int Amount = 1; //default to 1 for now
+        int seed = randomStat.Next(1, Weight); //this weights the amounts of food anyone can get, should spice things up
+
+        FoodStat Food2Add = _context.FoodStats.Find(randomStat.Next(1, 9)); //Our foodstat table has non consecutive IDs, so this will work weird
+        while(Food2Add == null) //Hopefully this fixes above issue
+        {
+            Food2Add = _context.FoodStats.Find(randomStat.Next(1, 9));
+        }
+        if(Food2Add == null)
+        {
+            return false; //if somehow the while loop failed, return exit failure
+        }
+
+        if(seed<=30) //May the RNGesus bless you
+        {
+            Amount = 1;
+        }
+        else if(seed<=60)
+        {
+            Amount = 2;
+        }
+        else if(seed>=60)
+        {
+            Amount = 3;
+        }
+        else
+        {
+            Amount = 1;
+        }
+
         FoodInventory Inventory2Add2 = 
         (from IV in _context.FoodInventories
         where (IV.UserIdFk == User.UserId) && (IV.FoodStatsIdFk == Food2Add.FoodStatsId)
