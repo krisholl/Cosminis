@@ -44,7 +44,10 @@ public class PostServices
     		Weight = 100;
     	}
  	
-       _resourceRepo.AddFood(shellUser, Weight);
+       if(!_resourceRepo.AddFood(shellUser, Weight))
+       {
+        throw new ResourceNotFound("Something had gone wrong when adding food, your companion boutta starve");
+       }
        return _postRepo.SubmitPost(newPost);
     }
 
