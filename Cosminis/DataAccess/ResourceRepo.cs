@@ -121,4 +121,9 @@ public class ResourceRepo : IResourceGen
         _context.ChangeTracker.Clear(); //clear the tracker for the next person
         return true;
     }
+
+    public bool RemoveFood(int UserID, int FoodID)
+    {
+        return false;
+    }
 }
