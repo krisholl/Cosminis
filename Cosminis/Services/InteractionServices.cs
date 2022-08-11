@@ -39,6 +39,9 @@ public class InteractionService
         //feed companion
 
         //Exponential decay with reroll chance on the y axis and mood on the x axis, such that the higher mood will result in lower chance of rerolling
+        //100e^(-0.05x) where x is the mood value
+        //random value that off sets between [-10,10]
+        //bool reroll = Random.Next(100) < 
         //re-roll emotion
         //you need to write a two page mathematical proof to make sure the chance decreases with higher mood value or we not going to approve you on github
         return false;
