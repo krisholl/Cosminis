@@ -122,8 +122,18 @@ public class ResourceRepo : IResourceGen
         return true;
     }
 
+    /// <summary>
+    /// Remove a certain amount of food from the food inventory attached to the user
+    /// </summary>
+    /// <param name="UserID"></param>
+    /// <param name="FoodID"></param>
+    /// <returns></returns>
     public bool RemoveFood(int UserID, int FoodID)
     {
+        //retrieves the user object from the User table with the given UserID
+        //check the foodInventory table to see if the such junction table exists
+        //if yes: -1 from the food count and return true
+        //if not: return false
         return false;
     }
 }

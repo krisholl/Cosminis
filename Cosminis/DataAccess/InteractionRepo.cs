@@ -11,7 +11,7 @@ namespace DataAccess;
 //Need showcase comapnion in user table
 //Need mood value in companion table
 //remove food from resource 
-//Feed pet and rerolling mood
+//Feed pet and rerolling Emotion
 //Lower hunger in services
     //The showcased companion gets hungry faster
 
@@ -19,7 +19,7 @@ namespace DataAccess;
         //if feeding own companion: 
         //if feeding freinds companion: 
         //if feeding strangers companion:
-public class InteractionRepo
+public class InteractionRepo : Interactions
 {
     /// <summary>
     /// Method that modify the mood value of a particular companion
@@ -54,7 +54,7 @@ public class InteractionRepo
     /// </summary>
     /// <param name="companionID"></param>
     /// <param name="amount"></param>
-    public bool RollCompanionMood(int companionID)
+    public bool RollCompanionEmotion(int companionID)
     {
         //Retrieve companion object from database by the given CompanionID
         //Roll a weighted die to determine the companion Mood
