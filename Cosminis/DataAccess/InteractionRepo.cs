@@ -7,18 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace DataAccess;
-//check FoodInventory by userID methods
-//Need showcase comapnion in user table
-//Need mood value in companion table
-//remove food from resource 
-//Feed pet and rerolling Emotion
-//Lower hunger in services
-    //The showcased companion gets hungry faster
 
-//check if the companion belong to the feeder/petter
-        //if feeding own companion: 
-        //if feeding freinds companion: 
-        //if feeding strangers companion:
 public class InteractionRepo : Interactions
 {
     /// <summary>
@@ -57,9 +46,11 @@ public class InteractionRepo : Interactions
     public bool RollCompanionEmotion(int companionID)
     {
         //Retrieve companion object from database by the given CompanionID
-        //Roll a weighted die to determine the companion Mood
+        //Roll a weighted die
+        //Use the result of the weighted die to determine the quality of the companion's emotion
         //The weight is based on the companion's mood value
-        //Modify the mood type
+        //Use that quality to query the chart of emotions
+        //set companion emotion equal to the resulting key
         //save changes
         //return true after successful operation   
         return false;
@@ -128,5 +119,19 @@ public class InteractionRepo : Interactions
         //Set the showcase companion value in the user table to the given companionID 
         //return true after successful operation  
         return false;
+    }
+
+    public string PullConvo(int CompanionID)
+    {
+        string returnString = "Network error, go bother your ISP";
+
+        //Retrieve companion object from database by the given CompanionID
+        //Check for 1.Companion's species/element 2.Companion's Mood
+        //Retrieve A list of conversation that matches the given species.
+        //Pull from that list, ONE random conversation based on the mood of the companion
+        //If the companion has a high mood value, it should be more likely that a high quality conversation gets chosen
+        //return the conversation as string
+
+        return returnString;
     }
 }

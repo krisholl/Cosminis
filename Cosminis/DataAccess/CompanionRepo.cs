@@ -20,14 +20,15 @@ public class CompanionRepo : ICompanionDAO
     public Companion GenerateCompanion(int userIdInput)
     {
         Random randomCreature = new Random();
-        int creatureRoulette = randomCreature.Next(1,6);        
+        int creatureRoulette = randomCreature.Next(3,9);        
         
         Companion newCompanion = new Companion()
         {
             UserFk = userIdInput,
             SpeciesFk = creatureRoulette,
-            Mood = SetCompanionMood(),
+            Emotion = SetCompanionMood(),
             Hunger = 100,
+            Mood = 75,
             CompanionBirthday = DateTime.Now
         };
         _context.Companions.Add(newCompanion);
@@ -39,42 +40,12 @@ public class CompanionRepo : ICompanionDAO
         return newCompanion;                                                        
     }
     
-    public string SetCompanionMood()
+    public int SetCompanionMood()
     {
         Random randomMood = new Random();
-        int companionMood = randomMood.Next(7);
+        int companionMood = randomMood.Next(1,4);
 
-        string setMood = "Happy";
-
-        switch(companionMood) 
-        {
-        case 0:
-            setMood = MoodCompanion.Happy.ToString();
-            break;
-        case 1:
-            setMood = MoodCompanion.Sad.ToString();
-            break;
-        case 2:
-            setMood = MoodCompanion.Angry.ToString();
-            break;
-        case 3:
-            setMood = MoodCompanion.Tired.ToString();
-            break;
-        case 4:
-            setMood = MoodCompanion.Anxious.ToString();
-            break;
-        case 5:
-            setMood = MoodCompanion.Excited.ToString();
-            break;
-        case 6:
-            setMood = MoodCompanion.Chill.ToString();
-            break;        
-        default:
-            setMood = MoodCompanion.Happy.ToString();
-            break;
-        };
-
-        return setMood;
+        return companionMood;
     }
 
     public Companion SetCompanionNickname(int companionId, string? nickname)

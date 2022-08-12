@@ -7,7 +7,7 @@ namespace DataAccess;
 public interface ICompanionDAO
 {
     public Companion GenerateCompanion(int userIdInput);
-    public string SetCompanionMood();
+    public int SetCompanionMood();
     public Companion SetCompanionNickname(int companionId, string? nickname);
     public List<Companion> GetAllCompanions();
     public List<Companion> GetCompanionByUser(int userId);
@@ -67,6 +67,7 @@ public interface Interactions
     public bool FeedCompanion(int feederID, int companionID, int foodID);
     public bool PetCompanion(int petterID, int companionID);
     public bool ShowCaseCompanion(int userID, int companionID);
+    public string PullConvo(int CompanionID);
 }
 
 public interface ILikeIt //I hate this (jkjk i love this but I thought the joke was funny XDXD)

@@ -15,6 +15,9 @@ public class InteractionService
         //int minutes = DateTime.Now - Companion.TimeSinceLastChangedMood, remember to update this time each moment it is updated
         //mood value decreases over time 
         //Retrieve the companion object from the database using the the method GetCompanionByCompanionId()
+        //check if the companion is being showcased
+        //if yes: Modify the amount appropriately such that the showcases companion has their mood decrease at a slower rate
+        //if not: Go on
         //Check the last time it has been modified
         //do arithmetic to determine the amount of time (in minutes) that has passed since last time 
         //reduce companion mood base the time that has passed since last time
@@ -25,6 +28,9 @@ public class InteractionService
         //int minutes = DateTime.Now - Companion.TimeSinceLastChangedHunger, remember to update this time each moment it is updated
         //hunger decreases over time
         //Retrieve the companion object from the database using the the method GetCompanionByCompanionId()
+        //check if the companion is being showcased
+        //if yes: Modify the amount appropriately such that the showcases companion has their hunger decrease at a more rapid rate
+        //if not: Go on
         //Check the last time it has been modified
         //do arithmetic to determine the amount of time (in minutes) that has passed since last time 
         //reduce companion hunger base the time that has passed since last time 
@@ -43,7 +49,8 @@ public class InteractionService
         //random value that off sets between [-10,10]
         //bool reroll = Random.Next(100) < 
         //re-roll emotion
-        //you need to write a two page mathematical proof to make sure the chance decreases with higher mood value or we not going to approve you on github
+        //If friend or stranger, make post [Companions user_FK]; if it is your own, pat yourself on the back.
+        //define post properties (This person came up and feed my companion!).
         return false;
     }
     public bool PetCompanion(int petterID, int companionID)
@@ -61,5 +68,10 @@ public class InteractionService
     public bool ShowCaseCompanion(int userID, int companionID)
     {
         return false;
+    }
+
+    public string PullConvo(int CompanionID)
+    {
+        //return _InterationsRepo.PullConvo(int CompanionID);
     }
 }

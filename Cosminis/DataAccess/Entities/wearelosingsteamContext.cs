@@ -19,6 +19,7 @@ namespace DataAccess.Entities
         public virtual DbSet<Comment> Comments { get; set; } = null!;
         public virtual DbSet<Companion> Companions { get; set; } = null!;
         public virtual DbSet<Conversation> Conversations { get; set; } = null!;
+        public virtual DbSet<EmotionChart> EmotionCharts { get; set; } = null!;
         public virtual DbSet<FoodElement> FoodElements { get; set; } = null!;
         public virtual DbSet<FoodInventory> FoodInventories { get; set; } = null!;
         public virtual DbSet<FoodStat> FoodStats { get; set; } = null!;
@@ -48,13 +49,13 @@ namespace DataAccess.Entities
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.PostIdFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__comments__postId__7E02B4CC");
+                    .HasConstraintName("FK__comments__postId__3BFFE745");
 
                 entity.HasOne(d => d.UserIdFkNavigation)
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.UserIdFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__comments__userId__7D0E9093");
+                    .HasConstraintName("FK__comments__userId__3B0BC30C");
             });
 
             modelBuilder.Entity<Companion>(entity =>
@@ -67,12 +68,13 @@ namespace DataAccess.Entities
                     .HasColumnType("datetime")
                     .HasColumnName("companion_birthday");
 
+                entity.Property(e => e.Emotion).HasColumnName("emotion");
+
                 entity.Property(e => e.Hunger).HasColumnName("hunger");
 
                 entity.Property(e => e.Mood)
-                    .HasMaxLength(8)
-                    .IsUnicode(false)
-                    .HasColumnName("mood");
+                    .HasColumnName("mood")
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Nickname)
                     .HasMaxLength(30)
@@ -91,17 +93,23 @@ namespace DataAccess.Entities
 
                 entity.Property(e => e.UserFk).HasColumnName("user_fk");
 
+                entity.HasOne(d => d.EmotionNavigation)
+                    .WithMany(p => p.Companions)
+                    .HasForeignKey(d => d.Emotion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__companion__emoti__214BF109");
+
                 entity.HasOne(d => d.SpeciesFkNavigation)
                     .WithMany(p => p.Companions)
                     .HasForeignKey(d => d.SpeciesFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__companion__speci__662B2B3B");
+                    .HasConstraintName("FK__companion__speci__2057CCD0");
 
                 entity.HasOne(d => d.UserFkNavigation)
                     .WithMany(p => p.Companions)
                     .HasForeignKey(d => d.UserFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__companion__user___65370702");
+                    .HasConstraintName("FK__companion__user___1F63A897");
             });
 
             modelBuilder.Entity<Conversation>(entity =>
@@ -123,7 +131,24 @@ namespace DataAccess.Entities
                     .WithMany(p => p.Conversations)
                     .HasForeignKey(d => d.SpeciesFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__conversat__speci__04AFB25B");
+                    .HasConstraintName("FK__conversat__speci__251C81ED");
+            });
+
+            modelBuilder.Entity<EmotionChart>(entity =>
+            {
+                entity.HasKey(e => e.EmotionId)
+                    .HasName("PK__emotionC__F10B87226AB66518");
+
+                entity.ToTable("emotionChart", "WALS_P2");
+
+                entity.Property(e => e.EmotionId).HasColumnName("emotionId");
+
+                entity.Property(e => e.Emotion)
+                    .HasMaxLength(12)
+                    .IsUnicode(false)
+                    .HasColumnName("emotion");
+
+                entity.Property(e => e.Quality).HasColumnName("quality");
             });
 
             modelBuilder.Entity<FoodElement>(entity =>
@@ -141,7 +166,7 @@ namespace DataAccess.Entities
             modelBuilder.Entity<FoodInventory>(entity =>
             {
                 entity.HasKey(e => new { e.UserIdFk, e.FoodStatsIdFk })
-                    .HasName("PK__foodInve__410828EC05F67191");
+                    .HasName("PK__foodInve__410828ECDA0EC007");
 
                 entity.ToTable("foodInventory", "WALS_P2");
 
@@ -155,19 +180,19 @@ namespace DataAccess.Entities
                     .WithMany(p => p.FoodInventories)
                     .HasForeignKey(d => d.FoodStatsIdFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__foodInven__foodS__6EC0713C");
+                    .HasConstraintName("FK__foodInven__foodS__2CBDA3B5");
 
                 entity.HasOne(d => d.UserIdFkNavigation)
                     .WithMany(p => p.FoodInventories)
                     .HasForeignKey(d => d.UserIdFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__foodInven__userI__6DCC4D03");
+                    .HasConstraintName("FK__foodInven__userI__2BC97F7C");
             });
 
             modelBuilder.Entity<FoodStat>(entity =>
             {
                 entity.HasKey(e => e.FoodStatsId)
-                    .HasName("PK__foodStat__0E4BD16BAEF0F536");
+                    .HasName("PK__foodStat__0E4BD16BD7D39B64");
 
                 entity.ToTable("foodStats", "WALS_P2");
 
@@ -191,13 +216,13 @@ namespace DataAccess.Entities
                     .WithMany(p => p.FoodStats)
                     .HasForeignKey(d => d.FoodElementFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__foodStats__foodE__00200768");
+                    .HasConstraintName("FK__foodStats__foodE__28ED12D1");
             });
 
             modelBuilder.Entity<Friends>(entity =>
             {
                 entity.HasKey(e => e.RelationshipId)
-                    .HasName("PK__friends__4BCCCED779FCA805");
+                    .HasName("PK__friends__4BCCCED7CAD9CE39");
 
                 entity.ToTable("friends", "WALS_P2");
 
@@ -216,13 +241,13 @@ namespace DataAccess.Entities
                     .WithMany(p => p.FriendUserIdFromNavigations)
                     .HasForeignKey(d => d.UserIdFrom)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__friends__userId___719CDDE7");
+                    .HasConstraintName("FK__friends__userId___2F9A1060");
 
                 entity.HasOne(d => d.UserIdToNavigation)
                     .WithMany(p => p.FriendUserIdToNavigations)
                     .HasForeignKey(d => d.UserIdTo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__friends__userId___72910220");
+                    .HasConstraintName("FK__friends__userId___308E3499");
             });
 
             modelBuilder.Entity<Post>(entity =>
@@ -242,7 +267,7 @@ namespace DataAccess.Entities
                     .WithMany(p => p.Posts)
                     .HasForeignKey(d => d.UserIdFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__posts__userId_fk__76619304");
+                    .HasConstraintName("FK__posts__userId_fk__345EC57D");
             });
 
             modelBuilder.Entity<Species>(entity =>
@@ -278,14 +303,14 @@ namespace DataAccess.Entities
                     .WithMany(p => p.Species)
                     .HasForeignKey(d => d.FoodElementIdFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__species__foodEle__37703C52");
+                    .HasConstraintName("FK__species__foodEle__14E61A24");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("users", "WALS_P2");
 
-                entity.HasIndex(e => e.Username, "UQ__users__F3DBC572BF9F7C3D")
+                entity.HasIndex(e => e.Username, "UQ__users__F3DBC5725D157966")
                     .IsUnique();
 
                 entity.Property(e => e.UserId).HasColumnName("userId");
@@ -324,17 +349,17 @@ namespace DataAccess.Entities
                 entity.HasOne(d => d.ShowcaseCompanionFkNavigation)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.ShowcaseCompanionFk)
-                    .HasConstraintName("FK__users__showcaseC__05A3D694");
+                    .HasConstraintName("FK__users__showcaseC__22401542");
 
                 entity.HasMany(d => d.PostIdFks)
                     .WithMany(p => p.UserIdFks)
                     .UsingEntity<Dictionary<string, object>>(
                         "Like",
-                        l => l.HasOne<Post>().WithMany().HasForeignKey("PostIdFk").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__likes__postId_fk__7A3223E8"),
-                        r => r.HasOne<User>().WithMany().HasForeignKey("UserIdFk").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__likes__userId_fk__793DFFAF"),
+                        l => l.HasOne<Post>().WithMany().HasForeignKey("PostIdFk").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__likes__postId_fk__382F5661"),
+                        r => r.HasOne<User>().WithMany().HasForeignKey("UserIdFk").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__likes__userId_fk__373B3228"),
                         j =>
                         {
-                            j.HasKey("UserIdFk", "PostIdFk").HasName("PK__likes__20D2FDE650DE4E7E");
+                            j.HasKey("UserIdFk", "PostIdFk").HasName("PK__likes__20D2FDE66C479B91");
 
                             j.ToTable("likes", "WALS_P2");
 

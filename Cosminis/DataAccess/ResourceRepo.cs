@@ -132,8 +132,8 @@ public class ResourceRepo : IResourceGen
     {
         //retrieves the user object from the User table with the given UserID
         //check the foodInventory table to see if the such junction table exists
-        //if yes: -1 from the food count and return true
-        //if not: return false
+        //if yes: -1 from the food count and return true, check if the count is zero BTW
+        //if not: throw a exception or return false
         return false;
     }
 }
