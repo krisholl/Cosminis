@@ -12,17 +12,17 @@ public class InteractionService
     //Honey wake up, it is time for you to write your dependacy injection!
     public bool SetCompanionMoodValue(int companionID, int amount)
     {
-        //int minutes = DateTime.Now - Companion.TimeSinceLastChangedMood
+        //int minutes = DateTime.Now - Companion.TimeSinceLastChangedMood, remember to update this time each moment it is updated
         //mood value decreases over time 
         //Retrieve the companion object from the database using the the method GetCompanionByCompanionId()
         //Check the last time it has been modified
         //do arithmetic to determine the amount of time (in minutes) that has passed since last time 
-        //reduce companion mood base the time that has passed since last time 
+        //reduce companion mood base the time that has passed since last time
         return false;
     }
     public bool SetCompanionHungerValue(int companionID, int amount)
     {
-        //int minutes = DateTime.Now - Companion.TimeSinceLastChangedHunger
+        //int minutes = DateTime.Now - Companion.TimeSinceLastChangedHunger, remember to update this time each moment it is updated
         //hunger decreases over time
         //Retrieve the companion object from the database using the the method GetCompanionByCompanionId()
         //Check the last time it has been modified

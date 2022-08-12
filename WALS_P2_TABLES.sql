@@ -8,6 +8,8 @@ create table WALS_P2.users(
 		goldCount int,
   		eggCount int,
   		eggTimer datetime not null,
+  		notifications int,
+  		aboutMe varchar(500),
   		primary key (userId)
  		);
 
@@ -18,8 +20,18 @@ create table WALS_P2.companions(
 		nickname varchar(30),
 		mood varchar(8) not null check (mood in ('Happy', 'Sad', 'Angry', 'Tired', 'Anxious', 'Excited', 'Chill')),
 		hunger int,
+		timeSinceLastChangedMood datetime,
+		timeSinceLastChangedHunger datetime,
 		companion_birthday datetime,
 		primary key (companionId)
+		);
+	
+create table WALS_P2.conversation(
+		conversationId int identity,
+		species_fk int not null foreign key references WALS_P2.species(speciesId),
+		quality int not null,
+		message varchar (50) not null,
+		primary key (conversationId)
 		);
 	
 create table WALS_P2.species(
@@ -92,14 +104,14 @@ create table WALS_P2.comments(
  * 
  * ^Force output dir part might not have the right syntax...
  * 
- */
+ */	
 insert into WALS_P2.foodStats (foodElement_fk, description, foodName, hungerRestore) values (6,'Wear floaties.', 'Devil Fruit', 50);		
 
 insert into WALS_P2.foodInventory (userId_fk, foodStatsId_fk, foodCount) values (2, 1, 10);
 
 select * from WALS_P2.users;
 
-drop table WALS_P2.posts;
+drop table WALS_P2.conversation;
 
 --Entries for POSTS--
 
@@ -165,7 +177,7 @@ insert into WALS_P2.foodStats (foodElement_fk, description, foodName, hungerRest
 
 --Entries for USERS--
 
-insert into WALS_P2.users (username, password, goldCount, eggCount) values ('WaterMelon', 'F1re', 2, 2);
+insert into WALS_P2.users (username, password, goldCount, eggCount, account_age, eggTimer) values ('WaterMelon', 'F1re', 2, 2, GETDATE(), GETDATE());
 
 insert into WALS_P2.users (username, password, goldCount, eggCount) values ('Bruh', 'BoIIIIIIIIIIIIII', 32, 27);
 
@@ -201,3 +213,11 @@ insert into WALS_P2.species (foodElementId_fk, speciesName, description, baseStr
 insert into WALS_P2.species (foodElementId_fk, speciesName, description, baseStr, baseDex, baseInt, elementType) values (6,'Cancer', 'Blursed friend.', 10, 10, 10, 'Dark');
 
 delete from WALS_P2.foodStats where foodStatsId = 4;
+
+create table WAL_P2.users;
+
+alter table WALS_P2.users drop column showcaseCompanion_fk;
+
+alter table WALS_P2.users add showcaseCompanion_fk int not null foreign key references WALS_P2.companions(companionId);
+
+alter table sublanguages.users drop constraint likes_cilantro;
