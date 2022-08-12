@@ -6,17 +6,13 @@ namespace DataAccess.Entities
 {
     public partial class Companion
     { 
-        public Companion()
-        {
-            
-        }
         public Companion(Models.CompanionMoodWithEnum Companion)
         {
             this.CompanionId = Companion.CompanionId;
             this.UserFk = Companion.UserFk;
             this.SpeciesFk = Companion.SpeciesFk;
             this.Nickname = Companion.Nickname;
-            this.Mood = Companion.MoodToString(Companion.Mood);
+            //this.Mood = Companion.MoodToString(Companion.Mood);
             this.Hunger = Companion.Hunger;
         }
 
@@ -25,7 +21,7 @@ namespace DataAccess.Entities
             return 
                 $"CreatureId: {this.CompanionId}, " + 
                 $"Nickname: {this.Nickname}, " + 
-                $"Mood: {this.Mood}, " + 
+                //$"Mood: {this.Mood}, " + 
                 $"Hunger: {this.Hunger}"; 
         }  
     }

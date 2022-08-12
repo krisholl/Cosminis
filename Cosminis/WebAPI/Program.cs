@@ -9,7 +9,7 @@ using Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<wearelosingsteamContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
+builder.Services.AddDbContext<wearelosingsteamContext>(options => options.UseSqlServer());
 builder.Services.AddScoped<ICompanionDAO, CompanionRepo>();
 builder.Services.AddScoped<IFriendsDAO, FriendsRepo>();
 builder.Services.AddScoped<IUserDAO, UserRepo>();

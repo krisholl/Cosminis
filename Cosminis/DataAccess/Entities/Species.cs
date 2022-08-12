@@ -8,6 +8,7 @@ namespace DataAccess.Entities
         public Species()
         {
             Companions = new HashSet<Companion>();
+            Conversations = new HashSet<Conversation>();
         }
 
         public int SpeciesId { get; set; }
@@ -21,5 +22,6 @@ namespace DataAccess.Entities
 
         public virtual FoodElement FoodElementIdFkNavigation { get; set; } = null!;
         public virtual ICollection<Companion> Companions { get; set; }
+        public virtual ICollection<Conversation> Conversations { get; set; }
     }
 }

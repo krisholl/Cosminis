@@ -7,7 +7,7 @@ namespace DataAccess;
 public interface ICompanionDAO
 {
     public Companion GenerateCompanion(int userIdInput);
-    public string SetCompanionMood();
+    public int SetCompanionMood();
     public Companion SetCompanionNickname(int companionId, string? nickname);
     public List<Companion> GetAllCompanions();
     public List<Companion> GetCompanionByUser(int userId);
@@ -56,13 +56,19 @@ public interface IResourceGen
     public bool AddGold(User User, int Amount);
     public bool AddEgg(User User, int Amount);
     public bool AddFood(User User, int Weight);
+    public bool RemoveFood(int UserID, int FoodID);
 }
-/* Currently unnecessary code
-public interface ISpeciesDAO
+
+public interface Interactions
 {
-    public Species GenerateBaseStats(int creatureId);
+    public bool SetCompanionMoodValue(int companionID, int amount);
+    public bool SetCompanionHungerValue(int companionID, int amount);
+    public bool RollCompanionEmotion(int companionID);
+    public bool FeedCompanion(int feederID, int companionID, int foodID);
+    public bool PetCompanion(int petterID, int companionID);
+    public bool ShowCaseCompanion(int userID, int companionID);
+    public string PullConvo(int CompanionID);
 }
-*/ 
 
 public interface ILikeIt //I hate this (jkjk i love this but I thought the joke was funny XDXD)
 {
