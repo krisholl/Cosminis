@@ -28,19 +28,19 @@ public class InteractionService
         Companion companionMoodToShift = _compRepo.GetCompanionByCompanionId(companionID); //grabbing the companion
         if(companionMoodToShift == null)                                         //checking null
         {
-            throw new ResourceNotFound();
+            throw new CompNotFound();
         }
-        
+        /*
         if(companionMoodToShift.Mood == null)
         {
             companionMoodToShift.Mood = 75;
         }           
 
-        if(companionMoodToShift.TimeSinceLastChangedMood == null)                //if this is the first instance, set it to now
+        if(companionMoodToShift.TimeSinceLastChangedMood == null)                
         {
             companionMoodToShift.TimeSinceLastChangedMood = DateTime.Now;     
         }
-
+        */
         try
         {
             TimeSpan minuteDifference = (TimeSpan)(DateTime.Now - companionMoodToShift.TimeSinceLastChangedMood);//diff between now and 'then'
@@ -165,10 +165,14 @@ public class InteractionService
         try
         {
             _interRepo.PetCompanion(userID, companionID);
-            if(userID == null || companionID == null)
+            if(userID == null)
             {
-                throw new ResourceNotFound();
+                throw new UserNotFound();
             }
+            if(companionID == null)
+            {
+                throw new CompNotFound();
+            }            
             return _interRepo.PetCompanion(userID, companionID);
         }
         catch (ResourceNotFound)

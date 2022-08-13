@@ -37,17 +37,26 @@ public class InteractionRepo : Interactions
         Companion companionToDepress = _context.Companions.Find(companionID);  //Get comp followed by checkifnull
         if(companionToDepress == null)
         {
-            throw new ResourceNotFound();
+            throw new CompNotFound();
         }
-        /*      
-        if(companionToDepress.Mood == null)
+        /*
+        if(companionToDepress.TimeSinceLastChangedMood == null)                //Maybe we don't need to worry about this from here out?
+        {
+            companionToDepress.TimeSinceLastChangedMood = DateTime.Now;     
+        }        
+        if(companionToDepress.Mood == null)                                                   //checking null
         {
             companionToDepress.Mood = 75;
-        } 
+        }        
         */
         bool companionShowcase = false;            //Setting this to check if showcase companion
 
         User companionUserCheck = _userRepo.GetUserByUserId(companionToDepress.UserFk);
+        if(companionUserCheck == null)
+        {
+            throw new UserNotFound();
+        }
+
         if(companionUserCheck.ShowcaseCompanionFk == companionToDepress.CompanionId)//Checking whether it is or not
         {
             companionShowcase = true;              //If this is true, mood decreases at a lessened rate
@@ -133,7 +142,7 @@ public class InteractionRepo : Interactions
     {
         Random randomEmotion = new Random();          //The weight is based on the companion's mood value (I'll also add current emotion as a mod) This may be hard to determine the best num
 
-        int baseEmotionRand = randomEmotion.Next(3, 4);
+        int baseEmotionRand = randomEmotion.Next(4, 7);
         int emotionToSet = 0;                         //This is the default state of the emotion to set, and is actually part of the random number generator seed
         int emotionToSetMod = 0;                      //This is a modifier to the result of the randomly generated number after it is generated based on the current mood
         int moodMod = 0;
@@ -141,8 +150,16 @@ public class InteractionRepo : Interactions
         Companion companionEmotionToSet = _compRepo.GetCompanionByCompanionId(companionID); //Grabbing the companion
         if(companionEmotionToSet == null)                                                   //Checking null
         {
-            throw new ResourceNotFound();
-        } 
+            throw new CompNotFound();
+        }
+        if(companionEmotionToSet.Emotion == null)                                                  //checking null
+        {
+            companionEmotionToSet.Emotion = 0;
+        }         
+        if(companionEmotionToSet.Mood == null)                                                   //checking null
+        {
+            companionEmotionToSet.Mood = 75;
+        }
 
         int emotionIdentifier = companionEmotionToSet.Emotion; //getting the current emotion of the companion so that we can create a modifer based on emotion quality
 
@@ -152,7 +169,7 @@ public class InteractionRepo : Interactions
         {      
             if(emotionToFind.Quality <= 2)                     //Modify tables based on current emotion state
             {
-                emotionToSetMod = -3;
+                emotionToSetMod = -2;
             }
             else if(emotionToFind.Quality <= 4)
             {
@@ -164,16 +181,16 @@ public class InteractionRepo : Interactions
             }
             else if(emotionToFind.Quality >= 7)
             {
-                emotionToSetMod = 3;
+                emotionToSetMod = 2;
             } 
 
             if(companionEmotionToSet.Mood <= 15)               //Modify tables based on current mood level
             {
-                moodMod = -4;
+                moodMod = -2;
             }
             else if(companionEmotionToSet.Mood <= 35)
             {
-                moodMod = -2;
+                moodMod = -1;
             }
             else if(companionEmotionToSet.Mood <= 50)
             {
@@ -181,11 +198,11 @@ public class InteractionRepo : Interactions
             }            
             else if(companionEmotionToSet.Mood <= 75)
             {
-                moodMod = 2;
+                moodMod = 1;
             }
             else if(companionEmotionToSet.Mood >= 85)
             {
-                moodMod = 4;
+                moodMod = 2;
             }   
 
             emotionToSet = baseEmotionRand + emotionToSetMod + moodMod; //Adding the mods! This is the big moment (I guess)
@@ -245,13 +262,18 @@ public class InteractionRepo : Interactions
         Companion companionToPet = _compRepo.GetCompanionByCompanionId(companionID); //grabbing the companion
         if(companionToPet == null)                                                   //checking null
         {
-            throw new ResourceNotFound();
+            throw new CompNotFound();
+        }
+        if(companionToPet.Mood == null)                                                   //checking null
+        {
+            companionToPet.Mood = 75;
+            RollCompanionEmotion(companionToPet.CompanionId);
         }
 
         User userToPet = _userRepo.GetUserByUserId(userID);  //grabbing the user
         if(userToPet == null)                                //checking null
         {
-            throw new ResourceNotFound();
+            throw new UserNotFound();
         }
 
         int moodToOffset = 0;
