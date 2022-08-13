@@ -30,12 +30,12 @@ public class InteractionService
         {
             throw new ResourceNotFound();
         }
-        /*
+        
         if(companionMoodToShift.Mood == null)
         {
             companionMoodToShift.Mood = 75;
         }           
-*/
+
         if(companionMoodToShift.TimeSinceLastChangedMood == null)                //if this is the first instance, set it to now
         {
             companionMoodToShift.TimeSinceLastChangedMood = DateTime.Now;     
@@ -160,15 +160,21 @@ public class InteractionService
         //define post properties (This person came up and feed my companion!).
         return false;
     }
-    public bool PetCompanion(int petterID, int companionID)
+    public bool PetCompanion(int userID, int companionID)
     {
-        //check what companion it is [GetCompanionByCompanionId()],
-        //check what user it is [GetUserByUserId()],
-        //compare user and companion to see if it is: 1. The users 2. A friend's, or 3. A stranger's,
-        
-        //invoke PetCompanion(companionId),
-        //If friend or stranger, make post [Companions user_FK]; if it is your own, pat yourself on the back.
-        //define post properties (This person came up and pet my companion!).
+        try
+        {
+            _interRepo.PetCompanion(userID, companionID);
+            if(userID == null || companionID == null)
+            {
+                throw new ResourceNotFound();
+            }
+            return _interRepo.PetCompanion(userID, companionID);
+        }
+        catch (ResourceNotFound)
+        {
+            throw;
+        }        
 
         return false;
     }

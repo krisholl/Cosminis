@@ -115,6 +115,16 @@ drop table WALS_P2.conversation;
 
 --Entries for POSTS--
 
+insert into WALS_P2.emotionChart (quality, emotion) values (10, 'Blissful');
+insert into WALS_P2.emotionChart (quality, emotion) values (1, 'Hostile');
+insert into WALS_P2.emotionChart (quality, emotion) values (3, 'Distant');
+insert into WALS_P2.emotionChart (quality, emotion) values (4, 'Inadequate');
+insert into WALS_P2.emotionChart (quality, emotion) values (6, 'Thankful');
+insert into WALS_P2.emotionChart (quality, emotion) values (8, 'Playful');
+insert into WALS_P2.emotionChart (quality, emotion) values (9, 'Inspired');
+
+--Entries for POSTS--
+
 insert into WALS_P2.posts (userId_fk, content) values (1, 'Hey everyone, this is my first post!');
 
 insert into WALS_P2.posts (userId_fk, content) values (5, 'My name is Jimmy and I really love this social app.');
