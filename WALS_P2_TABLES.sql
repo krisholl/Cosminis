@@ -230,4 +230,10 @@ alter table WALS_P2.users drop column showcaseCompanion_fk;
 
 alter table WALS_P2.users add showcaseCompanion_fk int not null foreign key references WALS_P2.companions(companionId);
 
+alter table WALS_P2.companions add TimeSinceLastFed datetime;
+
+alter table WALS_P2.companions add TimeSinceLastPet datetime;
+
+alter table WALS_P2.species drop column elementType;
+
 alter table sublanguages.users drop constraint likes_cilantro;
