@@ -221,10 +221,15 @@ public class InteractionRepo : Interactions
     public string PullConvo(int CompanionID)
     {
         string returnString = "Network error, go bother your ISP";
+        Companion companionToTalk = _context.Companions.Find(CompanionID);  //Retrieve companion object from database by the given CompanionID
 
-        //Retrieve companion object from database by the given CompanionID
-        //Check for 1.Companion's species/element 2.Companion's Mood
-        //Retrieve A list of conversation that matches the given species.
+        IEnumerable<Conversation> checkForSpecies = //copped this code whole sale from FriendsRepo
+            (from Conversation in _context.Conversations
+            where (Conversation.SpeciesFk == companionToTalk.SpeciesFk)
+            select Conversation);
+        List<Conversation> friendsList = checkForSpecies.ToList(); //Retrieve A list of conversation that matches the given species.
+
+        Random RNGjesusManifested = new Random();  
         //Pull from that list, ONE random conversation based on the mood of the companion
         //If the companion has a high mood value, it should be more likely that a high quality conversation gets chosen
         //return the conversation as string
