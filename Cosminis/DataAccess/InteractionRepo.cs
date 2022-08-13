@@ -528,20 +528,56 @@ public class InteractionRepo : Interactions
 
     public string PullConvo(int CompanionID)
     {
-        string returnString = "Network error, go bother your ISP";
         Companion companionToTalk = _context.Companions.Find(CompanionID);  //Retrieve companion object from database by the given CompanionID
+        if(companionToTalk==null)
+        {
+            throw new ResourceNotFound();
+        }
+        Random RNGjesusManifested = new Random();  
+        int offsetQual = 0; //[-3,3]
+        int baseQual = RNGjesusManifested.Next(3,8); //The PDF of this method aint gonna be continuous, but I am just too stupid to figure a decent way to implement a continuous distribution
+        if(companionToTalk.Mood<15) // 14*7=98
+        {
+            offsetQual = -3;
+        }
+        else if(companionToTalk.Mood<29)
+        {
+            offsetQual = -2;
+        }
+        else if(companionToTalk.Mood<43)
+        {
+            offsetQual = -1;
+        }
+        else if(companionToTalk.Mood<47)
+        {
+            offsetQual = 0;
+        }
+        else if(companionToTalk.Mood<71)
+        {
+            offsetQual = 1;
+        }
+        else if(companionToTalk.Mood<85)
+        {
+            offsetQual = 2;
+        }
+        else
+        {
+            offsetQual = 3;
+        }
+        int endQual = baseQual + offsetQual; //[0,10]
 
         IEnumerable<Conversation> checkForSpecies = //copped this code whole sale from FriendsRepo
             (from Conversation in _context.Conversations
-            where (Conversation.SpeciesFk == companionToTalk.SpeciesFk)
+            where (Conversation.SpeciesFk == companionToTalk.SpeciesFk) && (Conversation.Quality == endQual)
             select Conversation);
-        List<Conversation> friendsList = checkForSpecies.ToList(); //Retrieve A list of conversation that matches the given species.
-
-        Random RNGjesusManifested = new Random();  
-        //Pull from that list, ONE random conversation based on the mood of the companion
-        //If the companion has a high mood value, it should be more likely that a high quality conversation gets chosen
-        //return the conversation as string
-
-        return returnString;
+        Conversation endConvo = checkForSpecies.FirstOrDefault(); //Retrieve A list of conversation that matches the given species.
+        if(endConvo == null)
+        {
+            return "I want sometime for my self now, why don't you go touch some grass?";
+        }
+        else
+        {
+            return endConvo.Message;
+        }
     }
 }

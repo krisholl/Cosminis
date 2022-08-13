@@ -62,4 +62,20 @@ public class Interactroller
             return Results.BadRequest(e.Message);
         }
     }
+
+    public IResult PullConvo(int companionID)
+    {
+        try
+        {
+            return Results.Ok(_interactionService.PullConvo(companionID));
+        }
+        catch(ResourceNotFound)
+        {
+            return Results.NotFound();
+        }
+        catch(Exception e)
+        {
+            return Results.BadRequest(e.Message);
+        }
+    }
 }

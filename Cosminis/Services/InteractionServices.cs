@@ -266,7 +266,6 @@ public class InteractionService
 
     public string PullConvo(int companionID)
     {
-        return "Your ISP sucks";
-        //return _InterationsRepo.PullConvo(int CompanionID);
+        return _interRepo.PullConvo(companionID);
     }
 }
