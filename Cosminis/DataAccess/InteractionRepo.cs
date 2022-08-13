@@ -10,18 +10,94 @@ namespace DataAccess;
 
 public class InteractionRepo : Interactions
 {
+    private readonly wearelosingsteamContext _context;
+    private readonly IUserDAO _userRepo;
+    private readonly ICompanionDAO _compRepo;
+
+    public InteractionRepo(wearelosingsteamContext context, IUserDAO userRepo, ICompanionDAO compRepo)
+    {
+        _context = context;
+        _userRepo = userRepo;
+        _compRepo = compRepo;
+    }    
+
     /// <summary>
     /// Method that modify the mood value of a particular companion
     /// </summary>
     /// <param name="companionID"></param>
     /// <param name="amount"></param>
-    public bool SetCompanionMoodValue(int companionID, int amount)
+    public bool SetCompanionMoodValue(int companionID, int hungerDeterminer)
     {
-        
-        //Retrieve companion object from database by the given CompanionID
-        //Modify the mood value
-        //save changes
-        //return true after successful operation   
+        Random moodDecrementer = new Random();                                 //creating random number
+
+        int moodDecrementAmount = 1;                                           //This will be the amount that actually gets taken
+
+        int moodAdjust = moodDecrementer.Next(1, hungerDeterminer);            //"Weight" of moodDecrement determined by hungerlvl
+
+        Companion companionToDepress = _context.Companions.Find(companionID);  //Get comp followed by checkifnull
+        if(companionToDepress == null)
+        {
+            throw new ResourceNotFound();
+        }      
+
+        bool companionShowcase = false;            //Setting this to check if showcase companion
+
+        User companionUserCheck = _userRepo.GetUserByUserId(companionToDepress.UserFk);
+        if(companionUserCheck.ShowcaseCompanionFk == companionToDepress.CompanionId)//Checking whether it is or not
+        {
+            companionShowcase = true;              //If this is true, mood decreases at a lessened rate
+        }
+
+        try
+        {
+            if(moodAdjust <= 10)                   //Completely original numbers (this is "chance")
+            {
+                moodDecrementAmount = 1;           //Actually original numbers (this is "static amt")
+                if(companionShowcase == true)
+                {
+                    moodDecrementAmount = 0;
+                }
+            }
+            else if(moodAdjust <= 30)
+            {
+                moodDecrementAmount = 2;
+                if(companionShowcase == true)
+                {
+                    moodDecrementAmount = 1;
+                }
+            }
+            else if(moodAdjust <= 90)
+            {
+                moodDecrementAmount = 5;
+                if(companionShowcase == true)
+                {
+                    moodDecrementAmount = 3;
+                }
+            }
+            else if(moodAdjust <= 270)
+            {
+                moodDecrementAmount = 10;
+                if(companionShowcase == true)
+                {
+                    moodDecrementAmount = 5;
+                }
+            }
+
+            companionToDepress.Mood = companionToDepress.Mood - moodDecrementAmount; //adjust mood based on determined amount
+
+            companionToDepress.TimeSinceLastChangedMood = DateTime.Now;
+
+            _context.SaveChanges();
+
+            _context.ChangeTracker.Clear();
+
+            return true;
+        }
+        catch(Exception)
+        {
+            throw new ResourceNotFound();
+        }
+
         return false;
     }
 

@@ -129,3 +129,13 @@ public class DuplicateFriends : Exception
         System.Runtime.Serialization.SerializationInfo info,
         System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 }
+
+public class TooSoon : Exception
+{
+    public TooSoon() { }
+    public TooSoon(string message) : base(message) { }
+    public TooSoon(string message, System.Exception inner) : base(message, inner) { }
+    protected TooSoon(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}
