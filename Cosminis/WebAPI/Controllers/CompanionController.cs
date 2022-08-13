@@ -66,6 +66,14 @@ public class CompanionController
             int? createdCompanion = _service.HatchCompanion(username);
             return Results.Created("/companions/GenerateCompanion", createdCompanion);
         }
+        catch(UserNotFound)
+        {
+            return Results.BadRequest("There is no user with this ID");
+        }
+        catch(TooFewResources)
+        {
+            return Results.BadRequest("This user has no eggs");
+        }                
         catch(Exception)
         {
             return Results.BadRequest("Invalid Input");
