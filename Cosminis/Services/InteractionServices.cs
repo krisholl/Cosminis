@@ -13,11 +13,13 @@ public class InteractionService
     private readonly Interactions _interRepo;
     private readonly ICompanionDAO _compRepo;
     private readonly IUserDAO _userRepo;
-    public InteractionService(ICompanionDAO compRepo, Interactions interRepo, IUserDAO userRepo)
+    private readonly IPostDAO _PostRepo;
+    public InteractionService(ICompanionDAO compRepo, Interactions interRepo, IUserDAO userRepo, IPostDAO postRepo)
     {
         _interRepo = interRepo;
         _compRepo = compRepo;
         _userRepo = userRepo;
+        _PostRepo = postRepo;
     }   
     public bool SetCompanionMoodValue(int companionID, int amount)
     {
@@ -79,15 +81,58 @@ public class InteractionService
     }
     public bool FeedCompanion(int feederID, int companionID, int foodID)
     {
-        //feed companion
+        try
+        {
+            _interRepo.FeedCompanion(feederID, companionID, foodID); //first thing first
+        }
+        catch(Exception)
+        {
+            throw;
+        }
 
-        //Exponential decay with reroll chance on the y axis and mood on the x axis, such that the higher mood will result in lower chance of rerolling
-        //100e^(-0.05x) where x is the mood value
-        //random value that off sets between [-10,10]
-        //bool reroll = Random.Next(100) < 
-        //re-roll emotion
-        //If friend or stranger, make post [Companions user_FK]; if it is your own, pat yourself on the back.
-        //define post properties (This person came up and feed my companion!).
+        Random RNGjesusManifested = new Random();  
+        Companion checkingComp = _compRepo.GetCompanionByCompanionId(companionID);
+        if(checkingComp == null || checkingComp.Mood == null)
+        {
+            throw new ResourceNotFound();
+        }
+
+        int offSet = RNGjesusManifested.Next(-10,11);
+        double compMood = checkingComp.Mood ?? 75; //whoever set the mood and hunger to be nullable in the database needs to be condemned 
+        double chanceRR = (100 * Math.Exp(-0.05*compMood)) + offSet; //Maths
+        bool RR = (RNGjesusManifested.Next(100) < chanceRR); //see of the emotion gets re rolled
+        if(RR)
+        {
+            try
+            {
+                _interRepo.RollCompanionEmotion(companionID);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
+
+        if(checkingComp.UserFk != feederID) //If friend or stranger, make post [Companions user_FK]; if it is your own, pat yourself on the back.
+        {
+            Post Post = new Post()//define post properties (This person came up and feed my companion!).
+            {
+                UserIdFk = checkingComp.UserFk,
+                Content = "Someone fed my companion while I was away, thank you!"
+            };
+
+            try
+            {
+                _PostRepo.SubmitPost(Post);
+                return true;
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
+
+        //we gone all the way down here, operation must be completed successfully by now
         return false;
     }
     public bool PetCompanion(int petterID, int companionID)
