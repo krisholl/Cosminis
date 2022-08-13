@@ -10,6 +10,12 @@ namespace DataAccess;
 
 public class InteractionRepo : Interactions
 {
+    private readonly wearelosingsteamContext _context;
+
+    public InteractionRepo(wearelosingsteamContext context, IUserDAO userRepo, ICompanionDAO compRepo)
+    {
+        _context = context;
+    }  
     /// <summary>
     /// Method that modify the mood value of a particular companion
     /// </summary>
@@ -32,10 +38,16 @@ public class InteractionRepo : Interactions
     /// <param name="amount"></param>
     public bool SetCompanionHungerValue(int companionID, int amount)
     {
-        //Retrieve companion object from database by the given CompanionID
-        //Modify the hunger value
-        //save changes
-        return false;
+        Companion companionToStarve = _context.Companions.Find(companionID);  //Retrieve companion object from database by the given CompanionID
+        if(companionToStarve == null)
+        {
+            throw new ResourceNotFound();
+        }
+        companionToStarve.Hunger = companionToStarve.Hunger + amount;//Modify the hunger value
+        companionToStarve.TimeSinceLastChangedHunger = DateTime.Now;
+        _context.SaveChanges();//save changes
+        _context.ChangeTracker.Clear();
+        return true;
     }
 
     /// <summary>
