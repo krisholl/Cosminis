@@ -254,13 +254,19 @@ public class InteractionRepo : Interactions
             throw new TooSoon("Your buddy ain't hungy yet!");
         }
         
-        bool match = (species2check.FoodElementIdFk == food2Feed.FoodStatsId);
+        bool love = (species2check.FoodElementIdFk == food2Feed.FoodStatsId);
+        bool hate = (species2check.OpposingEle == food2Feed.FoodStatsId);
         int baseAmountHunger = 0; //neither of these numbers make any damm sense
         int baseAmountMood = 0; 
-        if(match)
+        if(love)
         {
             baseAmountHunger = RNGjesusManifested.Next(25,31);
             baseAmountMood = RNGjesusManifested.Next(25,31);
+        }
+        else if(hate)
+        {
+            baseAmountHunger = RNGjesusManifested.Next(-25,11);
+            baseAmountMood = RNGjesusManifested.Next(-25,11);
         }
         else
         {
@@ -270,7 +276,7 @@ public class InteractionRepo : Interactions
 
         double HungerModifier = 1;
         double MoodModifier = 1;
-        if(match) //I know all of these can be compress into the if else block above, I am keeping them seperated for my own sanity sake, STFU
+        if(love || hate) //I know all of these can be compress into the if else block above, I am keeping them seperated for my own sanity sake, STFU
         {
             HungerModifier = HungerModifier + RNGjesusManifested.NextDouble();
             MoodModifier = MoodModifier + RNGjesusManifested.NextDouble();
@@ -309,7 +315,7 @@ public class InteractionRepo : Interactions
 
         int moodAmount = 0;
         int hungerAmount = 0;
-        if(match) //I know all of these can be compress into the if else block above, I am keeping them seperated for my own sanity sake, STFU
+        if(love) //I know all of these can be compress into the if else block above, I am keeping them seperated for my own sanity sake, STFU
         {
             moodAmount = (int)Math.Ceiling(baseAmountMood*MoodModifier);
             hungerAmount = (int)Math.Ceiling(baseAmountHunger*HungerModifier);
