@@ -19,6 +19,7 @@ builder.Services.AddScoped<IResourceGen, ResourceRepo>();
 builder.Services.AddScoped<ILikeIt, LikeRepo>();
 builder.Services.AddScoped<Interactions,InteractionRepo>();
 
+builder.Services.AddScoped<ResourceServices>();
 builder.Services.AddScoped<CompanionServices>();
 builder.Services.AddScoped<FriendServices>();
 builder.Services.AddScoped<UserServices>();
@@ -27,6 +28,7 @@ builder.Services.AddScoped<CommentServices>();
 builder.Services.AddScoped<LikeServices>();
 builder.Services.AddScoped<InteractionService>();
 
+builder.Services.AddScoped<ResourceController>();
 builder.Services.AddScoped<CompanionController>();
 builder.Services.AddScoped<FriendsController>();
 builder.Services.AddScoped<UserController>();
@@ -66,6 +68,11 @@ app.MapGet("/postsBy/{userId}", (int userId, PostController controller) =>
 app.MapGet("/postsByUser/{username}", (string username, PostController controller) => 
 {
 	return controller.GetPostsByUsername(username);
+});
+
+app.MapGet("/foodsUnder/{userId}", (int userId, ResourceController controller) => 
+{
+	return controller.GetFoodInventoryByUserId(userId);
 });
 
 app.MapGet("/commentsUnder/{postId}", (int postId, CommentController controller) => 

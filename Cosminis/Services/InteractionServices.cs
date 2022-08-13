@@ -264,10 +264,9 @@ public class InteractionService
         return false;
     }
 
-    public string PullConvo(int CompanionID)
+    public string PullConvo(int companionID)
     {
         return "Your ISP sucks";
         //return _InterationsRepo.PullConvo(int CompanionID);
-        return "ServerError";
     }
 }
