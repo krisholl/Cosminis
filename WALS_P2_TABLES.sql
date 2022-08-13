@@ -109,7 +109,7 @@ insert into WALS_P2.foodStats (foodElement_fk, description, foodName, hungerRest
 
 insert into WALS_P2.foodInventory (userId_fk, foodStatsId_fk, foodCount) values (2, 1, 10);
 
-select * from WALS_P2.companions;
+select * from WALS_P2.species;
 
 drop table WALS_P2.conversation;
 
@@ -230,10 +230,28 @@ alter table WALS_P2.users drop column showcaseCompanion_fk;
 
 alter table WALS_P2.users add showcaseCompanion_fk int not null foreign key references WALS_P2.companions(companionId);
 
+alter table sublanguages.users drop constraint likes_cilantro;
+
+--These are for our changes right now on 8/13
+
 alter table WALS_P2.companions add TimeSinceLastFed datetime;
 
 alter table WALS_P2.companions add TimeSinceLastPet datetime;
 
 alter table WALS_P2.species drop column elementType;
 
-alter table sublanguages.users drop constraint likes_cilantro;
+alter table WALS_P2.species drop constraint CK__species__element__15DA3E5D;
+
+alter table WALS_P2.species add opposingEle int foreign key references WALS_P2.foodElement(foodElementId);
+
+update WALS_P2.species set opposingEle = 1 where speciesId = 4;
+
+update WALS_P2.species set opposingEle = 2 where speciesId = 3;
+
+update WALS_P2.species set opposingEle = 3 where speciesId = 6;
+
+update WALS_P2.species set opposingEle = 4 where speciesId = 5;
+
+update WALS_P2.species set opposingEle = 5 where speciesId = 8;
+
+update WALS_P2.species set opposingEle = 6 where speciesId = 7;

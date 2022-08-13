@@ -16,10 +16,12 @@ namespace DataAccess.Entities
         public string? Nickname { get; set; }
         public int Emotion { get; set; }
         public int? Hunger { get; set; }
-        public DateTime? TimeSinceLastChangedMood { get; set; } = DateTime.Now;
-        public DateTime? TimeSinceLastChangedHunger { get; set; } = DateTime.Now;
-        public DateTime? CompanionBirthday { get; set; } = DateTime.Now;
+        public DateTime? TimeSinceLastChangedMood { get; set; }
+        public DateTime? TimeSinceLastChangedHunger { get; set; }
+        public DateTime? CompanionBirthday { get; set; }
         public int? Mood { get; set; }
+        public DateTime? TimeSinceLastFed { get; set; }
+        public DateTime? TimeSinceLastPet { get; set; }
 
         public virtual EmotionChart EmotionNavigation { get; set; } = null!;
         public virtual Species SpeciesFkNavigation { get; set; } = null!;

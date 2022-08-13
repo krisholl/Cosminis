@@ -91,6 +91,10 @@ namespace DataAccess.Entities
                     .HasColumnType("datetime")
                     .HasColumnName("timeSinceLastChangedMood");
 
+                entity.Property(e => e.TimeSinceLastFed).HasColumnType("datetime");
+
+                entity.Property(e => e.TimeSinceLastPet).HasColumnType("datetime");
+
                 entity.Property(e => e.UserFk).HasColumnName("user_fk");
 
                 entity.HasOne(d => d.EmotionNavigation)
@@ -287,12 +291,9 @@ namespace DataAccess.Entities
                     .IsUnicode(false)
                     .HasColumnName("description");
 
-                entity.Property(e => e.ElementType)
-                    .HasMaxLength(8)
-                    .IsUnicode(false)
-                    .HasColumnName("elementType");
-
                 entity.Property(e => e.FoodElementIdFk).HasColumnName("foodElementId_fk");
+
+                entity.Property(e => e.OpposingEle).HasColumnName("opposingEle");
 
                 entity.Property(e => e.SpeciesName)
                     .HasMaxLength(25)
@@ -300,10 +301,15 @@ namespace DataAccess.Entities
                     .HasColumnName("speciesName");
 
                 entity.HasOne(d => d.FoodElementIdFkNavigation)
-                    .WithMany(p => p.Species)
+                    .WithMany(p => p.SpeciesFoodElementIdFkNavigations)
                     .HasForeignKey(d => d.FoodElementIdFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__species__foodEle__14E61A24");
+
+                entity.HasOne(d => d.OpposingEleNavigation)
+                    .WithMany(p => p.SpeciesOpposingEleNavigations)
+                    .HasForeignKey(d => d.OpposingEle)
+                    .HasConstraintName("FK__species__opposin__3EDC53F0");
             });
 
             modelBuilder.Entity<User>(entity =>

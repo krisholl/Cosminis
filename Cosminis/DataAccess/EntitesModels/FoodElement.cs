@@ -9,7 +9,7 @@ namespace DataAccess.Entities
         public FoodElement(Models.FoodElementWithEnum foodElement)
         {
             FoodStats = new HashSet<FoodStat>();
-            Species = new HashSet<Species>();
+            //Species = new HashSet<Species>();
             this.FoodElementId = foodElement.FoodElementId;
             this.FoodElement1 = foodElement.FoodElementToString(foodElement.foodElement);
         }
