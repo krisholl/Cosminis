@@ -139,3 +139,43 @@ public class FoodNotFound : Exception
         System.Runtime.Serialization.SerializationInfo info,
         System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 }
+
+public class TooSoon : Exception
+{
+    public TooSoon() { }
+    public TooSoon(string message) : base(message) { }
+    public TooSoon(string message, System.Exception inner) : base(message, inner) { }
+    protected TooSoon(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}
+
+public class CompNotFound : Exception
+{
+    public CompNotFound() { }
+    public CompNotFound(string message) : base(message) { }
+    public CompNotFound(string message, System.Exception inner) : base(message, inner) { }
+    protected CompNotFound(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}
+
+public class UserNotFound : Exception
+{
+    public UserNotFound() { }
+    public UserNotFound(string message) : base(message) { }
+    public UserNotFound(string message, System.Exception inner) : base(message, inner) { }
+    protected UserNotFound(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}
+
+public class TooFewResources : Exception
+{
+    public TooFewResources() { }
+    public TooFewResources(string message) : base(message) { }
+    public TooFewResources(string message, System.Exception inner) : base(message, inner) { }
+    protected TooFewResources(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}

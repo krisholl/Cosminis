@@ -20,7 +20,13 @@ public class CompanionRepo : ICompanionDAO
     public Companion GenerateCompanion(int userIdInput)
     {
         Random randomCreature = new Random();
-        int creatureRoulette = randomCreature.Next(3,9);        
+        int creatureRoulette = randomCreature.Next(3,9); 
+
+        User userInstance = _context.Users.Find(userIdInput);
+        if(userInstance == null)
+        {
+            throw new UserNotFound();
+        }
         
         Companion newCompanion = new Companion()
         {
@@ -29,8 +35,18 @@ public class CompanionRepo : ICompanionDAO
             Emotion = SetCompanionMood(),
             Hunger = 100,
             Mood = 75,
+            TimeSinceLastChangedMood = DateTime.Now,
+            TimeSinceLastChangedHunger = DateTime.Now,
             CompanionBirthday = DateTime.Now
         };
+
+        userInstance.EggCount = userInstance.EggCount - 1;
+        if(userInstance.EggCount <= 0)
+        {
+            userInstance.EggCount = 0;
+            throw new TooFewResources();
+        }
+
         _context.Companions.Add(newCompanion);
 
         _context.SaveChanges();
