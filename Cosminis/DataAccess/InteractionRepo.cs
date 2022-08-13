@@ -38,8 +38,13 @@ public class InteractionRepo : Interactions
         if(companionToDepress == null)
         {
             throw new ResourceNotFound();
-        }      
-
+        }
+        /*      
+        if(companionToDepress.Mood == null)
+        {
+            companionToDepress.Mood = 75;
+        } 
+        */
         bool companionShowcase = false;            //Setting this to check if showcase companion
 
         User companionUserCheck = _userRepo.GetUserByUserId(companionToDepress.UserFk);
@@ -85,7 +90,7 @@ public class InteractionRepo : Interactions
 
             companionToDepress.Mood = companionToDepress.Mood - moodDecrementAmount; //adjust mood based on determined amount
 
-            companionToDepress.TimeSinceLastChangedMood = DateTime.Now;
+            companionToDepress.TimeSinceLastChangedMood = DateTime.Now;              //resetting the mood timer on the companion
 
             _context.SaveChanges();
 
@@ -119,16 +124,80 @@ public class InteractionRepo : Interactions
     /// </summary>
     /// <param name="companionID"></param>
     /// <param name="amount"></param>
-    public bool RollCompanionEmotion(int companionID)
+    public bool RollCompanionEmotion(int companionID) //Use the result of the weighted die to determine the quality of the companion's emotion
     {
-        //Retrieve companion object from database by the given CompanionID
-        //Roll a weighted die
-        //Use the result of the weighted die to determine the quality of the companion's emotion
-        //The weight is based on the companion's mood value
-        //Use that quality to query the chart of emotions
-        //set companion emotion equal to the resulting key
-        //save changes
-        //return true after successful operation   
+        Random randomEmotion = new Random();          //The weight is based on the companion's mood value (I'll also add current emotion as a mod) This may be hard to determine the best num
+
+        int baseEmotionRand = randomEmotion.Next(3, 4);
+        int emotionToSet = 0;                         //This is the default state of the emotion to set, and is actually part of the random number generator seed
+        int emotionToSetMod = 0;                      //This is a modifier to the result of the randomly generated number after it is generated based on the current mood
+        int moodMod = 0;
+
+        Companion companionEmotionToSet = _compRepo.GetCompanionByCompanionId(companionID); //Grabbing the companion
+        if(companionEmotionToSet == null)                                                   //Checking null
+        {
+            throw new ResourceNotFound();
+        } 
+
+        int emotionIdentifier = companionEmotionToSet.Emotion; //getting the current emotion of the companion so that we can create a modifer based on emotion quality
+
+        EmotionChart emotionToFind = _context.EmotionCharts.Find(emotionIdentifier);            
+
+        try
+        {      
+            if(emotionToFind.Quality <= 2)                     //Modify tables based on current emotion state
+            {
+                emotionToSetMod = -3;
+            }
+            else if(emotionToFind.Quality <= 4)
+            {
+                emotionToSetMod = -1;
+            }
+            else if(emotionToFind.Quality <= 6)
+            {
+                emotionToSetMod = 1;
+            }
+            else if(emotionToFind.Quality >= 7)
+            {
+                emotionToSetMod = 3;
+            } 
+
+            if(companionEmotionToSet.Mood <= 15)               //Modify tables based on current mood level
+            {
+                moodMod = -4;
+            }
+            else if(companionEmotionToSet.Mood <= 35)
+            {
+                moodMod = -2;
+            }
+            else if(companionEmotionToSet.Mood <= 50)
+            {
+                moodMod = -0;
+            }            
+            else if(companionEmotionToSet.Mood <= 75)
+            {
+                moodMod = 2;
+            }
+            else if(companionEmotionToSet.Mood >= 85)
+            {
+                moodMod = 4;
+            }   
+
+            emotionToSet = baseEmotionRand + emotionToSetMod + moodMod; //Adding the mods! This is the big moment (I guess)
+
+            companionEmotionToSet.Emotion = emotionToSet;
+
+            _context.SaveChanges();
+
+            _context.ChangeTracker.Clear();
+
+            return true;
+        }
+        catch(Exception)
+        {
+            throw new ResourceNotFound();
+        }
+          
         return false;
     }
 

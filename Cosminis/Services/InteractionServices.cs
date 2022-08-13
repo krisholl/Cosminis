@@ -29,8 +29,13 @@ public class InteractionService
         if(companionMoodToShift == null)                                         //checking null
         {
             throw new ResourceNotFound();
-        }  
-
+        }
+        /*
+        if(companionMoodToShift.Mood == null)
+        {
+            companionMoodToShift.Mood = 75;
+        }           
+*/
         if(companionMoodToShift.TimeSinceLastChangedMood == null)                //if this is the first instance, set it to now
         {
             companionMoodToShift.TimeSinceLastChangedMood = DateTime.Now;     
@@ -99,6 +104,8 @@ public class InteractionService
 
                 _interRepo.SetCompanionMoodValue(companionID, weight);
 
+                _interRepo.RollCompanionEmotion(companionID); //idk if we want to do this EVERY time but it's kinda cool.
+
                 return true;
             }
         }
@@ -122,8 +129,22 @@ public class InteractionService
         //reduce companion hunger base the time that has passed since last time 
         return false;
     }
-    public bool RollCompanionEmotion(int companionID, int amount)
+    public bool RollCompanionEmotion(int companionID)
     {
+        try
+        {
+            _interRepo.RollCompanionEmotion(companionID);
+            if(companionID == null)
+            {
+                throw new ResourceNotFound();
+            }
+            return _interRepo.RollCompanionEmotion(companionID);
+        }
+        catch (ResourceNotFound)
+        {
+            throw;
+        }        
+        
         return false;
     }
     public bool FeedCompanion(int feederID, int companionID, int foodID)
