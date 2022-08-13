@@ -13,12 +13,14 @@ public class InteractionRepo : Interactions
     private readonly wearelosingsteamContext _context;
     private readonly IUserDAO _userRepo;
     private readonly ICompanionDAO _compRepo;
-
-    public InteractionRepo(wearelosingsteamContext context, IUserDAO userRepo, ICompanionDAO compRepo)
+    private readonly IResourceGen _ResourceRepo;
+    
+    public InteractionRepo(wearelosingsteamContext context, IUserDAO userRepo, ICompanionDAO compRepo, IResourceGen ResourceRepo)
     {
         _context = context;
         _userRepo = userRepo;
         _compRepo = compRepo;
+        _ResourceRepo = ResourceRepo;
     }    
 
     /// <summary>
@@ -127,10 +129,16 @@ public class InteractionRepo : Interactions
     /// <param name="amount"></param>
     public bool SetCompanionHungerValue(int companionID, int amount)
     {
-        //Retrieve companion object from database by the given CompanionID
-        //Modify the hunger value
-        //save changes
-        return false;
+        Companion companionToStarve = _context.Companions.Find(companionID);  //Retrieve companion object from database by the given CompanionID
+        if(companionToStarve == null)
+        {
+            throw new ResourceNotFound();
+        }
+        companionToStarve.Hunger = companionToStarve.Hunger + amount;//Modify the hunger value
+        companionToStarve.TimeSinceLastChangedHunger = DateTime.Now;
+        _context.SaveChanges();//save changes
+        _context.ChangeTracker.Clear();
+        return true;
     }
 
     /// <summary>
@@ -232,21 +240,105 @@ public class InteractionRepo : Interactions
     /// <returns></returns>
     public bool FeedCompanion(int feederID, int companionID, int foodID)
     {
-        //Retrieve companion object from database by the given CompanionID
-        //Retrieve foodStats object from database by the given CompanionID
+        Companion companionToStarve = _context.Companions.Find(companionID);  //Retrieve companion object from database by the given CompanionID
+        User user2Check = _context.Users.Find(feederID); //Retrieve user object from database by the given FeederID
+        FoodStat food2Feed = _context.FoodStats.Find(foodID); //Retrieve foodStats object from database by the given CompanionID
+        Species species2check = _context.Species.Find(companionToStarve.SpeciesFk); //Retrieve Species object from database by the given CompanionID
+        Random RNGjesusManifested = new Random();  
+        if(companionToStarve == null || user2Check == null || food2Feed == null || species2check==null)
+        {
+            throw new ResourceNotFound();
+        }
+        if(companionToStarve.Hunger>90)
+        {
+            throw new TooSoon("Your buddy ain't hungy yet!");
+        }
+        
+        bool match = (species2check.FoodElementIdFk == food2Feed.FoodStatsId);
+        int baseAmountHunger = 0; //neither of these numbers make any damm sense
+        int baseAmountMood = 0; 
+        if(match)
+        {
+            baseAmountHunger = RNGjesusManifested.Next(25,31);
+            baseAmountMood = RNGjesusManifested.Next(25,31);
+        }
+        else
+        {
+            baseAmountHunger = RNGjesusManifested.Next(-15,31);
+            baseAmountMood = RNGjesusManifested.Next(-15,31);
+        }
 
-        //check if the user has that kind of food (query foodInventory)
-        //if the user does not, return false
-        //if the user does, call removeFood from ResourceRepo passing in the FeederID and foodID
+        double HungerModifier = 1;
+        double MoodModifier = 1;
+        if(match) //I know all of these can be compress into the if else block above, I am keeping them seperated for my own sanity sake, STFU
+        {
+            HungerModifier = HungerModifier + RNGjesusManifested.NextDouble();
+            MoodModifier = MoodModifier + RNGjesusManifested.NextDouble();
+            if(HungerModifier>1.90) //great success
+            {
+                HungerModifier = HungerModifier + (RNGjesusManifested.NextDouble()*0.2);
+            }
+            if(MoodModifier>1.90) //great success
+            {
+                MoodModifier = MoodModifier + (RNGjesusManifested.NextDouble()*0.2);
+            }
+            if(MoodModifier>1.95 && HungerModifier>1.95) //critical success! It also makes your companion invincible for two days when we get to the dungeon crawling feature
+            {
+                HungerModifier = HungerModifier + (RNGjesusManifested.NextDouble()*0.1);
+                MoodModifier = MoodModifier + (RNGjesusManifested.NextDouble()*0.1);
+            }
+        }
+        else
+        {
+            HungerModifier = HungerModifier - RNGjesusManifested.NextDouble();
+            MoodModifier = MoodModifier - RNGjesusManifested.NextDouble();
+            if(HungerModifier<0.15) //great failure
+            {
+                HungerModifier = HungerModifier - (RNGjesusManifested.NextDouble()*0.2);
+            }
+            if(MoodModifier<0.15) //great failure
+            {
+                MoodModifier = MoodModifier - (RNGjesusManifested.NextDouble()*0.2);
+            }
+            if(MoodModifier<0.05 && HungerModifier<0.05) //critical failure! It also makes your companion deal 50% less damage for the next two days
+            {
+                HungerModifier = HungerModifier - (RNGjesusManifested.NextDouble()*0.1);
+                MoodModifier = MoodModifier - (RNGjesusManifested.NextDouble()*0.1);
+            }
+        }
 
-        //check element of the companion and the food
-        //if they match: increase x mood and increase a*y fullness
-        //if they don't match: increase k mood and increase a*j fullness
-        //call SetCompanionMoodValue and SetCompanionHungerValue passing in the CompanionID and respective mood value/hunger value
-        //Where j<y, k<x, k is the set of all integers and x, y and j are positive integers
+        int moodAmount = 0;
+        int hungerAmount = 0;
+        if(match) //I know all of these can be compress into the if else block above, I am keeping them seperated for my own sanity sake, STFU
+        {
+            moodAmount = (int)Math.Ceiling(baseAmountMood*MoodModifier);
+            hungerAmount = (int)Math.Ceiling(baseAmountHunger*HungerModifier);
+        }
+        else
+        {
+            moodAmount = (int)Math.Floor(baseAmountMood*MoodModifier);
+            hungerAmount = (int)Math.Floor(baseAmountHunger*HungerModifier);
+        }
 
-        //return true after successful operation        
-        return false;
+        try
+        {
+            SetCompanionHungerValue(companionID,hungerAmount);
+            SetCompanionMoodValue(companionID,moodAmount);
+        }
+        catch(Exception)
+        {
+            throw;
+        }
+
+        try
+        {
+            _ResourceRepo.RemoveFood(feederID,foodID); //last step
+            return true; //operation success
+        }
+        catch(Exception)
+        {
+            throw;
+        }
     }
 
     /// <summary>
@@ -431,10 +523,15 @@ public class InteractionRepo : Interactions
     public string PullConvo(int CompanionID)
     {
         string returnString = "Network error, go bother your ISP";
+        Companion companionToTalk = _context.Companions.Find(CompanionID);  //Retrieve companion object from database by the given CompanionID
 
-        //Retrieve companion object from database by the given CompanionID
-        //Check for 1.Companion's species/element 2.Companion's Mood
-        //Retrieve A list of conversation that matches the given species.
+        IEnumerable<Conversation> checkForSpecies = //copped this code whole sale from FriendsRepo
+            (from Conversation in _context.Conversations
+            where (Conversation.SpeciesFk == companionToTalk.SpeciesFk)
+            select Conversation);
+        List<Conversation> friendsList = checkForSpecies.ToList(); //Retrieve A list of conversation that matches the given species.
+
+        Random RNGjesusManifested = new Random();  
         //Pull from that list, ONE random conversation based on the mood of the companion
         //If the companion has a high mood value, it should be more likely that a high quality conversation gets chosen
         //return the conversation as string

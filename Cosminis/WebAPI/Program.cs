@@ -17,6 +17,7 @@ builder.Services.AddScoped<IPostDAO, PostRepo>();
 builder.Services.AddScoped<ICommentDAO, CommentRepo>();
 builder.Services.AddScoped<IResourceGen, ResourceRepo>();
 builder.Services.AddScoped<ILikeIt, LikeRepo>();
+builder.Services.AddScoped<Interactions,InteractionRepo>();
 
 builder.Services.AddScoped<CompanionServices>();
 builder.Services.AddScoped<FriendServices>();
@@ -24,6 +25,7 @@ builder.Services.AddScoped<UserServices>();
 builder.Services.AddScoped<PostServices>();
 builder.Services.AddScoped<CommentServices>();
 builder.Services.AddScoped<LikeServices>();
+builder.Services.AddScoped<InteractionService>();
 
 builder.Services.AddScoped<CompanionController>();
 builder.Services.AddScoped<FriendsController>();
@@ -31,6 +33,7 @@ builder.Services.AddScoped<UserController>();
 builder.Services.AddScoped<PostController>();
 builder.Services.AddScoped<CommentController>();
 builder.Services.AddScoped<LikeController>();
+builder.Services.AddScoped<Interactroller>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -41,6 +44,12 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.MapGet("/", () => "Welcome to Cosminis!");
+
+app.MapPut("/ModifyHunger", (int companionID, Interactroller Interactroller) => 
+{
+	return Interactroller.DecrementCompanionHungerValue(companionID);
+});
+
 
 //this is a query parameter, it has a parameter to actually be implemented
 app.MapGet("/searchFriend", (string username, UserController controller) => 
