@@ -122,18 +122,32 @@ public class ResourceRepo : IResourceGen
         return true;
     }
 
-    /// <summary>
+    /*/// <summary>
     /// Remove a certain amount of food from the food inventory attached to the user
     /// </summary>
     /// <param name="UserID"></param>
     /// <param name="FoodID"></param>
-    /// <returns></returns>
-    public bool RemoveFood(int UserID, int FoodID)
+    /// <returns></returns>*/
+    public bool RemoveFood(int userId, int foodId)
     {
-        //retrieves the user object from the User table with the given UserID
-        //check the foodInventory table to see if the such junction table exists
-        //if yes: -1 from the food count and return true, check if the count is zero BTW
-        //if not: throw a exception or return false
-        return false;
+        User userInfo = _context.Users.Find(userId);
+        if (userInfo == null) //such user does not exist
+        {
+            throw new ResourceNotFound();
+        }
+        FoodInventory foodInfo = _context.FoodInventories.Find(userInfo.UserId, foodId); //the primary key for this table is composite key
+        if (foodInfo == null || foodInfo.FoodCount == 0) //that user does not own that food at all or has none of that food left in their inventory
+        {
+            throw new FoodNotFound();
+        }
+        foodInfo.FoodCount = foodInfo.FoodCount - 1; 
+        _context.SaveChanges(); //persist the change
+        _context.ChangeTracker.Clear(); //clear the tracker for the next food transaction
+        return true;
+    }
+
+    public List<FoodInventory> GetFoodInventoryByUserId(int userId)
+    {
+        return _context.FoodInventories.Where(food => food.UserIdFk == userId).ToList();
     }
 }

@@ -70,8 +70,8 @@ public class InteractionService
         return false;
     }
 
-    public string PullConvo(int CompanionID)
+    /*public string PullConvo(int companionID)
     {
-        //return _InterationsRepo.PullConvo(int CompanionID);
-    }
+        return _InterationsRepo.PullConvo(companionID);
+    }*/
 }

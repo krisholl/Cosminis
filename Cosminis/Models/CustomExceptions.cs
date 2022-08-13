@@ -129,3 +129,13 @@ public class DuplicateFriends : Exception
         System.Runtime.Serialization.SerializationInfo info,
         System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 }
+
+public class FoodNotFound : Exception
+{
+    public FoodNotFound() { }
+    public FoodNotFound(string message) : base(message) { }
+    public FoodNotFound(string message, System.Exception inner) : base(message, inner) { }
+    protected FoodNotFound(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}
