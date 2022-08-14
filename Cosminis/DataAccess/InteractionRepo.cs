@@ -81,76 +81,15 @@ public class InteractionRepo : Interactions
     /// </summary>
     /// <param name="companionID"></param>
     /// <param name="amount"></param>
-    public bool RollCompanionEmotion(int companionID) //Use the result of the weighted die to determine the quality of the companion's emotion
+    public bool RollCompanionEmotion(int companionID, int emotionId)
     {
-        Random randomEmotion = new Random();          //The weight is based on the companion's mood value (I'll also add current emotion as a mod) This may be hard to determine the best num
-
-        int baseEmotionRand = randomEmotion.Next(4, 7);
-        int emotionToSet = 0;                         //This is the default state of the emotion to set, and is actually part of the random number generator seed
-        int emotionToSetMod = 0;                      //This is a modifier to the result of the randomly generated number after it is generated based on the current mood
-        int moodMod = 0;
-
         Companion companionEmotionToSet = _context.Companions.Find(companionID); //Grabbing the companion
         if(companionEmotionToSet == null)                                                   //Checking null
         {
             throw new CompNotFound();
         }
-        if(companionEmotionToSet.Emotion == null)                                                  //checking null
-        {
-            companionEmotionToSet.Emotion = 0;
-        }         
-        if(companionEmotionToSet.Mood == null)                                                   //checking null
-        {
-            companionEmotionToSet.Mood = 75;
-        }
 
-        int emotionIdentifier = companionEmotionToSet.Emotion; //getting the current emotion of the companion so that we can create a modifer based on emotion quality
-
-        EmotionChart emotionToFind = _context.EmotionCharts.Find(emotionIdentifier);            
-    
-        if(emotionToFind.Quality <= 2)                     //Modify tables based on current emotion state
-        {
-            emotionToSetMod = -2;
-        }
-        else if(emotionToFind.Quality <= 4)
-        {
-            emotionToSetMod = -1;
-        }
-        else if(emotionToFind.Quality <= 6)
-        {
-            emotionToSetMod = 1;
-        }
-        else if(emotionToFind.Quality >= 7)
-        {
-            emotionToSetMod = 2;
-        } 
-
-        if(companionEmotionToSet.Mood <= 15)               //Modify tables based on current mood level
-        {
-            moodMod = -2;
-        }
-        else if(companionEmotionToSet.Mood <= 35)
-        {
-            moodMod = -1;
-        }
-        else if(companionEmotionToSet.Mood <= 50)
-        {
-            moodMod = -0;
-        }            
-        else if(companionEmotionToSet.Mood <= 75)
-        {
-            moodMod = 1;
-        }
-        else if(companionEmotionToSet.Mood >= 85)
-        {
-            moodMod = 2;
-        }   
-
-        emotionToSet = baseEmotionRand + emotionToSetMod + moodMod; //Adding the mods! This is the big moment (I guess)
-
-        emotionToFind.Quality = emotionToSet;
-
-        companionEmotionToSet.Emotion = emotionToFind.EmotionId; //You can get less than 0 and greater than 10 but I figure we will figure this out together
+        companionEmotionToSet.Emotion = emotionId; //You can get less than 0 and greater than 10 but I figure we will figure this out together
 
         _context.SaveChanges();
 
@@ -283,11 +222,6 @@ public class InteractionRepo : Interactions
         if(companionToPet == null)                                                   //checking null
         {
             throw new CompNotFound();
-        }
-        if(companionToPet.Mood == null)                                                   //checking null
-        {
-            companionToPet.Mood = 75;
-            RollCompanionEmotion(companionToPet.CompanionId);
         }
 
         User userToPet = _userRepo.GetUserByUserId(userID);  //grabbing the user

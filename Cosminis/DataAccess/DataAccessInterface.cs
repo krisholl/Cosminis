@@ -64,7 +64,7 @@ public interface Interactions
 {
     public bool SetCompanionMoodValue(int companionID, int amount);
     public bool SetCompanionHungerValue(int companionID, int amount);
-    public bool RollCompanionEmotion(int companionID);
+    public bool RollCompanionEmotion(int companionID, int emotionId);
     public bool FeedCompanion(int feederID, int companionID, int foodID);
     public bool PetCompanion(int petterID, int companionID);
     public bool ShowCaseCompanion(int userID, int companionID);

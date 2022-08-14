@@ -142,7 +142,7 @@ public class InteractionService
 
                 _interRepo.SetCompanionMoodValue(companionID, moodDecrementAmount);
 
-                _interRepo.RollCompanionEmotion(companionID); //idk if we want to do this EVERY time but it's kinda cool.
+                ReRollCompanionEmotion(companionID); //idk if we want to do this EVERY time but it's kinda cool.
 
                 return true;
             }
@@ -197,16 +197,104 @@ public class InteractionService
         return false;
     }
 
-    public bool RollCompanionEmotion(int companionID)
+    public bool ReRollCompanionEmotion(int companionID)
     {
+        Random randomEmotion = new Random();  
+
+        Companion companionEmotionToSet = _compRepo.GetCompanionByCompanionId(companionID); //grabbing the companion who's emotion we want to change
+
+        EmotionChart emotionToFind = _interRepo.GetEmotionByEmotionId(companionEmotionToSet.Emotion);
+
+        int baseEmotionRand = randomEmotion.Next(10);// Add to current state to see if the companion will re roll emotion. Higher roll = less likely re roll.
+        int rerollDeterminer = 0;                         //This will be the output of these logical operations and set the new emotion of the companion.
+        int qualityMod = 0;                      //This is a modifier based on current companion Emotion quality (these affect the CHANCE of a re roll)
+        int moodMod = 0;                         //This is a modifier based on current companion mood (these affect the CHANCE of a re roll)
+        bool reRoll = false;
+
+        if(emotionToFind.Quality <= 2)
+        {
+            qualityMod = 0;
+        }
+        else if(emotionToFind.Quality <= 4)
+        {
+            qualityMod = 3;
+        }
+        else if(emotionToFind.Quality <= 6)
+        {
+            qualityMod = 9;
+        }
+        else if(emotionToFind.Quality >= 7)
+        {
+            qualityMod = 15;
+        }   
+
+        if(companionEmotionToSet.Mood <= 15)               //These tables increase the likelyhood of a mood reroll if the companion has a bad mood or bad quality emotion
+        {
+            moodMod = 0;
+        }
+        else if(companionEmotionToSet.Mood <= 35)
+        {
+            moodMod = 1;
+        }
+        else if(companionEmotionToSet.Mood <= 50)
+        {
+            moodMod = 3;
+        }            
+        else if(companionEmotionToSet.Mood <= 75)
+        {
+            moodMod = 9;
+        }
+        else if(companionEmotionToSet.Mood >= 85)
+        {
+            moodMod = 15;
+        }  
+
+        rerollDeterminer = baseEmotionRand + qualityMod + moodMod;
+
+        if(rerollDeterminer <= 20)
+        {
+            reRoll = true;
+        }
+
+        Random secondPass = new Random(); //at this point we determine which emotion we will get with a modifier if there was a better mood/emotion quality before.
+
+        int emotionAdjust = secondPass.Next(1, 12);            //"Weight" of moodDecrement determined by hungerlvl
+        int secondaryMoodMod = 0;
+        int secondaryQualityMod = 0;
+
+        if(emotionToFind.Quality >= 6)
+        {
+            secondaryQualityMod = 1;
+        }
+        else if(emotionToFind.Quality > 8)
+        {
+            secondaryQualityMod = 2;
+        }
+
+        if(companionEmotionToSet.Mood >= 70)
+        {
+            secondaryQualityMod = 1;
+        }
+        else if(companionEmotionToSet.Mood > 90)
+        {
+            secondaryQualityMod = 2;
+        }
+
+        int emotionId = emotionAdjust + secondaryQualityMod + secondaryMoodMod;
+
+        if(emotionId > 11)
+        {
+            emotionId = 11;
+        }
+
         try
         {
-            _interRepo.RollCompanionEmotion(companionID);
+            _interRepo.RollCompanionEmotion(companionID, emotionId);
             if(companionID == null)
             {
                 throw new ResourceNotFound();
             }
-            return _interRepo.RollCompanionEmotion(companionID);
+            return _interRepo.RollCompanionEmotion(companionID, emotionId);
         }
         catch (ResourceNotFound)
         {
@@ -242,7 +330,7 @@ public class InteractionService
         {
             try
             {
-                _interRepo.RollCompanionEmotion(companionID);
+                ReRollCompanionEmotion(companionID);
             }
             catch(Exception)
             {

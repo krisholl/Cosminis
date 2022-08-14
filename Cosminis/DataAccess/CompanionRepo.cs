@@ -22,6 +22,9 @@ public class CompanionRepo : ICompanionDAO
         Random randomCreature = new Random();
         int creatureRoulette = randomCreature.Next(3,9); 
 
+        Random randomEmotion = new Random();
+        int emotionRoulette = randomCreature.Next(0,10); 
+
         User userInstance = _context.Users.Find(userIdInput);
         if(userInstance == null)
         {
@@ -32,7 +35,7 @@ public class CompanionRepo : ICompanionDAO
         {
             UserFk = userIdInput,
             SpeciesFk = creatureRoulette,
-            Emotion = SetCompanionMood(),
+            Emotion = emotionRoulette,
             Hunger = 100,
             Mood = 75,
             TimeSinceLastChangedMood = DateTime.Now,
