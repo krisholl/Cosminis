@@ -135,6 +135,10 @@ public class InteractionRepo : Interactions
             throw new ResourceNotFound();
         }
         companionToStarve.Hunger = companionToStarve.Hunger + amount;//Modify the hunger value
+        if(companionToStarve.Hunger<0) //fix the minimum hunger value
+        {
+            companionToStarve.Hunger = 0;
+        }
         companionToStarve.TimeSinceLastChangedHunger = DateTime.Now;
         _context.SaveChanges();//save changes
         _context.ChangeTracker.Clear();
