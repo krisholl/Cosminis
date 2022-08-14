@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthModule } from '@auth0/auth0-angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(/*public auth: AuthService*/private router: Router) { }
 
-  ngOnInit(): void {
+  gotoHome(){
+    this.router.navigateByUrl('/homepage');  // define your component where you want to go
+  }
+
+  ngOnInit(): void 
+  {
+    /*$('#login').click(async () => {
+      await auth0.loginWithPopup();
+    });*/
   }
 
 }
