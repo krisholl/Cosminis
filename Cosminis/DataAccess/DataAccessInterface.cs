@@ -69,6 +69,7 @@ public interface Interactions
     public bool PetCompanion(int petterID, int companionID);
     public bool ShowCaseCompanion(int userID, int companionID);
     public string PullConvo(int CompanionID);
+    public EmotionChart GetEmotionByEmotionId(int emotionId);
 }
 
 public interface ILikeIt //I hate this (jkjk i love this but I thought the joke was funny XDXD)

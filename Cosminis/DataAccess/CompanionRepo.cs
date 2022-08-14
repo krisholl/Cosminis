@@ -37,6 +37,8 @@ public class CompanionRepo : ICompanionDAO
             Mood = 75,
             TimeSinceLastChangedMood = DateTime.Now,
             TimeSinceLastChangedHunger = DateTime.Now,
+            TimeSinceLastPet = DateTime.Now,
+            TimeSinceLastFed = DateTime.Now,
             CompanionBirthday = DateTime.Now
         };
 

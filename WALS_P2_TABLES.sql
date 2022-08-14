@@ -109,7 +109,8 @@ insert into WALS_P2.foodStats (foodElement_fk, description, foodName, hungerRest
 
 insert into WALS_P2.foodInventory (userId_fk, foodStatsId_fk, foodCount) values (2, 1, 10);
 
-select * from WALS_P2.species;
+select * from WALS_P2.companions;
+delete from WALS_P2.companions where companionId = 16;
 
 drop table WALS_P2.conversation;
 
@@ -223,6 +224,8 @@ insert into WALS_P2.species (foodElementId_fk, speciesName, description, baseStr
 insert into WALS_P2.species (foodElementId_fk, speciesName, description, baseStr, baseDex, baseInt, elementType) values (6,'Cancer', 'Blursed friend.', 10, 10, 10, 'Dark');
 
 delete from WALS_P2.foodStats where foodStatsId = 4;
+
+delete from WALS_P2.companions where companionId = 2;
 
 create table WAL_P2.users;
 
