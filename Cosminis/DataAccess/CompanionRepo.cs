@@ -120,4 +120,21 @@ public class CompanionRepo : ICompanionDAO
     {
             return _context.Companions.FirstOrDefault(companionToBeFound => companionToBeFound.CompanionId == companionId) ?? throw new ResourceNotFound("No companion with this ID exists.");
     }
+
+    public bool DeleteCompanion(int companionId)
+    {
+        Companion companionToEnd = _context.Companions.Find(companionId);  //Get comp followed by checkifnull
+        if(companionToEnd == null)
+        {
+            throw new CompNotFound();
+        }
+
+        _context.Companions.Remove(companionToEnd);
+
+        _context.SaveChanges();
+
+        _context.ChangeTracker.Clear();
+
+        return true;
+    }
 }

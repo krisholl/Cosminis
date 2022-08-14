@@ -93,5 +93,24 @@ public class CompanionServices
         {
             throw;
         }
-    }        
+    }
+
+    public bool DeleteCompanion(int companionId)
+    {
+        try
+        {
+            _CompanionRepo.DeleteCompanion(companionId);
+            if(companionId == null)
+            {
+                throw new UserNotFound();
+            }
+            return _CompanionRepo.DeleteCompanion(companionId);
+        }
+        catch (CompNotFound)
+        {
+            throw;
+        }        
+
+        return false;
+    }            
 }
