@@ -9,7 +9,7 @@ using Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<wearelosingsteamContext>(options => options.UseSqlServer());
+builder.Services.AddDbContext<wearelosingsteamContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
 builder.Services.AddScoped<ICompanionDAO, CompanionRepo>();
 builder.Services.AddScoped<IFriendsDAO, FriendsRepo>();
 builder.Services.AddScoped<IUserDAO, UserRepo>();
@@ -49,7 +49,7 @@ app.MapGet("/", () => "Welcome to Cosminis!");
 
 app.MapPut("/interactions/ModifyHunger", (int companionID, Interactroller Interactroller) => 
 {
-	return Interactroller.DecrementCompanionHungerValue(companionID);
+	return controller.DecrementCompanionHungerValue(companionID);
 });
 
 app.MapGet("/interactions/Talk", (int companionID, Interactroller Interactroller) => 
@@ -66,6 +66,11 @@ app.MapGet("/interactions/Feed", (int feederID, int companionID, int foodID, Int
 app.MapGet("/searchFriend", (string username, UserController controller) => 
 {
 	return controller.SearchFriend(username);
+});
+
+app.MapPut("/setCompanion", (int userId, int companionId, Interactroller controller) => 
+{
+	return controller.SetShowcaseCompanion(userId, companionId);
 });
 
 //this is a route parameter

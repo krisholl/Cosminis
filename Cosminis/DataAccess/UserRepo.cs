@@ -34,7 +34,7 @@ public class UserRepo : IUserDAO
         return _context.Users.FirstOrDefault(user => user.Username == username) ?? throw new ResourceNotFound("No user with that username was found.");     
     }
 
-    public User GetUserByUserId(int userId) //selects and returns all of the user information where table username = input username
+    public User GetUserByUserId(int userId) //selects and returns all of the user information where table userId = input userId
     {                                              
         return _context.Users.FirstOrDefault(user => user.UserId == userId) ?? throw new ResourceNotFound("No user with that userId was found.");     
     }

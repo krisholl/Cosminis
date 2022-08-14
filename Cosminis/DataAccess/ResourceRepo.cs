@@ -133,7 +133,7 @@ public class ResourceRepo : IResourceGen
         User userInfo = _context.Users.Find(userId);
         if (userInfo == null) //such user does not exist
         {
-            throw new ResourceNotFound();
+            throw new UserNotFound();
         }
         FoodInventory foodInfo = _context.FoodInventories.Find(userInfo.UserId, foodId); //the primary key for this table is composite key
         if (foodInfo == null || foodInfo.FoodCount == 0) //that user does not own that food at all or has none of that food left in their inventory

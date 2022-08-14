@@ -369,20 +369,35 @@ public class InteractionRepo : Interactions
         return true;
     }
 
-    /// <summary>
+    /*/// <summary>
     /// Changing the showcased companion field of a perticular user
     /// </summary>
     /// <param name="userID"></param>
     /// <param name="companionID"></param>
-    /// <returns></returns>
-    public bool ShowCaseCompanion(int userID, int companionID)
+    /// <returns></returns>*/
+    public bool SetShowcaseCompanion(int userId, int companionId)
     {
-        //Retrieve companion object from database by the given CompanionID
-        //Retrieve user object from database by the given userID
-
-        //Set the showcase companion value in the user table to the given companionID 
-        //return true after successful operation  
-        return false;
+        Companion companionInfo = _context.Companions.Find(companionId);
+        if (companionInfo == null) //such companion does not exist
+        {
+            throw new CompNotFound();
+        }
+        User userInfo = _context.Users.Find(userId);
+        if (userInfo == null) //such user does not exist
+        {
+            throw new UserNotFound();
+        }
+        if (companionInfo.UserFk == userInfo.UserId)
+        {
+            userInfo.ShowcaseCompanionFk = companionInfo.CompanionId; 
+            _context.SaveChanges(); //persist the change
+            _context.ChangeTracker.Clear(); //clear the tracker for the next setting of a showcase companion
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public string PullConvo(int CompanionID)
