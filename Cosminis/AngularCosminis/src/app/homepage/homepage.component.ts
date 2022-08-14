@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
@@ -12,4 +13,11 @@ export class HomepageComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  smellingHandler:Function = () =>
+  {
+    let audio = new Audio();
+    audio.src = "../assets/Audio/1.mp3";
+    audio.load();
+    audio.play();
+  }
 }

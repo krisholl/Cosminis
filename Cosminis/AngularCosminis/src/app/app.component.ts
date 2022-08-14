@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+///import { Auth0Lock } from "@auth0-lock";
+
+//declare var Auth0Lock;
 
 @Component({
   selector: 'app-root',
