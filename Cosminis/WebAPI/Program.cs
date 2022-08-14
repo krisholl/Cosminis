@@ -47,9 +47,9 @@ app.UseSwaggerUI();
 
 app.MapGet("/", () => "Welcome to Cosminis!");
 
-app.MapPut("/ModifyHunger", (int companionID, Interactroller Interactroller) => 
+app.MapPut("/ModifyHunger", (int companionID, Interactroller controller) => 
 {
-	return Interactroller.DecrementCompanionHungerValue(companionID);
+	return controller.DecrementCompanionHungerValue(companionID);
 });
 
 
@@ -57,6 +57,11 @@ app.MapPut("/ModifyHunger", (int companionID, Interactroller Interactroller) =>
 app.MapGet("/searchFriend", (string username, UserController controller) => 
 {
 	return controller.SearchFriend(username);
+});
+
+app.MapPut("/setCompanion", (int userId, int companionId, Interactroller controller) => 
+{
+	return controller.SetShowcaseCompanion(userId, companionId);
 });
 
 //this is a route parameter

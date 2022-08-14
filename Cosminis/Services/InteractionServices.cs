@@ -259,9 +259,20 @@ public class InteractionService
         return false;
     }
     
-    public bool ShowCaseCompanion(int userID, int companionID)
+    public bool SetShowcaseCompanion(int userId, int companionId)
     {
-        return false;
+        try
+        {
+            return _interRepo.SetShowcaseCompanion(userId, companionId);
+        }
+        catch(CompNotFound)
+        {
+            throw;
+        }
+        catch(UserNotFound)
+        {
+            throw;
+        }
     }
 
     public string PullConvo(int companionID)

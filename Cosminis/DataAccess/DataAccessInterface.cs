@@ -56,7 +56,7 @@ public interface IResourceGen
     public bool AddGold(User User, int Amount);
     public bool AddEgg(User User, int Amount);
     public bool AddFood(User User, int Weight);
-    public bool RemoveFood(int UserID, int FoodID);
+    public bool RemoveFood(int userId, int foodId);
     public List<FoodInventory> GetFoodInventoryByUserId(int userId);
 }
 
@@ -67,7 +67,7 @@ public interface Interactions
     public bool RollCompanionEmotion(int companionID);
     public bool FeedCompanion(int feederID, int companionID, int foodID);
     public bool PetCompanion(int petterID, int companionID);
-    public bool ShowCaseCompanion(int userID, int companionID);
+    public bool SetShowcaseCompanion(int userId, int companionId);
     public string PullConvo(int CompanionID);
 }
 
