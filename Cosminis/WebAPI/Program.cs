@@ -23,7 +23,7 @@ builder.Services.AddScoped<ResourceServices>();
 builder.Services.AddScoped<CompanionServices>();
 builder.Services.AddScoped<FriendServices>();
 builder.Services.AddScoped<UserServices>();
-builder.Services.AddScoped<PostServicces>();
+builder.Services.AddScoped<PostServices>();
 builder.Services.AddScoped<CommentServices>();
 builder.Services.AddScoped<LikeServices>();
 builder.Services.AddScoped<InteractionService>();
