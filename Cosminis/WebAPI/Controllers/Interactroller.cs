@@ -83,6 +83,21 @@ public class Interactroller
         catch(UserNotFound)
         {
             return Results.NotFound("Such a user does not exist"); 
+        }    
+
+    public IResult PullConvo(int companionID)
+    {
+        try
+        {
+            return Results.Ok(_interactionService.PullConvo(companionID));
+        }
+        catch(ResourceNotFound)
+        {
+            return Results.NotFound();
+        }
+        catch(Exception e)
+        {
+            return Results.BadRequest(e.Message);
         }
     }
 }

@@ -47,11 +47,20 @@ app.UseSwaggerUI();
 
 app.MapGet("/", () => "Welcome to Cosminis!");
 
-app.MapPut("/ModifyHunger", (int companionID, Interactroller controller) => 
+app.MapPut("/interactions/ModifyHunger", (int companionID, Interactroller Interactroller) => 
 {
 	return controller.DecrementCompanionHungerValue(companionID);
 });
 
+app.MapGet("/interactions/Talk", (int companionID, Interactroller Interactroller) => 
+{
+	return Interactroller.PullConvo(companionID);
+});
+
+app.MapGet("/interactions/Feed", (int feederID, int companionID, int foodID, Interactroller Interactroller) => //this end point does not work yet
+{
+	return Interactroller.FeedCompanion(feederID, companionID, foodID);
+});
 
 //this is a query parameter, it has a parameter to actually be implemented
 app.MapGet("/searchFriend", (string username, UserController controller) => 

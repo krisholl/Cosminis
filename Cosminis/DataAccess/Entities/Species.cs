@@ -18,9 +18,10 @@ namespace DataAccess.Entities
         public int? BaseStr { get; set; }
         public int? BaseDex { get; set; }
         public int? BaseInt { get; set; }
-        public string ElementType { get; set; } = null!;
+        public int? OpposingEle { get; set; }
 
         public virtual FoodElement FoodElementIdFkNavigation { get; set; } = null!;
+        public virtual FoodElement? OpposingEleNavigation { get; set; }
         public virtual ICollection<Companion> Companions { get; set; }
         public virtual ICollection<Conversation> Conversations { get; set; }
     }

@@ -42,11 +42,11 @@ public class InteractionController
         }	
     }
 
-    public IResult RollCompanionEmotion(int companionID)
+    public IResult ReRollCompanionEmotion(int companionID)
     {
     	try
     	{
-    		_interactionService.RollCompanionEmotion(companionID);
+    		_interactionService.ReRollCompanionEmotion(companionID);
     		return Results.Accepted("/Interactions/RerollEmotion"); 
     	}
     	catch(CompNotFound)

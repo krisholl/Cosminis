@@ -10,16 +10,13 @@ namespace Services;
 public class InteractionService
 {
     //Honey wake up, it is time for you to write your dependacy injection!
-
-    private readonly wearelosingsteamContext _context;
     private readonly ICompanionDAO _compRepo;
     private readonly Interactions _interRepo;
 	  private readonly IUserDAO _userRepo;
     private readonly IPostDAO _PostRepo;
 
-    public InteractionService(wearelosingsteamContext context, ICompanionDAO compRepo, IUserDAO userRepo, Interactions interRepo, IPostDAO postRepo)
+    public InteractionService(ICompanionDAO compRepo, IUserDAO userRepo, Interactions interRepo, IPostDAO postRepo)
     {
-        _context = context;
         _interRepo = interRepo;
         _compRepo = compRepo;
         _userRepo = userRepo;
@@ -28,25 +25,19 @@ public class InteractionService
 
     public bool DecrementCompanionMoodValue(int companionID)
     {
-        Companion companionMoodToShift = _compRepo.GetCompanionByCompanionId(companionID); //grabbing the companion
-        if(companionMoodToShift == null)                                         //checking null
+        Random moodDecrementer = new Random();                                 //creating random number
+
+        int moodDecrementAmount = 0;                                           //This will be the amount that actually gets taken
+
+        Companion companionMoodToShift = _compRepo.GetCompanionByCompanionId(companionID); //grabbing the companion to change the mood of
+        if(companionMoodToShift == null)                                                   //checking null
         {
             throw new CompNotFound();
         }
-        /*
-        if(companionMoodToShift.Mood == null)
-        {
-            companionMoodToShift.Mood = 75;
-        }           
 
-        if(companionMoodToShift.TimeSinceLastChangedMood == null)                
-        {
-            companionMoodToShift.TimeSinceLastChangedMood = DateTime.Now;     
-        }
-        */
         try
         {
-            TimeSpan minuteDifference = (TimeSpan)(DateTime.Now - companionMoodToShift.TimeSinceLastChangedMood);//diff between now and 'then'
+            TimeSpan minuteDifference = (TimeSpan)(DateTime.Now - companionMoodToShift.TimeSinceLastChangedMood);//diff between now and 'last decrement'
 
             double totalMinutes = minuteDifference.TotalMinutes;  //converting minutes to a double
 
@@ -56,7 +47,14 @@ public class InteractionService
             }
 
             int convertedTime = (int)(Math.Floor(totalMinutes));                //converting to int for easier use
-
+            
+            User companionUser = _userRepo.GetUserByUserId(companionMoodToShift.UserFk);
+            bool companionShowcase = false;
+            if(companionUser.ShowcaseCompanionFk == companionMoodToShift.CompanionId)//Checking whether it is or not
+            {
+                companionShowcase = true;              //If this is true, mood decreases at a lessened rate
+            }
+            
             int hungerMod = 0; //this value will modify the chance for a greater mood decrement based on hunger
             if(companionMoodToShift.Hunger <= 25)
             {
@@ -73,7 +71,7 @@ public class InteractionService
 
             int emotionIdentifier = companionMoodToShift.Emotion; //getting the emotion so that I can create a modifer based on emotion quality
 
-            EmotionChart emotionToFind = _context.EmotionCharts.Find(emotionIdentifier);
+            EmotionChart emotionToFind = _interRepo.GetEmotionByEmotionId(emotionIdentifier);
 
             int emotionMod = 0; //this value will modify the chance for a greater mood decrement based on emotion state
             if(emotionToFind.Quality <= 2)
@@ -94,20 +92,57 @@ public class InteractionService
             }           
             
             int numInstances = convertedTime / 5; //calculating how many times to tick mood decrements
+            if(numInstances >= 5)
+            {
+                numInstances = 5;
+            }                                   
+                                                 //as long as there are instances greater than 0 it will decrement mood based on
+            Random randomNum = new Random();     // (a random value) + (mod based on hunger) + (mod based on current emotion quality)
+                                                 //these values affect the CHANCE of a change being more or less dramatic
+            int moodShift = randomNum.Next(90);  //defining whether a showcase companion is more or less affected is in DataAccess
 
-            for(int x = numInstances; x > 0; x--) //as long as there are instances greater than 0 it will decrement mood based on
-            {                                     // (a random value) + (mod based on hunger) + (mod based on current emotion quality)
-                Random randomNum = new Random();  //these values affect the CHANCE of a change being more or less dramatic
-                                                  //defining whether a showcase companion is more or less affected is in DataAccess
-                int moodShift = randomNum.Next(90);
+            int amountDeterminer = moodShift + hungerMod + emotionMod;
 
-                int weight = moodShift + hungerMod + emotionMod;
+            for(int x = numInstances; x > 0; x--)
+            {                                     
+                int moodAdjust = moodDecrementer.Next(1, amountDeterminer);            //"Weight" of moodDecrement determined by hungerlvl
 
-                //Console.WriteLine(hungerMod, moodShift, weight);
+                if(moodAdjust <= 10)                   //Completely original numbers (this is "chance")
+                {
+                    moodDecrementAmount = -1;           //Actually original numbers (this is "static amt")
+                    if(companionShowcase == true)
+                    {
+                        moodDecrementAmount = 0;
+                    }
+                }
+                else if(moodAdjust <= 30)
+                {
+                    moodDecrementAmount = -2;
+                    if(companionShowcase == true)
+                    {
+                        moodDecrementAmount = -1;
+                    }
+                }
+                else if(moodAdjust <= 90)
+                {
+                    moodDecrementAmount = -5;
+                    if(companionShowcase == true)
+                    {
+                        moodDecrementAmount = -3;
+                    }
+                }
+                else if(moodAdjust <= 270)
+                {
+                    moodDecrementAmount = -10;
+                    if(companionShowcase == true)
+                    {
+                        moodDecrementAmount = -5;
+                    }
+                }                
 
-                _interRepo.SetCompanionMoodValue(companionID, weight);
+                _interRepo.SetCompanionMoodValue(companionID, moodDecrementAmount);
 
-                _interRepo.RollCompanionEmotion(companionID); //idk if we want to do this EVERY time but it's kinda cool.
+                ReRollCompanionEmotion(companionID); //idk if we want to do this EVERY time but it's kinda cool.
 
                 return true;
             }
@@ -161,16 +196,105 @@ public class InteractionService
         }
         return false;
     }
-    public bool RollCompanionEmotion(int companionID)
+
+    public bool ReRollCompanionEmotion(int companionID)
     {
+        Random randomEmotion = new Random();  
+
+        Companion companionEmotionToSet = _compRepo.GetCompanionByCompanionId(companionID); //grabbing the companion who's emotion we want to change
+
+        EmotionChart emotionToFind = _interRepo.GetEmotionByEmotionId(companionEmotionToSet.Emotion);
+
+        int baseEmotionRand = randomEmotion.Next(10);// Add to current state to see if the companion will re roll emotion. Higher roll = less likely re roll.
+        int rerollDeterminer = 0;                         //This will be the output of these logical operations and set the new emotion of the companion.
+        int qualityMod = 0;                      //This is a modifier based on current companion Emotion quality (these affect the CHANCE of a re roll)
+        int moodMod = 0;                         //This is a modifier based on current companion mood (these affect the CHANCE of a re roll)
+        bool reRoll = false;
+
+        if(emotionToFind.Quality <= 2)
+        {
+            qualityMod = 0;
+        }
+        else if(emotionToFind.Quality <= 4)
+        {
+            qualityMod = 3;
+        }
+        else if(emotionToFind.Quality <= 6)
+        {
+            qualityMod = 9;
+        }
+        else if(emotionToFind.Quality >= 7)
+        {
+            qualityMod = 15;
+        }   
+
+        if(companionEmotionToSet.Mood <= 15)               //These tables increase the likelyhood of a mood reroll if the companion has a bad mood or bad quality emotion
+        {
+            moodMod = 0;
+        }
+        else if(companionEmotionToSet.Mood <= 35)
+        {
+            moodMod = 1;
+        }
+        else if(companionEmotionToSet.Mood <= 50)
+        {
+            moodMod = 3;
+        }            
+        else if(companionEmotionToSet.Mood <= 75)
+        {
+            moodMod = 9;
+        }
+        else if(companionEmotionToSet.Mood >= 85)
+        {
+            moodMod = 15;
+        }  
+
+        rerollDeterminer = baseEmotionRand + qualityMod + moodMod;
+
+        if(rerollDeterminer <= 20)
+        {
+            reRoll = true;
+        }
+
+        Random secondPass = new Random(); //at this point we determine which emotion we will get with a modifier if there was a better mood/emotion quality before.
+
+        int emotionAdjust = secondPass.Next(1, 12);            //"Weight" of moodDecrement determined by hungerlvl
+        int secondaryMoodMod = 0;
+        int secondaryQualityMod = 0;
+
+        if(emotionToFind.Quality >= 6)
+        {
+            secondaryQualityMod = 1;
+        }
+        else if(emotionToFind.Quality > 8)
+        {
+            secondaryQualityMod = 2;
+        }
+
+        if(companionEmotionToSet.Mood >= 70)
+        {
+            secondaryQualityMod = 1;
+        }
+        else if(companionEmotionToSet.Mood > 90)
+        {
+            secondaryQualityMod = 2;
+        }
+
+        int emotionId = emotionAdjust + secondaryQualityMod + secondaryMoodMod;
+
+        if(emotionId > 11)
+        {
+            emotionId = 11;
+        }
+
         try
         {
-            _interRepo.RollCompanionEmotion(companionID);
+            _interRepo.RollCompanionEmotion(companionID, emotionId);
             if(companionID == null)
             {
                 throw new ResourceNotFound();
             }
-            return _interRepo.RollCompanionEmotion(companionID);
+            return _interRepo.RollCompanionEmotion(companionID, emotionId);
         }
         catch (ResourceNotFound)
         {
@@ -179,6 +303,7 @@ public class InteractionService
         
         return false;
     }
+
     public bool FeedCompanion(int feederID, int companionID, int foodID)
     {
         try
@@ -205,7 +330,7 @@ public class InteractionService
         {
             try
             {
-                _interRepo.RollCompanionEmotion(companionID);
+                ReRollCompanionEmotion(companionID);
             }
             catch(Exception)
             {
@@ -277,7 +402,6 @@ public class InteractionService
 
     public string PullConvo(int companionID)
     {
-        return "Your ISP sucks";
-        //return _InterationsRepo.PullConvo(int CompanionID);
+        return _interRepo.PullConvo(companionID);
     }
 }

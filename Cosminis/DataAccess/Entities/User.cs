@@ -19,10 +19,10 @@ namespace DataAccess.Entities
         public int? UserId { get; set; }
         public string Username { get; set; } = null!;
         public string Password { get; set; } = null!;
-        public DateTime AccountAge { get; set; } = DateTime.Now;
+        public DateTime AccountAge { get; set; }
         public int? GoldCount { get; set; }
         public int? EggCount { get; set; }
-        public DateTime EggTimer { get; set; } = DateTime.Now;
+        public DateTime EggTimer { get; set; }
         public int? Notifications { get; set; }
         public string? AboutMe { get; set; }
         public int? ShowcaseCompanionFk { get; set; }
