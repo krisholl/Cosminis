@@ -17,7 +17,7 @@ builder.Services.AddScoped<IPostDAO, PostRepo>();
 builder.Services.AddScoped<ICommentDAO, CommentRepo>();
 builder.Services.AddScoped<IResourceGen, ResourceRepo>();
 builder.Services.AddScoped<ILikeIt, LikeRepo>();
-builder.Services.AddScoped<Interactions,InteractionRepo>();
+builder.Services.AddScoped<Interactions, InteractionRepo>();
 
 builder.Services.AddScoped<ResourceServices>();
 builder.Services.AddScoped<CompanionServices>();
@@ -35,7 +35,7 @@ builder.Services.AddScoped<UserController>();
 builder.Services.AddScoped<PostController>();
 builder.Services.AddScoped<CommentController>();
 builder.Services.AddScoped<LikeController>();
-builder.Services.AddScoped<Interactroller>();
+builder.Services.AddScoped<InteractionController>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -47,30 +47,45 @@ app.UseSwaggerUI();
 
 app.MapGet("/", () => "Welcome to Cosminis!");
 
-app.MapPut("/interactions/ModifyHunger", (int companionID, Interactroller Interactroller) => 
+app.MapPut("/interactions/ModifyHunger", (int companionID, InteractionController interCon) => 
 {
-	return controller.DecrementCompanionHungerValue(companionID);
+	return interCon.DecrementCompanionHungerValue(companionID);
 });
 
-app.MapGet("/interactions/Talk", (int companionID, Interactroller Interactroller) => 
+app.MapGet("/interactions/Talk", (int companionID, InteractionController interCon) => 
 {
-	return Interactroller.PullConvo(companionID);
+	return interCon.PullConvo(companionID);
 });
 
-app.MapGet("/interactions/Feed", (int feederID, int companionID, int foodID, Interactroller Interactroller) => //this end point does not work yet
+app.MapPut("/setCompanion", (int userId, int companionId, InteractionController interCon) => 
 {
-	return Interactroller.FeedCompanion(feederID, companionID, foodID);
+	return interCon.SetShowcaseCompanion(userId, companionId);
+});
+
+app.MapGet("/interactions/Feed", (int feederID, int companionID, int foodID, InteractionController interCon) => //this end point does not work yet
+{
+	return interCon.FeedCompanion(feederID, companionID, foodID);
+});
+
+app.MapPut("/Interactions/IncrementalDecrement", (int companionID, InteractionController interCon) => 
+{
+	return interCon.DecrementCompanionMoodValue(companionID);
+});
+
+app.MapPut("/Interactions/RerollEmotion", (int companionID, InteractionController interCon) => 
+{
+	return interCon.ReRollCompanionEmotion(companionID);
+});
+
+app.MapPut("/Interactions/PetCompanion", (int userID, int companionID, InteractionController interCon) => 
+{
+	return interCon.PetCompanion(userID, companionID);
 });
 
 //this is a query parameter, it has a parameter to actually be implemented
 app.MapGet("/searchFriend", (string username, UserController controller) => 
 {
 	return controller.SearchFriend(username);
-});
-
-app.MapPut("/setCompanion", (int userId, int companionId, Interactroller controller) => 
-{
-	return controller.SetShowcaseCompanion(userId, companionId);
 });
 
 //this is a route parameter

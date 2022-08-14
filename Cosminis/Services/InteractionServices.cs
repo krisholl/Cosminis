@@ -186,7 +186,9 @@ public class InteractionService
             {
                 amount = (int)Math.Floor(totalMinutes * 0.0347); 
             }
-            Console.WriteLine("Calling Repo");
+
+            amount = amount * -1;
+
             return _interRepo.SetCompanionHungerValue(companionID,amount);
         }
         catch(Exception e)

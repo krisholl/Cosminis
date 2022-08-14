@@ -360,6 +360,10 @@ public class InteractionRepo : Interactions
             companionToPet.Mood = 100;
         }
 
+        //Console.WriteLine(totalRoll);
+        //Console.WriteLine(companionToPet.Mood);
+        //Console.WriteLine(moodToOffset);
+        
         companionToPet.TimeSinceLastPet = DateTime.Now;            
 
         _context.SaveChanges(); //Maybe this method could also have a percentage change to reroll the emotion? A greater chance to change emotion if mood is low or emotion quality is poor
