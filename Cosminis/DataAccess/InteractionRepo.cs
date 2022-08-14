@@ -135,6 +135,10 @@ public class InteractionRepo : Interactions
             throw new ResourceNotFound();
         }
         companionToStarve.Hunger = companionToStarve.Hunger + amount;//Modify the hunger value
+        if(companionToStarve.Hunger<0) //fix the minimum hunger value
+        {
+            companionToStarve.Hunger = 0;
+        }
         companionToStarve.TimeSinceLastChangedHunger = DateTime.Now;
         _context.SaveChanges();//save changes
         _context.ChangeTracker.Clear();
@@ -254,13 +258,19 @@ public class InteractionRepo : Interactions
             throw new TooSoon("Your buddy ain't hungy yet!");
         }
         
-        bool match = (species2check.FoodElementIdFk == food2Feed.FoodStatsId);
+        bool love = (species2check.FoodElementIdFk == food2Feed.FoodStatsId);
+        bool hate = (species2check.OpposingEle == food2Feed.FoodStatsId);
         int baseAmountHunger = 0; //neither of these numbers make any damm sense
         int baseAmountMood = 0; 
-        if(match)
+        if(love)
         {
             baseAmountHunger = RNGjesusManifested.Next(25,31);
             baseAmountMood = RNGjesusManifested.Next(25,31);
+        }
+        else if(hate)
+        {
+            baseAmountHunger = RNGjesusManifested.Next(-25,11);
+            baseAmountMood = RNGjesusManifested.Next(-25,11);
         }
         else
         {
@@ -270,7 +280,7 @@ public class InteractionRepo : Interactions
 
         double HungerModifier = 1;
         double MoodModifier = 1;
-        if(match) //I know all of these can be compress into the if else block above, I am keeping them seperated for my own sanity sake, STFU
+        if(love || hate) //I know all of these can be compress into the if else block above, I am keeping them seperated for my own sanity sake, STFU
         {
             HungerModifier = HungerModifier + RNGjesusManifested.NextDouble();
             MoodModifier = MoodModifier + RNGjesusManifested.NextDouble();
@@ -309,7 +319,7 @@ public class InteractionRepo : Interactions
 
         int moodAmount = 0;
         int hungerAmount = 0;
-        if(match) //I know all of these can be compress into the if else block above, I am keeping them seperated for my own sanity sake, STFU
+        if(love) //I know all of these can be compress into the if else block above, I am keeping them seperated for my own sanity sake, STFU
         {
             moodAmount = (int)Math.Ceiling(baseAmountMood*MoodModifier);
             hungerAmount = (int)Math.Ceiling(baseAmountHunger*HungerModifier);
@@ -522,20 +532,56 @@ public class InteractionRepo : Interactions
 
     public string PullConvo(int CompanionID)
     {
-        string returnString = "Network error, go bother your ISP";
         Companion companionToTalk = _context.Companions.Find(CompanionID);  //Retrieve companion object from database by the given CompanionID
+        if(companionToTalk==null)
+        {
+            throw new ResourceNotFound();
+        }
+        Random RNGjesusManifested = new Random();  
+        int offsetQual = 0; //[-3,3]
+        int baseQual = RNGjesusManifested.Next(3,8); //The PDF of this method aint gonna be continuous, but I am just too stupid to figure a decent way to implement a continuous distribution
+        if(companionToTalk.Mood<15) // 14*7=98
+        {
+            offsetQual = -3;
+        }
+        else if(companionToTalk.Mood<29)
+        {
+            offsetQual = -2;
+        }
+        else if(companionToTalk.Mood<43)
+        {
+            offsetQual = -1;
+        }
+        else if(companionToTalk.Mood<47)
+        {
+            offsetQual = 0;
+        }
+        else if(companionToTalk.Mood<71)
+        {
+            offsetQual = 1;
+        }
+        else if(companionToTalk.Mood<85)
+        {
+            offsetQual = 2;
+        }
+        else
+        {
+            offsetQual = 3;
+        }
+        int endQual = baseQual + offsetQual; //[0,10]
 
         IEnumerable<Conversation> checkForSpecies = //copped this code whole sale from FriendsRepo
             (from Conversation in _context.Conversations
-            where (Conversation.SpeciesFk == companionToTalk.SpeciesFk)
+            where (Conversation.SpeciesFk == companionToTalk.SpeciesFk) && (Conversation.Quality == endQual)
             select Conversation);
-        List<Conversation> friendsList = checkForSpecies.ToList(); //Retrieve A list of conversation that matches the given species.
-
-        Random RNGjesusManifested = new Random();  
-        //Pull from that list, ONE random conversation based on the mood of the companion
-        //If the companion has a high mood value, it should be more likely that a high quality conversation gets chosen
-        //return the conversation as string
-
-        return returnString;
+        Conversation endConvo = checkForSpecies.FirstOrDefault(); //Retrieve A list of conversation that matches the given species.
+        if(endConvo == null)
+        {
+            return "I want sometime for my self now, why don't you go touch some grass?";
+        }
+        else
+        {
+            return endConvo.Message;
+        }
     }
 }
