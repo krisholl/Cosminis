@@ -40,7 +40,7 @@ public class CompanionController
             List<Companion> queriedCompanion = _service.GetCompanionByUser(userId);
             return Results.Ok(queriedCompanion);
         }
-        catch(Exception e)
+        catch(Exception)
         {
             return Results.BadRequest("There is no companion with this ID");
         }
@@ -91,5 +91,5 @@ public class CompanionController
         {
             return Results.NotFound("No Companion with this ID exists");
         }
-    }
+    }   
 }

@@ -160,6 +160,11 @@ app.MapPost("/companions/GenerateCompanion", (string username, CompanionControll
 	return CompControl.GenerateCompanion(username);
 });
 
+app.MapDelete("/companions/DeleteCompanion", (int companionId, CompanionController CompControl) => 
+{
+	return CompControl.DeleteCompanion(companionId);
+});
+
 app.MapGet("/Friends/FriendsList", (int userIdToLookup, FriendsController FriendsControl) => 
 {
 	return FriendsControl.ViewAllFriends(userIdToLookup);
