@@ -37,9 +37,17 @@ public class FriendsController
     		List<Friends> friendsList = _friendServices.ViewAllFriends(userIdToLookup);
     		return Results.Ok(friendsList); 
     	}
-    	catch(ResourceNotFound)
+        catch(UserNotFound)
+        {
+            return Results.NotFound("No user with this ID exists."); 
+        }	
+        catch(RelationshipNotFound)
         {
             return Results.NotFound("This user has no friends!"); 
+        }	
+    	catch(ResourceNotFound)
+        {
+            return Results.NotFound("Something went wrong with this request."); 
         }	
     }
 
@@ -63,6 +71,14 @@ public class FriendsController
     		List<Friends> friendsList = _friendServices.ViewRelationShipsByStatus(status);
     		return Results.Ok(friendsList); 
     	}
+        catch(UserNotFound)
+        {
+            return Results.NotFound("No user with this ID exists."); 
+        }        
+        catch(RelationshipNotFound)
+        {
+            return Results.NotFound("This user has no friends!"); 
+        }	         
     	catch(ResourceNotFound)
         {
             return Results.NotFound("Something went very wrong here."); 
@@ -76,6 +92,14 @@ public class FriendsController
     		List<Friends> friendsList = _friendServices.CheckRelationshipStatusByUserId(searchingId, status);
     		return Results.Ok(friendsList); 
     	}
+        catch(UserNotFound)
+        {
+            return Results.NotFound("No user with this ID exists."); 
+        }        
+        catch(RelationshipNotFound)
+        {
+            return Results.NotFound("This user has no friends!"); 
+        }        
     	catch(ResourceNotFound)
         {
             return Results.NotFound("This information is not in our database."); 
@@ -89,6 +113,14 @@ public class FriendsController
     		Friends friendsReturn = _friendServices.FriendsByUserIds(searchingUserId, user2BeSearchedFor);
     		return Results.Ok(friendsReturn); 
     	}
+        catch(UserNotFound)
+        {
+            return Results.NotFound("No user with this ID exists."); 
+        }
+        catch(RelationshipNotFound)
+        {
+            return Results.NotFound("This user has no friends!"); 
+        }	        	        
     	catch(ResourceNotFound)
         {
             return Results.NotFound("These users have no established relationship."); 
@@ -102,6 +134,14 @@ public class FriendsController
     		Friends editFriendship = _friendServices.EditFriendship(editingUserID, user2BeEdited, status);
     		return Results.Created("/Friends/EditStatus", editFriendship); 
     	}
+        catch(UserNotFound)
+        {
+            return Results.NotFound("No user with this ID exists."); 
+        }        
+        catch(RelationshipNotFound)
+        {
+            return Results.NotFound("This user has no friends!"); 
+        }        
     	catch(ResourceNotFound)
         {
             return Results.NotFound("This user doesn't exist in our system."); 
@@ -115,9 +155,17 @@ public class FriendsController
     		List<Friends> friendsList = _friendServices.CheckRelationshipStatusByUsername(username, status);
     		return Results.Ok(friendsList); 
     	}
+        catch(UserNotFound)
+        {
+            return Results.NotFound("No user with this ID exists."); 
+        }
+        catch(RelationshipNotFound)
+        {
+            return Results.NotFound("This user has no friends!"); 
+        }        
     	catch(ResourceNotFound)
         {
-            return Results.BadRequest("This user has no relationships with this status."); 
+            return Results.NotFound("This user has no relationships with this status."); 
         }	
     }      
 
@@ -128,14 +176,22 @@ public class FriendsController
     		Friends newFriends = _friendServices.AddFriendByUserId(requesterId, addedId);
     		return Results.Created("/Friends/AddFriend", newFriends); 
     	}
+        catch(UserNotFound)
+        {
+            return Results.NotFound("No user with this ID exists."); 
+        }        
         catch(ResourceNotFound)
         {
-            return Results.BadRequest("There is no user with this ID in our system.");
+            return Results.NotFound("There is no user with this ID in our system.");
         }
     	catch(DuplicateFriends)
         {
             return Results.Conflict("You are either friends or never will be!!"); 
-        }	
+        }
+    	catch(BlockedUser)
+        {
+            return Results.Conflict("The information you have entered is not valid"); 
+        }         	
     }
 
     public IResult AddFriendByUsername(string requesterUsername, string addedUsername)
@@ -145,6 +201,10 @@ public class FriendsController
     		Friends newFriends = _friendServices.AddFriendByUsername(requesterUsername, addedUsername);
     		return Results.Created("/Friends/AddFriendByUsername", newFriends); 
     	}
+        catch(UserNotFound)
+        {
+            return Results.NotFound("No user with this ID exists."); 
+        }        
         catch(ResourceNotFound)
         {
             return Results.NotFound("There is no user with this username in our system.");
@@ -153,5 +213,9 @@ public class FriendsController
         {
             return Results.Conflict("You are either friends or never will be!!"); 
         }	
+    	catch(BlockedUser)
+        {
+            return Results.Conflict("The information you have entered is not valid"); 
+        }         
     }     
 }

@@ -46,10 +46,14 @@ public class CompanionRepo : ICompanionDAO
         };
 
         userInstance.EggCount = userInstance.EggCount - 1;
-        if(userInstance.EggCount <= 0)
+        if(userInstance.EggCount < 0)
         {
             userInstance.EggCount = 0;
             throw new TooFewResources();
+        }
+        if(userInstance.EggCount >= 1)
+        {
+            userInstance.EggTimer = DateTime.Now;
         }
 
         _context.Companions.Add(newCompanion);
@@ -72,6 +76,10 @@ public class CompanionRepo : ICompanionDAO
     public Companion SetCompanionNickname(int companionId, string? nickname)
     {
         Companion selectCompanion = GetCompanionByCompanionId(companionId);
+        if(selectCompanion == null)
+        {
+            throw new CompNotFound();
+        }
 
         selectCompanion.Nickname = nickname;
 
@@ -105,12 +113,12 @@ public class CompanionRepo : ICompanionDAO
 
             if(companionList.Count() < 1)
             {
-                throw new Exception("This user has no companions.");
+                throw new UserNotFound();
             }
 
             return companionList;
         }
-        catch(Exception E)
+        catch(UserNotFound)
         {
             throw;
         }
@@ -127,6 +135,12 @@ public class CompanionRepo : ICompanionDAO
         if(companionToEnd == null)
         {
             throw new CompNotFound();
+        }
+
+        User userShowcaseCheck = _context.Users.Find(companionToEnd.UserFk);
+        if (userShowcaseCheck.ShowcaseCompanionFk == companionToEnd.CompanionId)
+        {
+            throw new ShowWontGoYo();
         }
 
         _context.Companions.Remove(companionToEnd);

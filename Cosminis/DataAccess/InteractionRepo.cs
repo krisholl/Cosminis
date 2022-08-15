@@ -247,19 +247,19 @@ public class InteractionRepo : Interactions
         {
             hungerMod = -30;        //"roll a agitation threshold based on hunger (if the pet is hungry, the agitation threshold should be weighted to roll high)"
         }
-        else if(companionToPet.Hunger <= 35)
+        else if(companionToPet.Hunger <= 30)
         {
             hungerMod = -20;
         }
-        else if(companionToPet.Hunger <= 60)
+        else if(companionToPet.Hunger <= 50)
         {
             hungerMod = -10;
         }        
-        else if(companionToPet.Hunger <= 75)
+        else if(companionToPet.Hunger <= 74)
         {
             hungerMod = -5;
         }
-        else if(companionToPet.Hunger >= 90)
+        else if(companionToPet.Hunger >= 75)
         {
             hungerMod = 0;
         }                  
@@ -269,19 +269,19 @@ public class InteractionRepo : Interactions
         {
             moodMod = -5;       
         }
-        else if(companionToPet.Mood <= 35)
+        else if(companionToPet.Mood <= 30)
         {
             moodMod = 0;
         }
-        else if(companionToPet.Mood <= 60)
+        else if(companionToPet.Mood <= 50)
         {
             moodMod = 5;
         }        
-        else if(companionToPet.Mood <= 75)
+        else if(companionToPet.Mood <= 74)
         {
             moodMod = 15;
         }
-        else if(companionToPet.Mood >= 90)
+        else if(companionToPet.Mood >= 75)
         {
             moodMod = 30;
         }        
@@ -302,48 +302,48 @@ public class InteractionRepo : Interactions
 
         int totalRoll = agitationBaseRoll + hungerMod + moodMod + showcaseMod;
 
-        if(totalRoll < 50)
+        if(totalRoll < 44)
         {
             if(companionToPet.Mood <= 15)
             {
                 moodToOffset = -7; //This is a weird one.... because the number is already soooo low it'll probably hit 0 or close to it anyway...      
             }
-            else if(companionToPet.Mood <= 35)
+            else if(companionToPet.Mood <= 30)
             {
-                moodToOffset = -20;     //This number is bigger than the above one because if it is agitated with a low mood we want the change obvious
+                moodToOffset = -15;     //This number is bigger than the above one because if it is agitated with a low mood we want the change obvious
             }
-            else if(companionToPet.Mood <= 60)
+            else if(companionToPet.Mood <= 50)
             {
                 moodToOffset = -10;     //Sucks to suck and it is noticable but not too bad 
             }        
-            else if(companionToPet.Mood <= 75)
+            else if(companionToPet.Mood <= 74)
             {
                 moodToOffset = 0;       //These numbers are pretty harsh but also I weighed it very likely for petting to be a positive result.
             }
-            else if(companionToPet.Mood >= 90)
+            else if(companionToPet.Mood >= 75)
             {
                 moodToOffset = 5;       //I mean does it really need to be much happier?
             }  
         }
-        else if(totalRoll >= 50)
+        else if(totalRoll >= 45)
         {
             if(companionToPet.Mood <= 15)
             {
                 moodToOffset = 30; //Give them a big bonus because it could be risky and they need it the most (we could make this a random range too if we want in theory)      
             }
-            else if(companionToPet.Mood <= 35)
+            else if(companionToPet.Mood <= 30)
             {
                 moodToOffset = 20;     //This number is bigger than the above one because if it is agitated with a low mood we want the change obvious
             }
-            else if(companionToPet.Mood <= 60)
+            else if(companionToPet.Mood <= 50)
             {
                 moodToOffset = 15;     //Numbers becoming less since the companion is already in a relatively good mood. Obvi we can change them.
             }        
-            else if(companionToPet.Mood <= 75)
+            else if(companionToPet.Mood <= 74)
             {
                 moodToOffset = 10;       
             }
-            else if(companionToPet.Mood >= 90)
+            else if(companionToPet.Mood >= 75)
             {
                 moodToOffset = 5;       //I mean does it really need to be much happier?
             } 
@@ -360,9 +360,13 @@ public class InteractionRepo : Interactions
             companionToPet.Mood = 100;
         }
 
-        //Console.WriteLine(totalRoll);
-        //Console.WriteLine(companionToPet.Mood);
-        //Console.WriteLine(moodToOffset);
+        Console.WriteLine(agitationBaseRoll);
+        Console.WriteLine(hungerMod);
+        Console.WriteLine(moodMod);
+        Console.WriteLine(showcaseMod);
+        Console.WriteLine(totalRoll);
+        Console.WriteLine(companionToPet.Mood);
+        Console.WriteLine(moodToOffset);
         
         companionToPet.TimeSinceLastPet = DateTime.Now;            
 
