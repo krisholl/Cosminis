@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 declare var $:any;
 
 @Component({
@@ -9,12 +10,15 @@ declare var $:any;
 export class CosminisGoComponent implements OnInit 
 {
 
-  constructor() { }
+  constructor(private router: Router) { }
+
+  gotoHome(){
+    this.router.navigateByUrl('/homepage');  // define your component where you want to go
+  }    
   
   ngOnInit(): void 
   {
-    $(document).ready(() => {
-
+    $(document).ready(() => {        
       let LeftSelect = false; //this get toggled in the RNG
       let RightSelect = false;
       let WinCondition = 0;

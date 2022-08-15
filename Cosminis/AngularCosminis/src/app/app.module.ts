@@ -12,6 +12,7 @@ import { environment as env } from '../environments/environment';
 import { CosminisGoComponent } from './cosminis-go/cosminis-go.component';
 import { AllCosminisComponent } from './all-cosminis/all-cosminis.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     HomepageComponent,
     UserprofileComponent,
     CosminisGoComponent,
-    AllCosminisComponent
+    AllCosminisComponent,
+    NavbarComponent
     //AppLoginComponent
   ],
   imports: [

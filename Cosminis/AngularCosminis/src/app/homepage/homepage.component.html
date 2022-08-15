@@ -1,6 +1,9 @@
+<app-navbar></app-navbar>
 <section class="Container1">
     <div class="row1"></div>
-    <div class="row1"></div>
+    <div class="row1 Shop InvisibleBox">
+        <button type="button" (click)="gotoUserProfile()" class="btn btn-light">ShopTillYaDrop</button>
+    </div>
     <div class="row1"></div>
 </section>
 <section class="Container1">
@@ -8,8 +11,8 @@
         <img src="https://cdn.discordapp.com/attachments/1004455177165754508/1008538378184183908/go3.png" (click)="GoAway()" class="GoButton" type="button">
     </div>
     <div class="row1"></div>
-    <div class="row1">
-        <button type="button" (click)="gotoUserProfile()" class="btn btn-light">User Profile Preview</button>
+    <div class="row1 UserProfilePortal InvisibleBox">
+        <button type="button" (click)="gotoUserProfile()" class="btn btn-light">User Profile</button>
     </div>
 </section>
 <section class="Container1">

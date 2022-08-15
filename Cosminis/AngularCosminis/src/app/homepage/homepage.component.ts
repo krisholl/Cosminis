@@ -13,25 +13,26 @@ export class HomepageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  smellingHandler:Function = () =>
-  {
+  smellingHandler(){
     let audio = new Audio();
     audio.src = "../assets/Audio/1.mp3";
     audio.load();
     audio.play();
   }
 
-  GoAway:Function = () =>
-  {
+  GoAway(){
     this.router.navigateByUrl('/Go');  // define your component where you want to go
   }
 
-  GoBabies:Function = () =>
-  {
+  GoBabies(){
     this.router.navigateByUrl('/MyBabies');  // define your component where you want to go
   }
 
   gotoUserProfile(){
     this.router.navigateByUrl('/userprofile');  // define your component where you want to go
   }
+
+  gotoShop(){
+    this.router.navigateByUrl('/shop');  // define your component where you want to go
+  }  
 }

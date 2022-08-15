@@ -1,7 +1,14 @@
 <div class="GoBody">
 	<header>
 		<h1>Cosminis Go!</h1>
-		<button class="generate">Go!</button>
+		<div  class="buttonContainer">
+			<div  class="goButton">
+				<button class="generate">Go!</button>
+			</div>
+			<div class="homeButton">			
+				<button type="button" (click)="gotoHome()" class="homeButton btn-light">Homepage</button>
+			</div>	
+		</div>
 		<h1>GamePlayed: <span class="Player-counter-display">(_)</span></h1>
 		<h1>WinStreak: <span class="Winning_streak_display">(_)</span></h1>
 	</header>

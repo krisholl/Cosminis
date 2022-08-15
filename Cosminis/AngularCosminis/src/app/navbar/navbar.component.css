@@ -1,0 +1,38 @@
+.NavContainer {
+    display: flex;
+    justify-content: space-between;
+    color:mistyrose;
+    border-width: 3px;
+    border-style: solid;
+    border-color: black;
+}
+/*
+.NavLeft {
+    display: flex;
+    border-width: 3px;
+    border-style: solid;
+    border-color: black;
+}*/
+
+.NavLeft {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    padding-left: 15px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: black;
+}
+
+.NavMiddle {
+    border-width: 3px;
+    border-style: solid;
+    border-color: black;
+}
+
+.NavRight {
+    border-width: 3px;
+    border-style: solid;
+    border-color: black;
+}
