@@ -32,7 +32,7 @@ public class FriendsRepo : IFriendsDAO
 
         if(userToLookup == null)
         {
-            throw new ResourceNotFound();
+            throw new UserNotFound();
         }
 
         IEnumerable<Friends> friendsQuery =
@@ -42,7 +42,7 @@ public class FriendsRepo : IFriendsDAO
 
         if(friendsQuery == null)
         {
-            throw new ResourceNotFound();
+            throw new RelationshipNotFound();
         }
                
             List<Friends> friendsList = friendsQuery.ToList();
@@ -65,25 +65,25 @@ public class FriendsRepo : IFriendsDAO
         User searchingUser = _context.Users.Find(searchingUserId);
         if(searchingUser == null)
         {
-            throw new ResourceNotFound();
+            throw new UserNotFound();
         }
         User friend2BFound = _context.Users.Find(user2BeSearchedFor);
         if(friend2BFound == null)
         {
-            throw new ResourceNotFound();
+            throw new UserNotFound();
         }
         List<Friends> quieriedFriendsList = ViewAllFriends((int)searchingUser.UserId);
 
         if(quieriedFriendsList == null)
         {
-            throw new ResourceNotFound();
+            throw new RelationshipNotFound();
         }
 
         List<Friends> searchedFriendsList = ViewAllFriends((int)friend2BFound.UserId);
 
         if(searchedFriendsList == null)
         {
-            throw new ResourceNotFound();
+            throw new RelationshipNotFound();
         }
 
         Friends returnRelationship = new Friends();
@@ -103,13 +103,13 @@ public class FriendsRepo : IFriendsDAO
         User editingUser = _context.Users.Find(editingUserID);
         if(editingUser == null)
         {
-            throw new ResourceNotFound();
+            throw new UserNotFound();
         }
         
         User friend2BeEdited = _context.Users.Find(user2BeEdited);
         if(friend2BeEdited == null)
         {
-            throw new ResourceNotFound();
+            throw new UserNotFound();
         }
         
         Friends statusToBeEdited = FriendsByUserIds((int)editingUser.UserId, (int)friend2BeEdited.UserId);
@@ -160,7 +160,7 @@ public class FriendsRepo : IFriendsDAO
         User quieriedUser = _context.Users.Find(searchingId);
         if(quieriedUser == null)
         {
-            throw new ResourceNotFound();
+            throw new UserNotFound();
         }
 
         List<Friends> quieriedUsersList = ViewAllFriends((int)quieriedUser.UserId);
@@ -169,7 +169,7 @@ public class FriendsRepo : IFriendsDAO
 
         if(quieriedUsersList == null)
         {
-            throw new ResourceNotFound();
+            throw new UserNotFound();
         }
         foreach(Friends friendSearch in quieriedUsersList)
         {
@@ -180,7 +180,7 @@ public class FriendsRepo : IFriendsDAO
         }
         if(statusList.Count() < 1)
         {
-            throw new ResourceNotFound();
+            throw new RelationshipNotFound();
         }
 
         return statusList;
@@ -231,12 +231,12 @@ public class FriendsRepo : IFriendsDAO
 
             if(relationsList.Count() < 1)
             {
-                throw new Exception("There are no relationships with this status.");
+                throw new RelationshipNotFound();
             }
 
             return relationsList;
             }
-            catch(Exception E)
+            catch(ResourceNotFound)
             {
                 throw;
             }
@@ -256,12 +256,12 @@ public class FriendsRepo : IFriendsDAO
 
             if(relationsList.Count() < 1)
             {
-                throw new Exception("There are no relationships with this status.");
+                throw new RelationshipNotFound();
             }
 
             return relationsList;
             }
-            catch(Exception E)
+            catch(ResourceNotFound)
             {
                 throw;
             }
@@ -281,12 +281,12 @@ public class FriendsRepo : IFriendsDAO
 
             if(relationsList.Count() < 1)
             {
-                throw new Exception("There are no relationships with this status.");
+                throw new RelationshipNotFound();
             }
 
             return relationsList;
             }
-            catch(Exception E)
+            catch(ResourceNotFound)
             {
                 throw;
             }
@@ -306,12 +306,12 @@ public class FriendsRepo : IFriendsDAO
 
             if(relationsList.Count() < 1)
             {
-                throw new Exception("There are no relationships with this status.");
+                throw new RelationshipNotFound();
             }
 
             return relationsList;
             }
-            catch(Exception E)
+            catch(ResourceNotFound)
             {
                 throw;
             }
@@ -353,7 +353,7 @@ public class FriendsRepo : IFriendsDAO
 
         if(addingUser == null || requestReceiver == null)
         {
-            throw new ResourceNotFound();
+            throw new UserNotFound();
         }
 
         IEnumerable<Friends> checkIfExists =
@@ -388,6 +388,10 @@ public class FriendsRepo : IFriendsDAO
                     {
                         if((friendInstance.UserIdTo == requestReceiver.UserId) || (friendInstance.UserIdFrom == requestReceiver.UserId))
                         {
+                            if(friendInstance.Status == "Blocked")
+                            {
+                                throw new BlockedUser();
+                            }                            
                             throw new DuplicateFriends();
                         }
                     }
@@ -408,7 +412,7 @@ public class FriendsRepo : IFriendsDAO
 
                 return newRelationshipChance2;
             }
-            catch(Exception E)
+            catch(ResourceNotFound)
             {
                 throw;
             }
@@ -425,7 +429,7 @@ public class FriendsRepo : IFriendsDAO
 
         if(addingUser == null || requestReceiver == null)
         {
-            throw new ResourceNotFound();
+            throw new UserNotFound();
         }
 
         IEnumerable<Friends> checkIfExists =
@@ -460,6 +464,10 @@ public class FriendsRepo : IFriendsDAO
                     {
                         if((friendInstance.UserIdTo == requestReceiver.UserId) || (friendInstance.UserIdFrom == requestReceiver.UserId))
                         {
+                            if(friendInstance.Status == "Blocked")
+                            {
+                                throw new BlockedUser();
+                            }                    
                             throw new DuplicateFriends();
                         }
                     }
@@ -480,7 +488,7 @@ public class FriendsRepo : IFriendsDAO
 
                 return newRelationshipChance2;
             }
-            catch(Exception E)
+            catch(ResourceNotFound)
             {
                 throw;
             }

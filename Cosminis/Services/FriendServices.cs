@@ -59,7 +59,7 @@ public class FriendServices
             List<Friends> checkRelationship = _friendsRepo.ViewRelationShipsByStatus(status);
             if(checkRelationship == null)
             {
-                throw new ResourceNotFound();
+                throw new RelationshipNotFound();
             }
             return _friendsRepo.ViewRelationShipsByStatus(status);
         }
@@ -76,7 +76,7 @@ public class FriendServices
             Friends checkFriendship = _friendsRepo.FriendsByUserIds(searchingUserId, user2BeSearchedFor);
             if(checkFriendship == null)
             {
-                throw new ResourceNotFound();
+                throw new RelationshipNotFound();
             }
             return _friendsRepo.FriendsByUserIds(searchingUserId, user2BeSearchedFor);
         }
@@ -93,11 +93,11 @@ public class FriendServices
             Friends editFriendship = _friendsRepo.EditFriendship(editingUserID, user2BeEdited, status);
             if(editFriendship == null)
             {
-                throw new ResourceNotFound();
+                throw new RelationshipNotFound();
             }
             return _friendsRepo.EditFriendship(editingUserID, user2BeEdited, status);
         }
-        catch (Exception E)
+        catch (ResourceNotFound)
         {
             throw;
         }
@@ -110,7 +110,7 @@ public class FriendServices
             List<Friends> checkRelationship = _friendsRepo.CheckRelationshipStatusByUserId(searchingId, status);
             if(checkRelationship == null)
             {
-                throw new ResourceNotFound();
+                throw new RelationshipNotFound();
             }
             return _friendsRepo.CheckRelationshipStatusByUserId(searchingId, status);
         }
@@ -127,11 +127,11 @@ public class FriendServices
             List<Friends> checkRelationship = _friendsRepo.CheckRelationshipStatusByUsername(username, status);
             if(checkRelationship == null)
             {
-                throw new ResourceNotFound("No relationship with this status exists.");
+                throw new RelationshipNotFound();
             }
             return _friendsRepo.CheckRelationshipStatusByUsername(username, status);
         }
-        catch (Exception E)
+        catch (ResourceNotFound)
         {
             throw;
         }
@@ -144,7 +144,7 @@ public class FriendServices
             List<Friends> checkRelationship = _friendsRepo.ViewAllFriends(userIdToLookup);
             if(checkRelationship == null)
             {
-                throw new ResourceNotFound();
+                throw new RelationshipNotFound();
             }
             return _friendsRepo.ViewAllFriends(userIdToLookup);
         }
@@ -161,14 +161,18 @@ public class FriendServices
         try
         {
             Friends checkRelationship = _friendsRepo.AddFriendByUserId(requesterId, addedId);
-            
+            if(checkRelationship == null)
+            {
+                throw new RelationshipNotFound();
+            }            
+
             int goldToAdd = 5;
 
             _ResourceRepo.AddGold(user2Add2, goldToAdd);
 
             return checkRelationship;
         }
-        catch (Exception E)
+        catch (ResourceNotFound)
         {
             throw;
         }
@@ -181,14 +185,18 @@ public class FriendServices
         try
         {
             Friends checkRelationship = _friendsRepo.AddFriendByUsername(requesterUsername, addedUsername);
-            
+            if(checkRelationship == null)
+            {
+                throw new RelationshipNotFound();
+            }            
+
             int goldToAdd = 5;
 
             _ResourceRepo.AddGold(user2Add2, goldToAdd);
 
             return checkRelationship;
         }
-        catch (Exception E)
+        catch (ResourceNotFound)
         {
             throw;
         }
