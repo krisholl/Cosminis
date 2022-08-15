@@ -79,4 +79,17 @@ public class CompanionController
             return Results.BadRequest("Invalid Input");
         }
     }  
+
+    public IResult DeleteCompanion(int companionId)
+    {
+        try
+        {   
+            _service.DeleteCompanion(companionId);
+            return Results.Ok(companionId);
+        }
+        catch(Exception)
+        {
+            return Results.NotFound("No Companion with this ID exists");
+        }
+    }     
 }
