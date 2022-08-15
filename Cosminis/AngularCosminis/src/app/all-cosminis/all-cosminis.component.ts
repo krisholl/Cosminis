@@ -12,33 +12,24 @@ export class AllCosminisComponent implements OnInit {
 
   constructor(private api:ComsinisApiServiceService) { }
   showCosminis!:Promise<boolean>;
-  cosminis : Cosminis[] = 
-  [{
-    CompanionId : 1,
-    TrainerId : 1,
-    UserFk : 1,
-    SpeciesFk : 1,
-    Nickname : "Shrek",
-    Emotion : 100,
-    Hunger : 100
-  }]
+  cosminis : Cosminis[] = [];
 
   cosminis1 : Cosminis = 
   {
-    CompanionId : 1,
-    TrainerId : 1,
-    UserFk : 1,
-    SpeciesFk : 1,
-    Nickname : "Shrek",
-    Emotion : 100,
-    Hunger : 100
+    companionId : 1,
+    trainerId : 1,
+    userFk : 1,
+    speciesFk : 1,
+    nickname : "Shrek",
+    emotion : 100,
+    hunger : 100
   }
 
   updateCosminis() : void {
       this.api.getAllComsinis().subscribe((res) => 
       {
         console.log(res);
-        this.cosminis = res;
+        // this.cosminis = res;
         console.log(this.cosminis);
         this.showCosminis=Promise.resolve(true);
       })
@@ -53,8 +44,18 @@ export class AllCosminisComponent implements OnInit {
     })
 }
 
+showCards = false;
   ngOnInit(): void 
   {
+    // this.showCards = false;
+    this.api.getAllComsinis().subscribe((res) => 
+    {
+      console.log(res);
+      this.cosminis = res;
+      this.showCards = true;
+      console.log(this.cosminis);
+      this.showCosminis=Promise.resolve(true);
+    })
   }
 
 }
