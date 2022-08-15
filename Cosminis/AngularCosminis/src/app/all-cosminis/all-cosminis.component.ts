@@ -11,6 +11,7 @@ import { Cosminis } from '../Models/Cosminis';
 export class AllCosminisComponent implements OnInit {
 
   constructor(private api:ComsinisApiServiceService) { }
+  showCosminis!:Promise<boolean>;
   cosminis : Cosminis[] = 
   [{
     CompanionId : 1,
@@ -39,6 +40,7 @@ export class AllCosminisComponent implements OnInit {
         console.log(res);
         this.cosminis = res;
         console.log(this.cosminis);
+        this.showCosminis=Promise.resolve(true);
       })
   }
 
@@ -51,7 +53,8 @@ export class AllCosminisComponent implements OnInit {
     })
 }
 
-  ngOnInit(): void {
+  ngOnInit(): void 
+  {
   }
 
 }

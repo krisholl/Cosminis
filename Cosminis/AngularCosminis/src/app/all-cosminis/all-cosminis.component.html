@@ -1,15 +1,15 @@
 <h1>
     See how your companion are doing!
 </h1>
-<button type="button" button (click)="getCosminiByID(30)" class="btn btn-light">Fill this card please</button>
-<div class="card text-white bg-dark mb-3" style="max-width: 18rem;" *ngFor="let com of [cosminis1].constructor(5)">
+<button type="button" button (click)="updateCosminis()" class="btn btn-light">Fill this card please</button>
+<div class="card text-white bg-dark mb-3" style="max-width: 18rem;" *ngFor='let com of cosminis'>
     <div class="card-header">Cosminis</div>
     <div class="card-body">
         <h5 class="card-title">Some something below please</h5>
-            <div>Id: {{com.CompanionId}}</div>
-            <div>User: {{com.UserFk}}</div>
-            <div *ngIf="com.Emotion">Emotion: {{com.Emotion}}</div>
-        <p class="card-text">{{com.Nickname}}</p>
+            <div *ngIf="showCosminis | async">Id: {{com.CompanionId}}</div>
+            <div *ngIf="showCosminis"> User: {{com.UserFk}}</div>
+            <div *ngIf="showCosminis | async">Emotion: {{com.Emotion}}</div>
+        <p *ngIf="showCosminis | async" class="card-text">{{com.Nickname}}</p>
         <p class="card-text"></p>
     </div>
 </div> 
