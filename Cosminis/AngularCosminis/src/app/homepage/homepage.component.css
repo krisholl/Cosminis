@@ -16,15 +16,6 @@
     margin-bottom: 50px;
 }
 
-.BeanNebula
-{
-    background-color: transparent;
-    display:flex;
-    border-width: 0px;
-    justify-content: center;
-    align-items: center;
-}
-
 @keyframes pulse 
 {
     0% 
@@ -57,3 +48,23 @@
     animation: pulse 10s linear infinite;
 }
 
+.InvisibleBox
+{
+    background-color: transparent;
+    display:flex;
+    border-width: 0px;
+    justify-content: center;
+    align-items: center;
+}
+
+.GoButton
+{
+    height: 150x;
+    width: 300px;
+}
+
+.SeeAllCosminis
+{
+    height: 150x;
+    width: 300px;
+}

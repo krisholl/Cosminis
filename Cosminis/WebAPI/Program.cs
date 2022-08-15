@@ -150,6 +150,11 @@ app.MapPost("/companions/Nickname", (int companionId, string? nickname, Companio
 	return CompControl.NicknameCompanion(companionId, nickname);
 });
 
+app.MapDelete("/companions/DeleteCompanion", (int companionId, CompanionController CompControl) => 
+{
+    return CompControl.DeleteCompanion(companionId);
+});
+
 app.MapPost("/companions/GenerateCompanion", (string username, CompanionController CompControl) => 
 {
 	return CompControl.GenerateCompanion(username);

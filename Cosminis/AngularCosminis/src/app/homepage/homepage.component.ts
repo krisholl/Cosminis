@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class HomepageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -19,5 +19,15 @@ export class HomepageComponent implements OnInit {
     audio.src = "../assets/Audio/1.mp3";
     audio.load();
     audio.play();
+  }
+
+  GoAway:Function = () =>
+  {
+    this.router.navigateByUrl('/Go');  // define your component where you want to go
+  }
+
+  GoBabies:Function = () =>
+  {
+    this.router.navigateByUrl('/MyBabies');  // define your component where you want to go
   }
 }
