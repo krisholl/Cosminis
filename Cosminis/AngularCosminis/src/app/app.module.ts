@@ -12,7 +12,6 @@ import { environment as env } from '../environments/environment';
 import { CosminisGoComponent } from './cosminis-go/cosminis-go.component';
 import { AllCosminisComponent } from './all-cosminis/all-cosminis.component';
 import { HttpClientModule } from '@angular/common/http';
-//import { AppLoginComponent } from './login/app-login/app-login.component';
 
 @NgModule({
   declarations: [
@@ -29,11 +28,11 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     MatButtonModule,
     MatCardModule,
-    HttpClientModule
-    /*AuthModule.forRoot
+    HttpClientModule,
+    AuthModule.forRoot
     ({
       ... env.auth,
-    })*/
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

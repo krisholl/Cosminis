@@ -5,13 +5,13 @@
 export const environment = 
 {
   production: false, 
-  api: 'https://comsinis.azurewebsites.net/'
-  /*auth:
+  api: 'https://comsinis.azurewebsites.net/',
+  auth:
   {
-    domain,
-    clientId,
+    domain: "dev-lj8y5w8u.us.auth0.com",
+    clientId: "tGqEiAcYxB9BZh4VpzFXgKbuI82Se4pk",
     redirectUri: window.location.origin
-  }*/
+  }
 };
 
 /*

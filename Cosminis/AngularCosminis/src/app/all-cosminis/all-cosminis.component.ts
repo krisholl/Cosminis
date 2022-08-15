@@ -12,26 +12,17 @@ export class AllCosminisComponent implements OnInit {
 
   constructor(private api:ComsinisApiServiceService) { }
   showCosminis!:Promise<boolean>;
-  cosminis : Cosminis[] = 
-  [{
-    CompanionId : 1,
-    TrainerId : 1,
-    UserFk : 1,
-    SpeciesFk : 1,
-    Nickname : "Shrek",
-    Emotion : 100,
-    Hunger : 100
-  }]
+  cosminis : Cosminis[] = []
 
   cosminis1 : Cosminis = 
   {
-    CompanionId : 1,
-    TrainerId : 1,
-    UserFk : 1,
-    SpeciesFk : 1,
-    Nickname : "Shrek",
-    Emotion : 100,
-    Hunger : 100
+    companionId : 1,
+    trainerId : 1,
+    userFk : 1,
+    speciesFk : 1,
+    nickname : "Shrek",
+    emotion : 100,
+    hunger : 100
   }
 
   updateCosminis() : void {
@@ -53,8 +44,10 @@ export class AllCosminisComponent implements OnInit {
     })
 }
 
+showCards = false;
   ngOnInit(): void 
   {
+    
   }
 
 }
