@@ -30,4 +30,8 @@ export class HomepageComponent implements OnInit {
   {
     this.router.navigateByUrl('/MyBabies');  // define your component where you want to go
   }
+
+  gotoUserProfile(){
+    this.router.navigateByUrl('/userprofile');  // define your component where you want to go
+  }
 }
