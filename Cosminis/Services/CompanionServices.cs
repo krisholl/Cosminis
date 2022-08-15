@@ -24,16 +24,15 @@ public class CompanionServices
             User newUser = _userRepo.GetUserByUserName(username);
             if(newUser == null)
             {
-                throw new ResourceNotFound("No user with this username exists");
+                throw new UserNotFound();
             }
-
             Companion companionToGenerate = _CompanionRepo.GenerateCompanion((int)newUser.UserId);
 
 
             return companionToGenerate.CompanionId;
 
         }
-        catch (Exception E)
+        catch (ResourceNotFound)
         {
             throw;
         }
@@ -46,11 +45,11 @@ public class CompanionServices
             Companion checkCompanion = _CompanionRepo.GetCompanionByCompanionId(companionId);
             if(checkCompanion == null)
             {
-                throw new ResourceNotFound("No companion with this ID exists.");
+                throw new ResourceNotFound();
             }
             return _CompanionRepo.SetCompanionNickname(companionId, nickname);
         }
-        catch (Exception E)
+        catch (CompNotFound)
         {
             throw;
         }
@@ -68,11 +67,11 @@ public class CompanionServices
             List<Companion> checkUser = _CompanionRepo.GetCompanionByUser(userId);
             if(checkUser == null)
             {
-                throw new ResourceNotFound("No user with this Id exists.");
+                throw new UserNotFound();
             }
             return _CompanionRepo.GetCompanionByUser(userId);
         }
-        catch (Exception E)
+        catch (ResourceNotFound)
         {
             throw;
         }
@@ -85,11 +84,11 @@ public class CompanionServices
             Companion checkCompanion = _CompanionRepo.GetCompanionByCompanionId(companionId);
             if(checkCompanion == null)
             {
-                throw new ResourceNotFound("No companion with this ID exists.");
+                throw new CompNotFound();
             }
             return _CompanionRepo.GetCompanionByCompanionId(companionId);
         }
-        catch (Exception E)
+        catch (ResourceNotFound)
         {
             throw;
         }

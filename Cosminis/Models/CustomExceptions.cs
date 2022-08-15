@@ -179,3 +179,33 @@ public class TooFewResources : Exception
         System.Runtime.Serialization.SerializationInfo info,
         System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 }
+
+public class BlockedUser : Exception
+{
+    public BlockedUser() { }
+    public BlockedUser(string message) : base(message) { }
+    public BlockedUser(string message, System.Exception inner) : base(message, inner) { }
+    protected BlockedUser(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}
+
+public class ShowWontGoYo : Exception
+{
+    public ShowWontGoYo() { }
+    public ShowWontGoYo(string message) : base(message) { }
+    public ShowWontGoYo(string message, System.Exception inner) : base(message, inner) { }
+    protected ShowWontGoYo(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}
+
+public class RelationshipNotFound : Exception
+{
+    public RelationshipNotFound() { }
+    public RelationshipNotFound(string message) : base(message) { }
+    public RelationshipNotFound(string message, System.Exception inner) : base(message, inner) { }
+    protected RelationshipNotFound(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}
