@@ -24,14 +24,13 @@ export class UserprofileComponent implements OnInit {
 
   inputValue : string = "";
 
-  gotoHome(){
+  gotoHome()
+  {
     this.router.navigateByUrl('/homepage');  // define your component where you want to go
   }
 
-  enterUserId(){
-    /*let pot = document.querySelector('#userId');
-    let input = pot.value;*/
-    
+  enterUserId()
+  {
     this.inputValue = (document.querySelector('.form-control') as HTMLInputElement).value;
     let inputNumber = parseInt(this.inputValue);
     this.updatePostFeed(inputNumber);
