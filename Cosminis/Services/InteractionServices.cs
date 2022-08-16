@@ -12,7 +12,7 @@ public class InteractionService
     //Honey wake up, it is time for you to write your dependacy injection!
     private readonly ICompanionDAO _compRepo;
     private readonly Interactions _interRepo;
-	  private readonly IUserDAO _userRepo;
+	private readonly IUserDAO _userRepo;
     private readonly IPostDAO _PostRepo;
 
     public InteractionService(ICompanionDAO compRepo, IUserDAO userRepo, Interactions interRepo, IPostDAO postRepo)

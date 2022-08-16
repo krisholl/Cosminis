@@ -150,4 +150,74 @@ public class ResourceRepo : IResourceGen
     {
         return _context.FoodInventories.Where(food => food.UserIdFk == userId).ToList();
     }
+
+    public List<FoodInventory> Purchase(int userId, int[] foodQtyArr, int eggQty) //foodIdArr = foodTypes(got rid of this), foodQtyArr = amounts, eggQty = egg amount
+    {
+        User userToBuy = _context.Users.Find(userId);                             //define a user who will purchase food.
+        if (userToBuy == null) //such user does not exist
+        {
+            throw new UserNotFound();
+        }
+
+        int totalFoodCost = ((foodQtyArr.Sum()) * 10);                            //each food costs 10 gold.
+
+        Console.WriteLine(totalFoodCost);                                         //for testing
+
+        int eggCost = (eggQty * 100);                                                     //eggs each cost 100 gold.
+
+        int totalCost = ((totalFoodCost + eggCost) * -1);                                  //Stores total gold cost to remove from user.     
+
+        if((userToBuy.GoldCount + totalCost) < 0)                                       //checking if user has the right amount of gold
+        {
+            throw new InsufficientFunds();                                        //throws exception if not
+        }
+        else
+        {
+            userToBuy.GoldCount =  userToBuy.GoldCount + totalCost;               //subtracts total from user gold if applicable
+        }        
+
+        AddEgg(userToBuy, eggQty);                                          //adds eggs to user's inventory if they have enough gold.
+                                                  
+        int k = 0;
+
+        for(int i = 1; i <= 6; i++)                                                //Total food purchased will be added to this at the end.
+        { 
+            FoodInventory userFoodInstance = _context.FoodInventories.Find(userToBuy.UserId, i);//i also serving as food element as it iterates
+            Console.WriteLine(userFoodInstance);
+            if (userFoodInstance == null)                                                               //For each element of the List, 0 if currently null.
+            {
+                FoodInventory newFood = new FoodInventory()
+                {
+                    UserIdFk = (int)userToBuy.UserId,
+                    FoodStatsIdFk = i,
+                    FoodCount = 0
+                };
+                _context.FoodInventories.Add(newFood);
+                userFoodInstance = newFood;
+            }
+
+            userFoodInstance.FoodCount = userFoodInstance.FoodCount + foodQtyArr[k];                //adds qty of food to foodInstance in foodList if applicable
+            Console.WriteLine(k);
+
+            k++;
+        }                               
+
+        _context.SaveChanges();                              
+
+        _context.ChangeTracker.Clear();
+
+        return GetFoodInventoryByUserId(userId);  
+        //current full food inventory           -done
+        //take types of foods to be purchased   -done
+        //take qtys of foods to be purchased    -done
+        //take qty of eggs to be purchased      -EZ
+        //calculate gold cost                   -done
+        //calculate egg cost                    -done
+        //check to see if user has totalCost    -done
+        //throw exception if not                -done
+        //remove gold from user                 -done
+        //add items to user inventory           -
+        //add eggs to user inventory            -done
+        //save changes                          -done
+    }
 }

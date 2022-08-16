@@ -59,6 +59,7 @@ public interface IResourceGen
     public bool AddFood(User User, int Weight);
     public bool RemoveFood(int userId, int foodId);
     public List<FoodInventory> GetFoodInventoryByUserId(int userId);
+    public List<FoodInventory> Purchase(int userId, int[] foodQtyArr, int eggQty);
 }
 
 public interface Interactions
