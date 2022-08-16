@@ -15,11 +15,19 @@ export class LoginComponent implements OnInit {
     this.router.navigateByUrl('/homepage');  // define your component where you want to go
   }
 
+  loggedIn: boolean = false;
+
   ngOnInit(): void 
-  {/*
-    $('#login').click(async () => {
-      await this.auth0.loginWithPopup();
-    });*/
+  {
+    this.auth0.user$.subscribe((userInfo) => 
+    {
+      console.log(userInfo);
+      //this.user = userInfo;
+    
+      if(userInfo)
+        //window.sessionStorage.setItem('currentUserId', JSON.parse(userInfo))
+        this.gotoHome();
+    }) 
   }
 
 }

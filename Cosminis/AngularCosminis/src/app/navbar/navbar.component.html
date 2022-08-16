@@ -1,8 +1,10 @@
 <section class="NavContainer">
     <div class="NavLeft">
-        <h2>Comsinis</h2>
-        <div>username</div>
+        <h2 type="button" (click)="gotoHome()" class="NavLeft btn-light">Cosminis</h2>
+        <p>username</p>
     </div>    
     <div class="NavMiddle"></div>
-    <div class="NavRight"></div>
+    <div class="NavRight">
+        <button type="button" (click)="auth0.logout()" class="btn btn-light">Logout</button>
+    </div>
 </section>

@@ -1,4 +1,40 @@
-<p>userprofile works!</p>
-<div>
-    <button type="button" (click)="gotoHome()" class="btn btn-light">Homepage Preview</button>
-</div>
+<app-navbar></app-navbar>
+<section class="Container1">
+    <div class="row1"></div>
+    <div class="row1"></div>
+    <div class="row1"></div>
+</section>
+<section class="Container1">
+    <div class="row1"></div>
+    <div class="row1">
+      <form>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="postinput">UserId</label>
+                <input type="ID" class="form form-control"  id="userId" placeholder="UserId">
+                <!--<input class="form-control" type="text" name="userId" id="userId" [formControl]="userId">-->
+              </div>
+            </div>
+        <button type="button" class="btn btn-primary" (click)="enterUserId()">Sign in</button>
+      </form> 
+    </div> 
+    <div class="row1 PostsFeed InvisibleBox">
+        <div *ngIf="showPosts">
+            <div class="card text-white bg-dark mb-3" style="max-width: 18rem;" *ngFor="let pot of posts">
+                <div class="card-header">Cosminis</div>
+                <div class="card-body">
+                    <h5 class="card-title">Below are the posts</h5>
+                        <div>Id: {{pot.postId}}</div>
+                        <div>User: {{pot.userIdFk}}</div>
+                        <div>Emotion: {{pot.content}}</div>
+                    <p class="card-text"></p>
+                </div>
+            </div> 
+        </div>
+    </div>
+</section>
+<section class="Container1">
+    <div class="row1"></div>
+    <div class="row1"></div>
+    <div class="row1"></div>
+</section>
