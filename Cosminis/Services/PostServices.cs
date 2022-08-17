@@ -11,11 +11,15 @@ public class PostServices
 {
 	private readonly IPostDAO _postRepo;
 	private readonly IResourceGen _resourceRepo;
+    private readonly IFriendsDAO _friendsRepo;
+    private readonly IUserDAO _userRepo;
 
-    public PostServices(IPostDAO postRepo, IResourceGen resourceRepo)
+    public PostServices(IPostDAO postRepo, IResourceGen resourceRepo, IFriendsDAO friendsRepo, IUserDAO userRepo)
     {
         _postRepo = postRepo;
         _resourceRepo = resourceRepo;
+        _friendsRepo = friendsRepo;
+        _userRepo = userRepo;
     }
 
     public Post SubmitPostResourceGen(string Content, int PosterID)
@@ -101,5 +105,33 @@ public class PostServices
             throw new PostsNotFound();
         }
         return posts;
+    }
+
+    public List<Post> GetAllFriendsPosts(string username)
+    {
+        try
+        {
+            List<Friends> relationships = _friendsRepo.CheckRelationshipStatusByUsername(username, "Accepted"); //this stores all the accepted relationships of that user
+            User userInfo = _userRepo.GetUserByUserName(username);
+
+            List<Post> friendsPosts = new List<Post>();
+            for (int i = 0; i < relationships.Count; i++) //we are iterating through all possible relationships
+            {
+                if (relationships[i].UserIdTo == userInfo.UserId)
+                {
+                    friendsPosts = friendsPosts.Concat(_postRepo.GetPostsByUserId(relationships[i].UserIdFrom)).ToList(); //this returns a list of posts for the users friend
+                }
+                else
+                {
+                    friendsPosts = friendsPosts.Concat(_postRepo.GetPostsByUserId(relationships[i].UserIdTo)).ToList(); //this returns a list of posts for the users friend
+                    //Concat stiches the two Lists together
+                }
+            }
+            return friendsPosts;
+        }
+        catch(ResourceNotFound)
+        {
+            throw new RelationshipNotFound();
+        }
     }
 }

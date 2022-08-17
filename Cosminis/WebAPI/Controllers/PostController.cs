@@ -47,8 +47,8 @@ public class PostController
         }
     }
 
-     public IResult GetPostsByUsername(string username)
-     {
+    public IResult GetPostsByUsername(string username)
+    {
         try 
         {
             List<Post> posts = _postServices.GetPostsByUsername(username);
@@ -62,5 +62,18 @@ public class PostController
         {
             return Results.NotFound("No user with that username was found."); 
         }
-     }
+    }
+
+    public IResult GetAllFriendsPosts(string username)
+    {
+        try
+        {
+            List<Post> friendsPosts = _postServices.GetAllFriendsPosts(username);
+            return Results.Ok(friendsPosts); 
+        }
+        catch(RelationshipNotFound)
+        {
+            return Results.NotFound("That user has no friends.");    
+        }
+    }
 }

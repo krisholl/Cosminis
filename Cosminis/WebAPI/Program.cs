@@ -62,7 +62,7 @@ app.MapPut("/setCompanion", (int userId, int companionId, InteractionController 
 	return interCon.SetShowcaseCompanion(userId, companionId);
 });
 
-app.MapGet("/interactions/Feed", (int feederID, int companionID, int foodID, InteractionController interCon) => //this end point does not work yet
+app.MapGet("/interactions/Feed", (int feederID, int companionID, int foodID, InteractionController interCon) =>
 {
 	return interCon.FeedCompanion(feederID, companionID, foodID);
 });
@@ -86,6 +86,11 @@ app.MapPut("/Interactions/PetCompanion", (int userID, int companionID, Interacti
 app.MapGet("/searchFriend", (string username, UserController controller) => 
 {
 	return controller.SearchFriend(username);
+});
+
+app.MapGet("/viewFriendsPosts", (string username, PostController controller) => 
+{
+	return controller.GetAllFriendsPosts(username);
 });
 
 //this is a route parameter
