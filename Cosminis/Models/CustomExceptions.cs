@@ -209,3 +209,23 @@ public class RelationshipNotFound : Exception
         System.Runtime.Serialization.SerializationInfo info,
         System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 }
+
+public class InsufficientFunds : Exception
+{
+    public InsufficientFunds() { }
+    public InsufficientFunds(string message) : base(message) { }
+    public InsufficientFunds(string message, System.Exception inner) : base(message, inner) { }
+    protected InsufficientFunds(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}
+
+public class GottaBuySomething : Exception
+{
+    public GottaBuySomething() { }
+    public GottaBuySomething(string message) : base(message) { }
+    public GottaBuySomething(string message, System.Exception inner) : base(message, inner) { }
+    protected GottaBuySomething(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}

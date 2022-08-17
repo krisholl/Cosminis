@@ -29,4 +29,25 @@ public class ResourceController
             return Results.NotFound("That user has no food"); 
         }
     }
+
+    public IResult Purchase(int userId, int[] foodQtyArr, int eggQty)
+    {
+    	try
+    	{
+    		List<FoodInventory> groceryList = _resourceServices.Purchase(userId, foodQtyArr, eggQty);
+    		return Results.Ok(groceryList); 
+    	}
+        catch(ResourceNotFound)
+        {
+            return Results.NotFound("Something went wrong."); 
+        }	
+        catch(InsufficientFunds)
+        {
+            return Results.NotFound("You need more money!"); 
+        }	
+        catch(GottaBuySomething)
+        {
+            return Results.NotFound("You gotta buy something, kid!"); 
+        }	        
+    }        
 }
