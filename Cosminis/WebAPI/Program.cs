@@ -240,4 +240,9 @@ app.MapGet("/Checking", (int PostID, LikeController _LikeCon) =>
 	return _LikeCon.LikeCount(PostID);
 });
 
+app.MapPut("/Resources/Purchase", (int userId, int[] foodQtyArr, int eggQty, ResourceController _resourceCon) => 
+{
+    return _resourceCon.Purchase(userId, foodQtyArr, eggQty);
+});
+
 app.Run();
