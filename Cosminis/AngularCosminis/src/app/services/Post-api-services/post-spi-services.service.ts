@@ -17,6 +17,6 @@ export class PostSpiServicesService {
   }
 
   getAllFriendsPosts(username : string) : Observable<Posts[]> {
-    return this.http.get(this.url + `viewFriendsPosts/${username}`) as Observable<Posts[]>;
+    return this.http.get(this.url + `viewFriendsPosts?username=${username}`) as Observable<Posts[]>;
   }    
 }

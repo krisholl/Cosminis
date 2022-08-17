@@ -53,16 +53,16 @@ export class UserprofileComponent implements OnInit {
   {
     this.api.getAllFriendsPosts(username).subscribe((res) => 
     {
-      console.log(res);
       this.posts = res;
-      console.log(this.postInstance);
       this.showPosts=Promise.resolve(true);
     })
   }
 
   ngOnInit(): void 
   {
-    //this.friendsPostFeed(this.username as string);
+    let currentUsername = sessionStorage.getItem("currentUserName") as string;
+    console.log(currentUsername);
+    this.friendsPostFeed(currentUsername);
   }
 
 }

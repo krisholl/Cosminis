@@ -1,5 +1,6 @@
 export interface Users
 {
+    userId?:number;
     username : string;
     password: string;
     account_age : Date ;

@@ -30,11 +30,10 @@ export class LoginComponent implements OnInit {
   {
     this.api.LoginOrReggi(this.currentUser).subscribe((res) =>
     {
-      console.log(res);
       this.currentUser = res;
       console.log(this.currentUser);
-      //this.showUsers=Promise.resolve(true);
-      this.router.navigateByUrl('/homepage');
+      window.sessionStorage.setItem('currentUserId', this.currentUser.userId as unknown as string);
+      window.sessionStorage.setItem('currentUserName', this.currentUser.username);
     })
   }
 
@@ -50,15 +49,11 @@ export class LoginComponent implements OnInit {
     {
       console.log(userInfo);
       this.currentUser.username = userInfo?.email as string;
-    
       if(userInfo)
       {
-        this.loggedIn = true;
         this.userLogin(this.currentUser);
-        //window.sessionStorage.setItem('currentUserId', JSON.parse(userInfo?))
         this.gotoHome();
       }
     }) 
   }
-
 }
