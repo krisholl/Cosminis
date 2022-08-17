@@ -1,0 +1,11 @@
+export interface Users
+{
+    username : string;
+    password: string;
+    account_age : Date ;
+    eggTimer : Date ;
+    goldCount : number;
+    eggCount : number;
+    showcaseCompanion_fk:number;
+    aboutMe:string;
+}

@@ -26,14 +26,21 @@ namespace DataAccess.Entities
         public int? Notifications { get; set; }
         public string? AboutMe { get; set; }
         public int? ShowcaseCompanionFk { get; set; }
-
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual Companion? ShowcaseCompanionFkNavigation { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<Comment> Comments { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<Companion> Companions { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<FoodInventory> FoodInventories { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<Friends> FriendUserIdFromNavigations { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<Friends> FriendUserIdToNavigations { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<Post> Posts { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
 
         public virtual ICollection<Post> PostIdFks { get; set; }
     }

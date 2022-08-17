@@ -22,7 +22,7 @@ public class UserServices
     	{
     		return _userRepo.GetUserByUserName(username);
     	}
-    	catch(ResourceNotFound)
+    	catch(Exception)
         {
             throw;
         }	
@@ -34,9 +34,39 @@ public class UserServices
     	{
     		return _userRepo.GetUserByUserId(userId);
     	}
-    	catch(ResourceNotFound)
+    	catch(Exception)
         {
             throw;
         }	
+    }
+
+    public User LoginOrReggi(User user2Check)
+    {
+        try //checks if a user with the username already exist
+        {
+            User user = _userRepo.GetUserByUserName(user2Check.Username);
+            return user; //if yes: return the relevant user object
+        }
+        catch(UserNotFound) //if not: create a user with the email as the username
+        {
+            User newUser = new User()
+            {
+                Username = user2Check.Username,
+                Password = user2Check.Password,
+                AccountAge = DateTime.Now,
+                GoldCount = 0,
+                EggCount = 0,
+                EggTimer = DateTime.Now,
+                AboutMe = user2Check.AboutMe,
+            };
+            try
+            {
+                return _userRepo.CreateUser(newUser);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
     }
 }

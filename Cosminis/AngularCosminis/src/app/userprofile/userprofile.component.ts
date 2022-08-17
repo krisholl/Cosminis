@@ -35,7 +35,7 @@ export class UserprofileComponent implements OnInit {
     let inputNumber = parseInt(this.inputValue);
     this.updatePostFeed(inputNumber);
     
-    console.log(inputNumber);
+    console.log(this.inputValue);
   }
 
   updatePostFeed(ID : number) : void 

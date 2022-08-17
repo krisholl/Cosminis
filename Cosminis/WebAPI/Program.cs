@@ -47,6 +47,16 @@ app.UseSwaggerUI();
 
 app.MapGet("/", () => "Welcome to Cosminis!");
 
+app.MapGet("/Users/Find", (int user2Find, UserController UserController) => 
+{
+	return UserController.SearchUserById(user2Find);
+});
+
+app.MapPost("/Users/LoggiORReggi", (User user2Check, UserController UserController) => 
+{
+	return UserController.LoginOrReggi(user2Check);
+});
+
 app.MapPut("/interactions/ModifyHunger", (int companionID, InteractionController interCon) => 
 {
 	return interCon.DecrementCompanionHungerValue(companionID);
