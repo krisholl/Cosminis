@@ -11,11 +11,13 @@ public class FriendServices
 {
 	private readonly IFriendsDAO _friendsRepo;
     private readonly IResourceGen _ResourceRepo;
+    private readonly IUserDAO _userRepo;
 
-    public FriendServices(IFriendsDAO friendsRepo, IResourceGen ResourceRepo)
+    public FriendServices(IFriendsDAO friendsRepo, IResourceGen ResourceRepo, IUserDAO userRepo)
     {
         _friendsRepo = friendsRepo;
         _ResourceRepo = ResourceRepo;
+        _userRepo = userRepo;
     }
 
     public List<Friends> ViewAllRelationships()
@@ -180,8 +182,7 @@ public class FriendServices
 
     public Friends AddFriendByUsername(string requesterUsername, string addedUsername)
     {
-        User user2Add2 = new User();
-        user2Add2.Username = addedUsername;
+        User user2Add2 = _userRepo.GetUserByUserName(addedUsername);
         try
         {
             Friends checkRelationship = _friendsRepo.AddFriendByUsername(requesterUsername, addedUsername);
