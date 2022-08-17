@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { UserApiServicesService } from '../services/User-Api-Service/user-api-services.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { Router } from '@angular/router';
 import { Users } from '../Models/User';
+import { keyframes } from '@angular/animations';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +12,7 @@ import { Users } from '../Models/User';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public auth0: AuthService, private router: Router) { }
+  constructor(public auth0: AuthService, private api:UserApiServicesService,private router: Router) { }
 
   currentUser : Users = 
   {
@@ -21,7 +23,19 @@ export class LoginComponent implements OnInit {
     goldCount : 1,
     eggCount : 1,
     showcaseCompanion_fk:1,
-    aboutMe:"I am Boring",
+    aboutMe:"I am Boring... zzzz snoringgg",
+  }
+
+  userLogin(User : Users) : void
+  {
+    this.api.LoginOrReggi(this.currentUser).subscribe((res) =>
+    {
+      console.log(res);
+      this.currentUser = res;
+      console.log(this.currentUser);
+      //this.showUsers=Promise.resolve(true);
+      this.router.navigateByUrl('/homepage');
+    })
   }
 
   gotoHome(){
@@ -35,11 +49,15 @@ export class LoginComponent implements OnInit {
     this.auth0.user$.subscribe((userInfo) => 
     {
       console.log(userInfo);
-      //this.user = userInfo;
+      this.currentUser.username = userInfo?.email as string;
     
       if(userInfo)
-        //window.sessionStorage.setItem('currentUserId', JSON.parse(userInfo))
+      {
+        this.loggedIn = true;
+        this.userLogin(this.currentUser);
+        //window.sessionStorage.setItem('currentUserId', JSON.parse(userInfo?))
         this.gotoHome();
+      }
     }) 
   }
 

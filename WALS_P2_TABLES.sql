@@ -107,10 +107,12 @@ create table WALS_P2.comments(
  */	
 insert into WALS_P2.foodStats (foodElement_fk, description, foodName, hungerRestore) values (6,'Wear floaties.', 'Devil Fruit', 50);		
 
-insert into WALS_P2.foodInventory (userId_fk, foodStatsId_fk, foodCount) values (2, 1, 10);
+insert into WALS_P2.foodInventory (userId_fk, foodStatsId_fk, foodCount) values (4, 1, -49999);
 
-select * from WALS_P2.companions;
-delete from WALS_P2.companions where companionId = 16;
+select * from WALS_P2.friends;
+delete from WALS_P2.friends;
+
+update WALS_P2.foodInventory set userId_fk = 4, foodStatsId_fk = 1, foodCount = 10;
 
 drop table WALS_P2.conversation;
 

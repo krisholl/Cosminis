@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Cosminis } from '../../Models/Cosminis';
-import { Posts } from '../../Models/Posts';
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +18,5 @@ export class ComsinisApiServiceService {
 
   getCosminiByID(ID : number) : Observable<Cosminis> {
     return this.http.get(this.url + `companions/SearchByCompanionId?companionId=${ID}`) as Observable<Cosminis>;
-  }
-
-  getPostsByUserId(ID : number) : Observable<Posts[]> {
-    return this.http.get(this.url + `/postsBy/${ID}`) as Observable<Posts[]>;
   }
 }

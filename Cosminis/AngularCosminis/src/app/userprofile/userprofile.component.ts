@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ComsinisApiServiceService } from '../services/Comsini-api-service/comsinis-api-service.service';
+import { PostSpiServicesService } from '../services/Post-api-services/post-spi-services.service';
 import { Posts } from '../Models/Posts';
 import { Router } from '@angular/router';
 
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class UserprofileComponent implements OnInit {
 
-  constructor(private api:ComsinisApiServiceService, private router: Router) { }
+  constructor(private api:PostSpiServicesService, private router: Router) { }
 
   showPosts!:Promise<boolean>;
   posts : Posts[] = []
@@ -49,9 +49,20 @@ export class UserprofileComponent implements OnInit {
     })
   }
 
+  friendsPostFeed(username : string) : void 
+  {
+    this.api.getAllFriendsPosts(username).subscribe((res) => 
+    {
+      console.log(res);
+      this.posts = res;
+      console.log(this.postInstance);
+      this.showPosts=Promise.resolve(true);
+    })
+  }
+
   ngOnInit(): void 
   {
-    //this.updatePostFeed(this.inputValue as unknown as number);
+    //this.friendsPostFeed(this.username as string);
   }
 
 }
