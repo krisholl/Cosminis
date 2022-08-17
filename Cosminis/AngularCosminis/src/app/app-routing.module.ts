@@ -5,6 +5,8 @@ import { CosminisGoComponent } from './cosminis-go/cosminis-go.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { LoginComponent } from './login/login.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
+import { ShopMenuComponent } from './shop-menu/shop-menu.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { 
@@ -26,6 +28,10 @@ const routes: Routes = [
   {
     path: 'MyBabies', 
     component:AllCosminisComponent
+  },
+  {
+    path: 'shop', 
+    component:ShopMenuComponent
   },
   {
     path: '',

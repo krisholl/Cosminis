@@ -7,12 +7,14 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from '@auth0/auth0-angular';
 import { environment as env } from '../environments/environment';
 import { CosminisGoComponent } from './cosminis-go/cosminis-go.component';
 import { AllCosminisComponent } from './all-cosminis/all-cosminis.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './navbar/navbar.component';
+import { ShopMenuComponent } from './shop-menu/shop-menu.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     UserprofileComponent,
     CosminisGoComponent,
     AllCosminisComponent,
-    NavbarComponent
+    NavbarComponent,
+    ShopMenuComponent
     //AppLoginComponent
   ],
   imports: [
@@ -31,6 +34,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     MatButtonModule,
     MatCardModule,
     HttpClientModule,
+    FormsModule,
     AuthModule.forRoot
     ({
       ... env.auth,
