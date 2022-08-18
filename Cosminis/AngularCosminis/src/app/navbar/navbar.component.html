@@ -5,7 +5,7 @@
     </div>    
     <div class="NavMiddle">
         <div *ngIf="Loggedin()">Eggcount:{{userEgg}} Gold:{{userGold}}</div>
-        <div>SF:{{SpicyFoodCount}} CF:{{LeafyFoodCount}} LF:{{ColdFoodCount}} FF:{{FluffyFoodCount}} BF:{{BlessedFoodCount}} CF:{{CursedFoodCount}}</div>
+        <div *ngIf="Loggedin()">SF:{{SpicyFoodCount}} CF:{{LeafyFoodCount}} LF:{{ColdFoodCount}} FF:{{FluffyFoodCount}} BF:{{BlessedFoodCount}} CF:{{CursedFoodCount}}</div>
         <div>DisplayCompanionMood:{{DisplayCompanionMood}} DisplayCompanionMood:{{DisplayCompanionHunger}}</div>
     </div>
     <div class="NavRight">
