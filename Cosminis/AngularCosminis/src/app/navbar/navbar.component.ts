@@ -23,6 +23,8 @@ export class NavbarComponent implements OnInit {
   FluffyFoodCount : number = 0;
   BlessedFoodCount : number = 0;
   CursedFoodCount : number = 0;
+  DisplayCompanionMood : number = 0;
+  DisplayCompanionHunger : number = 0;
 
   gotoHome(){
     this.router.navigateByUrl('/homepage');  // define your component where you want to go

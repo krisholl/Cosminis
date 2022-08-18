@@ -55,14 +55,16 @@ export class UserprofileComponent implements OnInit {
     {
       this.posts = res;
       let postUser:Users;
+      let userID:number;
       for(let i =0; i<this.posts.length;i++)
       {
-        /*postUser
-        this.userApi.LoginOrReggi(postUser).subscribe((res) =>
+        userID = this.posts[i].userIdFk;
+        this.userApi.Find(userID).subscribe((res) =>
         {
-          this.currentUser = res;
-          window.sessionStorage.setItem('currentUser', JSON.stringify(this.currentUser));
-        })*/
+          postUser = res;
+          console.log(postUser);
+          this.posts[i].posterNickname = postUser.password;
+        })
       }
     })
     

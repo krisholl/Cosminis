@@ -6,6 +6,7 @@
     <div class="NavMiddle">
         <div *ngIf="Loggedin()">Eggcount:{{userEgg}} Gold:{{userGold}}</div>
         <div>SF:{{SpicyFoodCount}} CF:{{LeafyFoodCount}} LF:{{ColdFoodCount}} FF:{{FluffyFoodCount}} BF:{{BlessedFoodCount}} CF:{{CursedFoodCount}}</div>
+        <div>DisplayCompanionMood:{{DisplayCompanionMood}} DisplayCompanionMood:{{DisplayCompanionHunger}}</div>
     </div>
     <div class="NavRight">
         <button *ngIf="Loggedin()" type="button" (click)="Logout()" class="btn btn-light">Logout</button>

@@ -7,10 +7,8 @@
         <h2 class="feed">Cosminis Feed</h2>
         <div class="card PostsFeed text-white bg-dark mb-3" *ngFor="let pot of posts" >
             <div class="card-body">
-                <h5 class="card-title">Friend username here?</h5>
-                <div>Id: {{pot.postId}}</div>
-                <div>User: {{pot.userIdFk}}</div>
-                <div>Emotion: {{pot.content}}</div>
+                <h5 class="card-title">{{pot.posterNickname}}</h5>
+                <div>{{pot.content}}</div>
             </div>
         </div> 
     </div>

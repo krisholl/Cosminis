@@ -15,4 +15,8 @@ export class UserApiServicesService {
   LoginOrReggi(User : Users) : Observable<Users> {
     return this.http.post(this.url + `Users/LoggiORReggi`, User) as Observable<Users>;
   } 
+
+  Find(ID : number) : Observable<Users> {
+    return this.http.get(this.url + `Users/Find?user2Find=${ID}`) as Observable<Users>;
+  } 
 }
