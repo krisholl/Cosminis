@@ -6,5 +6,8 @@ export interface Cosminis
     speciesFk : number;
     nickname : string;
     emotion : number;
+    mood : number;
     hunger : number;
+    speciesNickname?:string;
+    emotionString?:string;
 }

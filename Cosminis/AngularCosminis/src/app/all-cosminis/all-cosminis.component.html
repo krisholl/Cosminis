@@ -6,11 +6,12 @@
     <div class="card text-white bg-dark mb-3" *ngFor="let com of cosminis">
         <div class="card-header">Cosminis</div>
         <div class="card-body">
-            <h5 class="card-title">Cosmini Species Name?</h5>
-                <div>Id: {{com.companionId}}</div>
-                <div>User: {{com.userFk}}</div>
-                <div>Emotion: {{com.emotion}}</div>
-            <p class="card-text">Nickname: {{com.nickname}}</p>
+            <h5 *ngIf="com.nickname" class="card-title">Nick Name: {{com.nickname}}</h5>
+            <h5 *ngIf="!com.nickname" class="card-title">Species Name: {{com.speciesNickname}}</h5>
+                <div>Emotion: {{com.emotionString}}</div>
+                <div>Mood: {{com.mood}}</div>
+                <div>Hunger: {{com.hunger}}</div>
+                <img class="CompanionDisplay" [(ngModel)]="Source" src="Source">
             <p class="card-text"></p>
         </div>
     </div> 
