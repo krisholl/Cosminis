@@ -4,6 +4,7 @@ import { UserApiServicesService } from '../services/User-Api-Service/user-api-se
 import { Router } from '@angular/router';
 import { Users } from '../Models/User';
 import { FoodElement } from '../Models/FoodInventory';
+import {ChangeDetectorRef} from '@angular/core';
 
 @Component({
   selector: 'app-shop-menu',
@@ -12,24 +13,28 @@ import { FoodElement } from '../Models/FoodInventory';
 })
 export class ShopMenuComponent implements OnInit {
 
-  constructor(private router: Router, private api:ResourceApiServicesService) { }
+  constructor(private router: Router, private api:ResourceApiServicesService, private userApi:UserApiServicesService, private ref:ChangeDetectorRef) { }
   foodInvInstance : FoodElement[] = []
   eggQty : number = 0;
   foodQty : [number, number, number, number, number, number] = [0, 0, 0, 0, 0, 0];
   purchaseTotal : number = 0;
 
   confirmPurchase() : void {
-    let currentUserId = sessionStorage.getItem("currentUserId") as unknown as number;
-    //this.foodQty;
-    //this.eggQty;
+    let stringUser : string = sessionStorage.getItem('currentUser') as string;
+    let currentUser : Users = JSON.parse(stringUser);
+    let currentUserId = currentUser.userId as number;
     console.log(this.foodQty);
-     this.api.Purchase(currentUserId, this.foodQty, this.eggQty).subscribe((res) => 
-     {
-       console.log(res);
-       this.foodInvInstance = res;
-       console.log(this.foodInvInstance);
-       //this.showCosminis=Promise.resolve(true);
-     })
+    this.api.Purchase(currentUserId, this.foodQty, this.eggQty).subscribe((res) => 
+    {
+      this.foodInvInstance = res;
+      console.log(this.foodInvInstance);
+      this.userApi.LoginOrReggi(currentUser).subscribe((res) =>
+      {
+        currentUser = res;
+        console.log(currentUser);
+        window.sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+      })
+    })
 }
 
 updateTotal() : void {
@@ -40,6 +45,7 @@ updateTotal() : void {
 }
 
   ngOnInit(): void {
+    this.ref.detectChanges();
   }
 
 }

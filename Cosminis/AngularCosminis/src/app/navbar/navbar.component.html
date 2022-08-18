@@ -3,7 +3,10 @@
         <h2 type="button" (click)="gotoHome()" class="NavLeft btn-light">Cosminis</h2>
         <p *ngIf="Loggedin()">username: {{currentUsername}}</p>
     </div>    
-    <div class="NavMiddle"></div>
+    <div class="NavMiddle">
+        <div *ngIf="Loggedin()">Eggcount:{{userEgg}} Gold:{{userGold}}</div>
+        <div>SF:{{SpicyFoodCount}} CF:{{LeafyFoodCount}} LF:{{ColdFoodCount}} FF:{{FluffyFoodCount}} BF:{{BlessedFoodCount}} CF:{{CursedFoodCount}}</div>
+    </div>
     <div class="NavRight">
         <button *ngIf="Loggedin()" type="button" (click)="Logout()" class="btn btn-light">Logout</button>
     </div>

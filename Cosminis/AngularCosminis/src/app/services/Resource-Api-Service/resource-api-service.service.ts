@@ -17,4 +17,9 @@ export class ResourceApiServicesService {
     return this.http.put(this.url + `Resources/Purchase?userId=${userId}&eggQty=${eQty}`, fQty) as unknown as Observable<FoodElement[]>;
     //use username instead of userid? how does this work since user model doesn't have userId?
   } 
+
+  CheckFood(userId : number, fQty : number[], eQty : number) : Observable<FoodElement[]> {
+    return this.http.put(this.url + `Resources/Purchase?userId=${userId}&eggQty=${eQty}`, fQty) as unknown as Observable<FoodElement[]>;
+    //use username instead of userid? how does this work since user model doesn't have userId?
+  } 
 }

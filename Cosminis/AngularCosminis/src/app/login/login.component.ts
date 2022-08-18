@@ -12,7 +12,7 @@ import { Users } from '../Models/User';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public auth0: AuthService, private api:UserApiServicesService,private router: Router) { }
+  constructor(public auth0: AuthService, private api:UserApiServicesService, private router: Router) { }
 
   currentUser : Users = 
   {
@@ -32,8 +32,7 @@ export class LoginComponent implements OnInit {
     {
       this.currentUser = res;
       console.log(this.currentUser);
-      window.sessionStorage.setItem('currentUserId', this.currentUser.userId as unknown as string);
-      window.sessionStorage.setItem('currentUserName', this.currentUser.username);
+      window.sessionStorage.setItem('currentUser', JSON.stringify(this.currentUser));
     })
   }
 
