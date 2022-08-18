@@ -26,9 +26,7 @@ public class ResourceServices
 
     public List<FoodInventory> Purchase(int userId, int[] foodQtyArr, int eggQty)
     {
-        int[] groceryArray = new int[6];
-
-        if(groceryArray.Sum() <= 0 && eggQty <= 0)
+        if(foodQtyArr.Sum() <= 0 && eggQty <= 0)
         {
             throw new GottaBuySomething();
         }        

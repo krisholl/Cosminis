@@ -36,18 +36,28 @@ export class NavbarComponent implements OnInit {
   }
     
   ngOnInit(): void {
-    //this.CheckFood();
   }
 
 
-  CheckFood():void{
+  CheckFood():boolean
+  {
     let stringUser : string = sessionStorage.getItem('currentUser') as string;
     console.log(stringUser);
     let currentUser : Users = JSON.parse(stringUser);
     this.api.CheckFood(currentUser.userId as number).subscribe((res) =>
     {
+      console.log(this.foodDisplay);
       this.foodDisplay= res;
+      if(this.foodDisplay)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
     });
+    return false;
   }
 
   Logout():void{
@@ -63,12 +73,25 @@ export class NavbarComponent implements OnInit {
     let currentUser : Users = JSON.parse(stringUser);
     this.currentUsername = currentUser.username;
     this.currentUsernickname = sessionStorage.getItem('currentUserNickname') as string;
-    this.SpicyFoodCount = this.foodDisplay[0].amount;
-    this.ColdFoodCount = this.foodDisplay[1].amount;
-    this.SpicyFoodCount = this.foodDisplay[2].amount;
-    this.SpicyFoodCount = this.foodDisplay[3].amount;
-    this.SpicyFoodCount = this.foodDisplay[4].amount;
-    this.SpicyFoodCount = this.foodDisplay[5].amount;
+    if(this.foodDisplay.length >= 1)
+    {
+      this.SpicyFoodCount = this.foodDisplay[0].amount;
+      this.LeafyFoodCount = this.foodDisplay[1].amount;
+      this.ColdFoodCount = this.foodDisplay[2].amount;
+      this.FluffyFoodCount = this.foodDisplay[3].amount;
+      this.BlessedFoodCount = this.foodDisplay[4].amount;
+      this.CursedFoodCount = this.foodDisplay[5].amount;
+    }
+    else
+    {
+      this.SpicyFoodCount = 0;
+      this.ColdFoodCount = 0;
+      this.FluffyFoodCount = 0;
+      this.BlessedFoodCount = 0;
+      this.CursedFoodCount = 0;
+      this.LeafyFoodCount = 0;
+    }
+    
     this.userEgg = currentUser.eggCount;
     this.userGold = currentUser.goldCount;
     if(this.currentUsername)
