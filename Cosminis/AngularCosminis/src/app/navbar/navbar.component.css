@@ -20,6 +20,14 @@
     border-color: black;
 }
 
+.child-container {
+    display: flex;
+}
+
+.midchild {
+    padding-right: 10px;
+}
+
 .NavRight {
     border-width: 3px;
     border-style: solid;
