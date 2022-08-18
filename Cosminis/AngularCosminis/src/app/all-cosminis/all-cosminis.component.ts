@@ -86,12 +86,12 @@ showCards = false;
     this.DisplayName.set(7, "Librian");
     this.DisplayName.set(8, "Cancer");
 
-    this.imageLib.set(3, "Infornog.png");
-    this.imageLib.set(4, "Pluto.png");
-    this.imageLib.set(5, "Leafy.png");
-    this.imageLib.set(6, "Comsmo.png");
-    this.imageLib.set(7, "Libran.png");
-    this.imageLib.set(8, "Cancer.png");
+    this.imageLib.set(3, "InfernogFire.png");
+    this.imageLib.set(4, "pluto.png");
+    this.imageLib.set(5, "budfinal.png");
+    this.imageLib.set(6, "cosmo.png");
+    this.imageLib.set(7, "librianfinall.png");
+    this.imageLib.set(8, "cancerfinal.png");
 
     this.currentEmotion.set(1, "Hopeless");
     this.currentEmotion.set(2, "hostile");
