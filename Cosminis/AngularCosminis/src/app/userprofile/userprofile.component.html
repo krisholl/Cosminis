@@ -1,29 +1,21 @@
 <app-navbar></app-navbar>
 <section class="Container1">
-    <div class="row1"></div>
-    <div class="row1"></div>
-    <div class="row1"></div>
-</section>
-<section class="Container1">
-    <div class="row1"></div>
-    <div class="row1"></div> 
-    <div class="row1 PostsFeed InvisibleBox">
-        <div *ngIf="showPosts">
-            <div class="card text-white bg-dark mb-3" style="max-width: 18rem;" *ngFor="let pot of posts">
-                <div class="card-header">Cosminis</div>
-                <div class="card-body">
-                    <h5 class="card-title">Below are the posts</h5>
-                        <div>Id: {{pot.postId}}</div>
-                        <div>User: {{pot.userIdFk}}</div>
-                        <div>Emotion: {{pot.content}}</div>
-                    <p class="card-text"></p>
-                </div>
-            </div> 
-        </div>
+    <div class="column one">
+        <p>placeholder but a big placeholder</p>
+    </div>
+    <div class="column two">
+        <h2 class="feed">Cosminis Feed</h2>
+        <div class="card PostsFeed text-white bg-dark mb-3" *ngFor="let pot of posts" >
+            <div class="card-body">
+                <h5 class="card-title">Friend username here?</h5>
+                <div>Id: {{pot.postId}}</div>
+                <div>User: {{pot.userIdFk}}</div>
+                <div>Emotion: {{pot.content}}</div>
+            </div>
+        </div> 
+    </div>
+    <div class="column three">
+        <p>placeholder but a big placeholder</p>
     </div>
 </section>
-<section class="Container1">
-    <div class="row1"></div>
-    <div class="row1"></div>
-    <div class="row1"></div>
-</section>
+

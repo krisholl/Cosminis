@@ -1,7 +1,7 @@
 .NavContainer {
     display: flex;
     justify-content: space-between;
-    color:mistyrose;
+    color: mistyrose;
     border-width: 3px;
     border-style: solid;
     border-color: black;
