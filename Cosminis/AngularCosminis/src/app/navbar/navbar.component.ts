@@ -48,7 +48,7 @@ export class NavbarComponent implements OnInit {
     {
       console.log(this.foodDisplay);
       this.foodDisplay= res;
-      if(this.foodDisplay)
+      if(this.foodDisplay.length>0)
       {
         window.sessionStorage.setItem('SpicyFoodCount', this.foodDisplay[0].foodCount as unknown as string);
         window.sessionStorage.setItem('ColdFoodCount', this.foodDisplay[1].foodCount as unknown as string);
@@ -60,6 +60,12 @@ export class NavbarComponent implements OnInit {
       }
       else
       {
+        window.sessionStorage.setItem('SpicyFoodCount', '0');
+        window.sessionStorage.setItem('ColdFoodCount', '0');
+        window.sessionStorage.setItem('LeafyFoodCount', '0');
+        window.sessionStorage.setItem('FluffyFoodCount', '0');
+        window.sessionStorage.setItem('BlessedFoodCount', '0');
+        window.sessionStorage.setItem('CursedFoodCount', '0');
         return false;
       }
     });

@@ -18,8 +18,7 @@ export class AllCosminisComponent implements OnInit
   cosminis : Cosminis[] = []
   DisplayName = new Map<number, string>();
   currentEmotion = new Map<number, string>();
-  Source :string = "https://cdn.discordapp.com/attachments/1004455177165754508/1009699916806901770/InfernogFire2.png";
-
+  imageLib = new Map<number, string>();
 
   cosminis1 : Cosminis = 
   {
@@ -69,6 +68,7 @@ export class AllCosminisComponent implements OnInit
       {
         this.cosminis[i].speciesNickname = this.DisplayName.get(this.cosminis[i].speciesFk);
         this.cosminis[i].emotionString = this.currentEmotion.get(this.cosminis[i].emotion);
+        this.cosminis[i].image = this.imageLib.get(this.cosminis[i].speciesFk);
       }
 
       this.showCosminis=Promise.resolve(true);
@@ -85,6 +85,13 @@ showCards = false;
     this.DisplayName.set(6, "Cosmo");
     this.DisplayName.set(7, "Librian");
     this.DisplayName.set(8, "Cancer");
+
+    this.imageLib.set(3, "Infornog.png");
+    this.imageLib.set(4, "Pluto.png");
+    this.imageLib.set(5, "Leafy.png");
+    this.imageLib.set(6, "Comsmo.png");
+    this.imageLib.set(7, "Libran.png");
+    this.imageLib.set(8, "Cancer.png");
 
     this.currentEmotion.set(1, "Hopeless");
     this.currentEmotion.set(2, "hostile");
