@@ -31,7 +31,6 @@ export class LoginComponent implements OnInit {
     this.api.LoginOrReggi(this.currentUser).subscribe((res) =>
     {
       this.currentUser = res;
-      console.log(this.currentUser);
       window.sessionStorage.setItem('currentUser', JSON.stringify(this.currentUser));
     })
   }
@@ -46,10 +45,12 @@ export class LoginComponent implements OnInit {
   {
     this.auth0.user$.subscribe((userInfo) => 
     {
-      console.log(userInfo);
       this.currentUser.username = userInfo?.email as string;
+      this.currentUser.password = userInfo?.nickname as string;
       if(userInfo)
       {
+        console.log(userInfo);
+        window.sessionStorage.setItem('currentUserNickname', userInfo.nickname as string);
         this.userLogin(this.currentUser);
         this.gotoHome();
       }

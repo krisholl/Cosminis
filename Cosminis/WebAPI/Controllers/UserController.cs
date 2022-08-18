@@ -52,7 +52,7 @@ public class UserController
         try
     	{
     		User userInfo = _userServices.SearchUserById(user2Check);
-    		return Results.Ok(); //this needs to be created
+    		return Results.Ok(userInfo); //this needs to be created
     	}
     	catch(UserNotFound)
         {

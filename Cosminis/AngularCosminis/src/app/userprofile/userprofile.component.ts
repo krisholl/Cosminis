@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PostSpiServicesService } from '../services/Post-api-services/post-spi-services.service';
+import { UserApiServicesService } from '../services/User-Api-Service/user-api-services.service';
 import { Posts } from '../Models/Posts';
+import { Users } from '../Models/User';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,9 +12,8 @@ import { Router } from '@angular/router';
 })
 export class UserprofileComponent implements OnInit {
 
-  constructor(private api:PostSpiServicesService, private router: Router) { }
+  constructor(private api:PostSpiServicesService, private router: Router, private userApi:UserApiServicesService) { }
 
-  showPosts!:Promise<boolean>;
   posts : Posts[] = []
 
   postInstance : Posts =
@@ -45,7 +46,6 @@ export class UserprofileComponent implements OnInit {
       console.log(res);
       this.posts = res;
       console.log(this.postInstance);
-      this.showPosts=Promise.resolve(true);
     })
   }
 
@@ -54,15 +54,26 @@ export class UserprofileComponent implements OnInit {
     this.api.getAllFriendsPosts(username).subscribe((res) => 
     {
       this.posts = res;
-      this.showPosts=Promise.resolve(true);
+      let postUser:Users;
+      for(let i =0; i<this.posts.length;i++)
+      {
+        /*postUser
+        this.userApi.LoginOrReggi(postUser).subscribe((res) =>
+        {
+          this.currentUser = res;
+          window.sessionStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+        })*/
+      }
     })
+    
   }
 
   ngOnInit(): void 
   {
-    let currentUsername = sessionStorage.getItem("currentUserName") as string;
+    let stringUser : string = sessionStorage.getItem('currentUser') as string;
+    let currentUser : Users = JSON.parse(stringUser);
+    let currentUsername = currentUser.username;
     console.log(currentUsername);
     this.friendsPostFeed(currentUsername);
   }
-
 }

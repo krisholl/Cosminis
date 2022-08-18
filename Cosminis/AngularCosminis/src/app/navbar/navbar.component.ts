@@ -14,6 +14,7 @@ export class NavbarComponent implements OnInit {
   constructor(public auth0: AuthService, private router: Router) { }
 
   currentUsername : string ="";
+  currentUsernickname : string ="";
   userGold:number = 0;
   userEgg:number = 0;
   SpicyFoodCount : number = 0;
@@ -42,6 +43,7 @@ export class NavbarComponent implements OnInit {
     let stringUser : string = sessionStorage.getItem('currentUser') as string;
     let currentUser : Users = JSON.parse(stringUser);
     this.currentUsername = currentUser.username;
+    this.currentUsernickname = sessionStorage.getItem('currentUserNickname') as string;
     this.userEgg = currentUser.eggCount;
     this.userGold = currentUser.goldCount;
     if(this.currentUsername)
