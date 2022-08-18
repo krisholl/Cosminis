@@ -32,8 +32,8 @@
 
 .ShopTotal
 {
-    justify-content: flex-end;
     display: flex;
+    justify-content: flex-end;
     column-gap: 50px;
     margin-bottom: 200px;
     margin-right: 45px;
