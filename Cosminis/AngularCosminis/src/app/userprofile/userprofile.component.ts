@@ -25,11 +25,8 @@ export class UserprofileComponent implements OnInit {
     content : "Shrek",    
   }
 
-  
-
   friends : Friends[] = []
   users : Users[] = []
-
 
   inputValue : string = "";
 
@@ -79,20 +76,30 @@ export class UserprofileComponent implements OnInit {
 
   showAllFriends(username:string):void
   {
+    let stringUser : string = sessionStorage.getItem('currentUser') as string;
+    let currentUser : Users = JSON.parse(stringUser);
+    let currentID = currentUser.userId;
     this.friendApi.getAcceptedFriends(username).subscribe((res) => 
     {
-      this.friends = res;
-      let postUser:Users;
-      let userID:number;
-      for(let i =0; i<this.posts.length;i++)
+      this.friends = res; //this just retrieves a list of friends for now, doing the relevant logic on ngOnInit
+      for(let i=0;i<this.friends.length;i++)
       {
-        userID = this.posts[i].userIdFk;
-        this.userApi.Find(userID).subscribe((res) =>
+        if(currentID==this.friends[i].userIdFrom)
         {
-          postUser = res;
-          console.log(postUser);
-          this.posts[i].posterNickname = postUser.password;
-        })
+          this.userApi.Find(this.friends[i].userIdTo).subscribe((res) =>
+          {
+            this.users[i] = res;
+            console.log(this.users[i].password);
+          })
+        }
+        else
+        {
+          this.userApi.Find(this.friends[i].userIdFrom).subscribe((res) =>
+          {
+            this.users[i] = res;
+            console.log(this.users[i].password);
+          })
+        }
       }
     })
   }
@@ -102,7 +109,7 @@ export class UserprofileComponent implements OnInit {
     let stringUser : string = sessionStorage.getItem('currentUser') as string;
     let currentUser : Users = JSON.parse(stringUser);
     let currentUsername = currentUser.username;
-    console.log(currentUsername);
     this.friendsPostFeed(currentUsername);
+    this.showAllFriends(currentUsername);
   }
 }

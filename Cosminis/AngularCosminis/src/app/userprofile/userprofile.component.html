@@ -13,7 +13,12 @@
         </div> 
     </div>
     <div class="column three">
-        <h1>Friends List</h1>
+        <h2 class="feed">Friends</h2>
+        <div class="card PostsFeed text-white bg-dark mb-3" *ngFor="let us of users" >
+            <div class="card-body">
+                <h5 class="card-title">{{us.password}}</h5>
+            </div>
+        </div> 
     </div>
 </section>
 
