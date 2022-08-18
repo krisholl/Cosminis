@@ -69,6 +69,7 @@ export class AllCosminisComponent implements OnInit
         this.cosminis[i].speciesNickname = this.DisplayName.get(this.cosminis[i].speciesFk);
         this.cosminis[i].emotionString = this.currentEmotion.get(this.cosminis[i].emotion);
         this.cosminis[i].image = this.imageLib.get(this.cosminis[i].speciesFk);
+        console.log(this.cosminis[i].image);
       }
 
       this.showCosminis=Promise.resolve(true);
@@ -87,7 +88,7 @@ showCards = false;
     this.DisplayName.set(8, "Cancer");
 
     this.imageLib.set(3, "InfernogFire.png");
-    this.imageLib.set(4, "pluto.png");
+    this.imageLib.set(4, "Pluto.png");
     this.imageLib.set(5, "budfinal.png");
     this.imageLib.set(6, "cosmo.png");
     this.imageLib.set(7, "librianfinall.png");
