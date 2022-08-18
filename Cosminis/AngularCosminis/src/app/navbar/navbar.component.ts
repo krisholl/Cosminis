@@ -73,24 +73,13 @@ export class NavbarComponent implements OnInit {
     let currentUser : Users = JSON.parse(stringUser);
     this.currentUsername = currentUser.username;
     this.currentUsernickname = sessionStorage.getItem('currentUserNickname') as string;
-    if(this.foodDisplay.length >= 1)
-    {
-      this.SpicyFoodCount = this.foodDisplay[0].amount;
-      this.LeafyFoodCount = this.foodDisplay[1].amount;
-      this.ColdFoodCount = this.foodDisplay[2].amount;
-      this.FluffyFoodCount = this.foodDisplay[3].amount;
-      this.BlessedFoodCount = this.foodDisplay[4].amount;
-      this.CursedFoodCount = this.foodDisplay[5].amount;
-    }
-    else
-    {
-      this.SpicyFoodCount = 0;
-      this.ColdFoodCount = 0;
-      this.FluffyFoodCount = 0;
-      this.BlessedFoodCount = 0;
-      this.CursedFoodCount = 0;
-      this.LeafyFoodCount = 0;
-    }
+    
+    this.SpicyFoodCount = sessionStorage.getItem('SpicyFoodCount') as unknown as number;
+    this.LeafyFoodCount = sessionStorage.getItem('LeafyFoodCount') as unknown as number;
+    this.ColdFoodCount = sessionStorage.getItem('ColdFoodCount') as unknown as number;
+    this.FluffyFoodCount = sessionStorage.getItem('FluffyFoodCount') as unknown as number;
+    this.BlessedFoodCount = sessionStorage.getItem('BlessedFoodCount') as unknown as number;
+    this.CursedFoodCount = sessionStorage.getItem('CursedFoodCount') as unknown as number;
     
     this.userEgg = currentUser.eggCount;
     this.userGold = currentUser.goldCount;

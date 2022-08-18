@@ -23,16 +23,16 @@ export class ShopMenuComponent implements OnInit {
     let stringUser : string = sessionStorage.getItem('currentUser') as string;
     let currentUser : Users = JSON.parse(stringUser);
     let currentUserId = currentUser.userId as number;
-    console.log(this.foodQty);
     this.api.Purchase(currentUserId, this.foodQty, this.eggQty).subscribe((res) => 
     {
       this.foodInvInstance = res;
-      window.sessionStorage.setItem('SpicyFoodCount', this.foodInvInstance[0].amount as unknown as string);
-      window.sessionStorage.setItem('ColdFoodCount', this.foodInvInstance[1].amount as unknown as string);
-      window.sessionStorage.setItem('LeafyFoodCount', this.foodInvInstance[2].amount as unknown as string);
-      window.sessionStorage.setItem('FluffyFoodCount', this.foodInvInstance[3].amount as unknown as string);
-      window.sessionStorage.setItem('BlessedFoodCount', this.foodInvInstance[4].amount as unknown as string);
-      window.sessionStorage.setItem('CursedFoodCount', this.foodInvInstance[5].amount as unknown as string);
+      console.log(res);
+      window.sessionStorage.setItem('SpicyFoodCount', this.foodInvInstance[0].foodCount as unknown as string);
+      window.sessionStorage.setItem('ColdFoodCount', this.foodInvInstance[1].foodCount as unknown as string);
+      window.sessionStorage.setItem('LeafyFoodCount', this.foodInvInstance[2].foodCount as unknown as string);
+      window.sessionStorage.setItem('FluffyFoodCount', this.foodInvInstance[3].foodCount as unknown as string);
+      window.sessionStorage.setItem('BlessedFoodCount', this.foodInvInstance[4].foodCount as unknown as string);
+      window.sessionStorage.setItem('CursedFoodCount', this.foodInvInstance[5].foodCount as unknown as string);
       console.log(this.foodInvInstance);
       this.userApi.LoginOrReggi(currentUser).subscribe((res) =>
       {

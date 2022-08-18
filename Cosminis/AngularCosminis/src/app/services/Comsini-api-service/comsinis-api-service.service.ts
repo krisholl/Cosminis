@@ -19,4 +19,9 @@ export class ComsinisApiServiceService {
   getCosminiByID(ID : number) : Observable<Cosminis> {
     return this.http.get(this.url + `companions/SearchByCompanionId?companionId=${ID}`) as Observable<Cosminis>;
   }
+
+  getCosminiByUserID(ID : number) : Observable<Cosminis[]> 
+  {
+    return this.http.get(this.url + `companions/SearchByUserId?userId=${ID}`) as Observable<Cosminis[]>;
+  }
 }

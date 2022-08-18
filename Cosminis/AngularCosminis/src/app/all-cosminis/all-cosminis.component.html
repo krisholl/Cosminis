@@ -2,8 +2,6 @@
 <h1>
     See how your companion are doing!
 </h1>
-<button type="button" (click)="gotoHome()" class="btn btn-light">Homepage</button>
-<button type="button" button (click)="updateCosminis()" class="btn btn-light">Fill this card please</button>
 <div *ngIf="showCosminis">
     <div class="card text-white bg-dark mb-3" style="max-width: 18rem;" *ngFor="let com of cosminis">
         <div class="card-header">Cosminis</div>
