@@ -48,12 +48,24 @@ export class NavbarComponent implements OnInit {
     {
       console.log(this.foodDisplay);
       this.foodDisplay= res;
-      if(this.foodDisplay)
+      if(this.foodDisplay.length>0)
       {
+        window.sessionStorage.setItem('SpicyFoodCount', this.foodDisplay[0].foodCount as unknown as string);
+        window.sessionStorage.setItem('ColdFoodCount', this.foodDisplay[1].foodCount as unknown as string);
+        window.sessionStorage.setItem('LeafyFoodCount', this.foodDisplay[2].foodCount as unknown as string);
+        window.sessionStorage.setItem('FluffyFoodCount', this.foodDisplay[3].foodCount as unknown as string);
+        window.sessionStorage.setItem('BlessedFoodCount', this.foodDisplay[4].foodCount as unknown as string);
+        window.sessionStorage.setItem('CursedFoodCount', this.foodDisplay[5].foodCount as unknown as string);
         return true;
       }
       else
       {
+        window.sessionStorage.setItem('SpicyFoodCount', '0');
+        window.sessionStorage.setItem('ColdFoodCount', '0');
+        window.sessionStorage.setItem('LeafyFoodCount', '0');
+        window.sessionStorage.setItem('FluffyFoodCount', '0');
+        window.sessionStorage.setItem('BlessedFoodCount', '0');
+        window.sessionStorage.setItem('CursedFoodCount', '0');
         return false;
       }
     });
@@ -64,7 +76,7 @@ export class NavbarComponent implements OnInit {
     this.auth0.logout()
     this.router.navigateByUrl('/login');
     console.log(this.currentUsername);
-    sessionStorage.setItem("currentUser","");
+    sessionStorage.clear();
   }
 
   Loggedin():boolean

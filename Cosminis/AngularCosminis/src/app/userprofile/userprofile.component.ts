@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { PostSpiServicesService } from '../services/Post-api-services/post-spi-services.service';
 import { UserApiServicesService } from '../services/User-Api-Service/user-api-services.service';
+import { FriendsService } from '../services/Friends-api-service/friends.service';
 import { Posts } from '../Models/Posts';
 import { Users } from '../Models/User';
 import { Router } from '@angular/router';
+import { Friends } from '../Models/Friends';
 
 @Component({
   selector: 'app-userprofile',
@@ -12,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class UserprofileComponent implements OnInit {
 
-  constructor(private api:PostSpiServicesService, private router: Router, private userApi:UserApiServicesService) { }
+  constructor(private api:PostSpiServicesService, private router: Router, private userApi:UserApiServicesService, private friendApi:FriendsService) { }
 
   posts : Posts[] = []
 
@@ -22,6 +24,12 @@ export class UserprofileComponent implements OnInit {
     userIdFk : 1,
     content : "Shrek",    
   }
+
+  
+
+  friends : Friends[] = []
+  users : Users[] = []
+
 
   inputValue : string = "";
 
@@ -67,7 +75,26 @@ export class UserprofileComponent implements OnInit {
         })
       }
     })
-    
+  }
+
+  showAllFriends(username:string):void
+  {
+    this.friendApi.getAcceptedFriends(username).subscribe((res) => 
+    {
+      this.friends = res;
+      let postUser:Users;
+      let userID:number;
+      for(let i =0; i<this.posts.length;i++)
+      {
+        userID = this.posts[i].userIdFk;
+        this.userApi.Find(userID).subscribe((res) =>
+        {
+          postUser = res;
+          console.log(postUser);
+          this.posts[i].posterNickname = postUser.password;
+        })
+      }
+    })
   }
 
   ngOnInit(): void 

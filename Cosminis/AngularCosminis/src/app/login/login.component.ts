@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
     this.api.LoginOrReggi(this.currentUser).subscribe((res) =>
     {
       this.currentUser = res;
+      window.sessionStorage.setItem('currentUserNickname', this.currentUser.password as string);
       window.sessionStorage.setItem('currentUser', JSON.stringify(this.currentUser));
     })
   }

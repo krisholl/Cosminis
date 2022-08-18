@@ -4,6 +4,7 @@
         <p *ngIf="Loggedin()">username: {{currentUsernickname}}</p>
     </div>    
     <div class="NavMiddle">
+        <h2 type="button" (click)="CheckFood()" class="btn-light">Update Info</h2>
         <div class="child-container">
             <div class="midchild" *ngIf="Loggedin()">Eggcount:{{userEgg}}</div>
             <div class="midchild" *ngIf="Loggedin()">Gold:{{userGold}}</div>
