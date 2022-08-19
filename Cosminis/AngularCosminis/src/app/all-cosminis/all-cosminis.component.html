@@ -1,18 +1,17 @@
 <app-navbar></app-navbar>
-<h1>
-    See how your companions are doing!
-</h1>
+<h1>Check in with your companions!</h1>
 <div class="container1" *ngIf="showCosminis">
-    <div class="card text-white bg-dark mb-3" *ngFor="let com of cosminis">
-        <div class="card-header">Cosminis</div>
-        <div class="card-body">
-            <h5 *ngIf="com.nickname" class="card-title">Nick Name: {{com.nickname}}</h5>
-            <h5 *ngIf="!com.nickname" class="card-title">Species Name: {{com.speciesNickname}}</h5>
-                <div>Emotion: {{com.emotionString}}</div>
-                <div>Mood: {{com.mood}}</div>
-                <div>Hunger: {{com.hunger}}</div>
-                <img src="../assets/Pics/{{com.image}}">
-            <p class="card-text"></p>
+    <div class="card-wrapper" *ngFor="let com of cosminis">
+        <div class="cardhead">
+            <img class="all-cosminis" src="../assets/Pics/{{com.image}}">
+        </div>
+
+        <div class="cardbody bg-dark">
+            <h5 *ngIf="com.nickname" class="card-title">Nickname: {{com.nickname}}</h5>
+            <h5 *ngIf="!com.nickname" class="card-title">Species: {{com.speciesNickname}}</h5>
+            <div>Emotion: {{com.emotionString}}</div>
+            <div>Mood: {{com.mood}}</div>
+            <div>Hunger: {{com.hunger}}</div>
         </div>
     </div> 
 </div>
