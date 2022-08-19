@@ -21,23 +21,58 @@
 
 .three {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
     overflow-y: scroll;
+}
+
+.searchbar {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .card-body {
     color: mistyrose;
 }
 
-.card-title{
+.card-title {
     color:  plum;
-}
-
-p {
-    color: white;
-    text-align: center;
 }
 
 .feed {
     color: mistyrose;
     text-align: center;
+}
+
+h2 {
+    color: mistyrose;
+    text-align: center;
+}
+
+.friends-text {
+    flex-grow: 1;
+}
+
+.username {
+    flex-grow: 1;
+    background-color: mistyrose;
+    opacity: 75%;
+}
+
+.search-button {
+    flex-grow: 1;
+}
+
+.post-button {
+    text-align: right;
+}
+
+.post-selector {
+    height: 50px;
+    width: 120px;
+}
+
+#text {
+    background-color: mistyrose;
+    opacity: 75%;
 }
