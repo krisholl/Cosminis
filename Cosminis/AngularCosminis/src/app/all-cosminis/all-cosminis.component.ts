@@ -88,9 +88,9 @@ showCards = false;
     this.DisplayName.set(8, "Cancer");
 
     this.imageLib.set(3, "InfernogFire.png");
-    this.imageLib.set(4, "Pluto.png");
-    this.imageLib.set(5, "budfinal.png");
-    this.imageLib.set(6, "cosmo.png");
+    this.imageLib.set(4, "plutofinal.png");
+    this.imageLib.set(5, "15.png");
+    this.imageLib.set(6, "cosmofinal.png");
     this.imageLib.set(7, "librianfinall.png");
     this.imageLib.set(8, "cancerfinal.png");
 

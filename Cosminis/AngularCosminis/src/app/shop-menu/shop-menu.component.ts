@@ -39,6 +39,7 @@ export class ShopMenuComponent implements OnInit {
         currentUser = res;
         console.log(currentUser);
         window.sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+        alert("Congratulation, you just spent a lot of money");
       })
     })
 }
