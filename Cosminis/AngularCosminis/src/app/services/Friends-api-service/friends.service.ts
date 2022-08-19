@@ -27,4 +27,8 @@ export class FriendsService {
   FriendsByUserIds(searchingUserId : number, user2BeSearchedFor : number) : Observable<Friends> {
     return this.http.get(this.url + `Friends/FriendsByUserIds?searchingUserId=${searchingUserId}&user2BeSearched=${user2BeSearchedFor}`) as Observable<Friends>;  
   }  
+
+  RelationshipStatusByUserId(searchingId : number, status : string) : Observable<Friends[]> {
+    return this.http.get(this.url + `Friends/RelationshipStatusByUserId?searchingId=${searchingId}&status=${status}`) as Observable<Friends[]>;  
+  }    
 }
