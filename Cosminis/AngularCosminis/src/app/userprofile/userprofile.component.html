@@ -17,7 +17,6 @@
         </div> 
     </div>
     <div class="column three">
-
         <div class="searchbar">
             <h2 class="friends-text">Friends</h2>
             <input type="text" [(ngModel)]="userInstance.username" placeholder="Search user to add ..." class="username">
@@ -33,9 +32,20 @@
             <div class="card PostsFeed text-white bg-dark mb-3" *ngFor="let us of users" >
                 <div class="card-body">
                     <h5 class="card-title">{{us.password}}</h5>
+                    <button type="button" class="btn btn-primary" id ="removeButton" (click)="removeFriends(us.username)">Remove User</button>
+                    <button type="button" class="btn btn-primary" id ="blockButton" (click)="blockUsers(us.username)">Block user</button>
                 </div>           
             </div>
-        </div>    
+        </div>
+        <div class="pendingFriends">
+            <div class="card PostsFeed text-white bg-dark mb-3" *ngFor="let pends of pendingFriends" >
+                <div class="card-body" *ngIf="friendPending">
+                    <h5 class="card-title">{{pends.username}}</h5>
+                    <button type="button" class="btn btn-primary" id ="acceptButton" (click)="acceptFriends(pends.username)">Accept Friend Request!</button>
+                    <button type="button" class="btn btn-primary" id ="blockButton" (click)="blockUsers(pends.username)">Block user</button>
+                </div>           
+            </div>
+        </div>   
     </div>       
 </section>
 

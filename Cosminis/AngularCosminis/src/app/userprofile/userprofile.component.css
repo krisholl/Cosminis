@@ -75,6 +75,8 @@ h2 {
 #text {
     background-color: mistyrose;
     opacity: 75%;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 /*.search-body {
