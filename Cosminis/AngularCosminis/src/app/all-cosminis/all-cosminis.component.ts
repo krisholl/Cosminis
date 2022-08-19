@@ -73,7 +73,6 @@ export class AllCosminisComponent implements OnInit
 
   SetShowcase(companionID: number) : void 
   {
-      console.log(companionID);
       let stringUser : string = sessionStorage.getItem('currentUser') as string;
       this.users = JSON.parse(stringUser);
       let currentUserID : number = this.users.userId as number;
@@ -82,7 +81,6 @@ export class AllCosminisComponent implements OnInit
     {
       console.log(res);
       this.cosminis1 = res;
-      console.log(this.cosminis1);
       if(this.users.showcaseCompanionFk != companionID)
       {
         this.users.showcaseCompanionFk = companionID;
