@@ -76,3 +76,8 @@ h2 {
     background-color: mistyrose;
     opacity: 75%;
 }
+
+/*.search-body {
+    display: flex;
+    flex-direction: column;
+}*/
