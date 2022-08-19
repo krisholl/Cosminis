@@ -67,4 +67,18 @@ export class NavbarComponent implements OnInit {
     }
     return false;
   }
+
+  Song1(){
+    let audio = new Audio();
+    audio.src = "../assets/Audio/ADayInTokyo.mp3";
+    audio.load();
+    audio.play();
+  }
+
+  Song2(){
+    let audio = new Audio();
+    audio.src = "../assets/Audio/CastlevaniaLike.mp3";
+    audio.load();
+    audio.play();
+  }
 }
