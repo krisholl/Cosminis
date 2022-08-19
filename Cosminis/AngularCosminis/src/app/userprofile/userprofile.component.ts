@@ -191,6 +191,7 @@ export class UserprofileComponent implements OnInit {
       
       console.log(this.friendshipInstance);
       window.sessionStorage.setItem('currentUser', JSON.stringify(acceptingUser));
+      
       if(this.friendshipInstance.status == 'Accepted')
       {
         console.log(res);
