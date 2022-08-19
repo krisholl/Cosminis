@@ -14,5 +14,7 @@ export class FriendsService {
 
   getAcceptedFriends(username : string) : Observable<Friends[]> {
     return this.http.get(this.url + `Friends/RelationshipStatusByUsername?username=${username}&status=Accepted`) as Observable<Friends[]>;
+
+  
   }
 }
