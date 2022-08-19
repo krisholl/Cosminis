@@ -37,7 +37,23 @@ p {
     text-align: center;
 }
 
-.feed {
+h2 {
+    display: flex;
+    flex-direction: column;
     color: mistyrose;
     text-align: center;
 }
+
+.feed
+{
+    display: flex;
+    flex-direction: column;
+    color: mistyrose;
+}
+
+.search-body
+{
+    display: flex;
+    flex-direction: column;
+}
+

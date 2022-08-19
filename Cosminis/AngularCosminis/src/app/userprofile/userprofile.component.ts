@@ -16,6 +16,30 @@ export class UserprofileComponent implements OnInit {
 
   constructor(private api:PostSpiServicesService, private router: Router, private userApi:UserApiServicesService, private friendApi:FriendsService) { }
 
+  friendshipInstance : Friends =
+  {
+    userIdFrom : 1,
+    userIdTo: 1,
+    status: 'updatedStatus',
+  }
+
+  doesExist : boolean = false;
+  successfulAdd : boolean = false;
+
+  userInstance : Users =
+  {
+    username : 'DefaultUserName',
+    userId : 1,
+    password: "NoOneIsGoingToSeeThis",
+    account_age : new Date(),
+    eggTimer : new Date(),
+    goldCount : 1,
+    eggCount : 1,
+    showcaseCompanion_fk:1,
+    showcaseCompanionFk:1,
+    aboutMe:"I am Boring... zzzz snoringgg",    
+  }
+
   posts : Posts[] = []
 
   postInstance : Posts =
@@ -43,6 +67,55 @@ export class UserprofileComponent implements OnInit {
     
     console.log(this.inputValue);
   }
+
+  searchAndAdd(username2 : string)
+  {
+    let stringUser : string = sessionStorage.getItem('currentUser') as string;
+    let searchingUser = JSON.parse(stringUser);
+    
+    this.searchUsers(username2);
+
+    this.friendApi.addFriendByUsername(searchingUser.username, this.userInstance.username).subscribe((res) => 
+    {
+      this.friendshipInstance = res;
+
+      console.log(this.friendshipInstance);
+
+      if(this.friendshipInstance.status == 'Pending')
+      {
+        console.log(res);
+        alert("Friend request sent!");
+        console.log(alert);
+      }
+    })
+  }
+
+  searchUsers(searchedUser : string) : void
+  {
+    this.userApi.searchFriend(searchedUser).subscribe((res) =>
+    {
+      this.userInstance = res;
+      console.log(this.userInstance);
+
+      if(this.userInstance.username != 'DefaultUserName')
+      {
+        this.doesExist = true;
+      }
+    })
+  }
+
+  searchingFriendship(searchedUser : string) : void
+  {
+    let stringUser : string = sessionStorage.getItem('currentUser') as string;
+    let searchingUser = JSON.parse(stringUser);
+    
+    this.searchUsers(searchedUser);
+
+    this.friendApi.FriendsByUserIds(searchingUser.userId, this.userInstance.userId as number).subscribe((res) =>
+    {
+      console.log(res);
+    })
+  }  
 
   updatePostFeed(ID : number) : void 
   {
