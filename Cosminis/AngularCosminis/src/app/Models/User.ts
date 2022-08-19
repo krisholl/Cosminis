@@ -8,5 +8,6 @@ export interface Users
     goldCount : number;
     eggCount : number;
     showcaseCompanion_fk:number;
+    showcaseCompanionFk?:number;
     aboutMe:string;
 }
