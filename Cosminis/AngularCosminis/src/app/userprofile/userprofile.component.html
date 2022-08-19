@@ -1,7 +1,11 @@
 <app-navbar></app-navbar>
 <section class="Container1">
     <div class="column one">
-        <p>placeholder but a big placeholder</p>
+        <h2>Post Into the Cosmos!</h2>
+        <textarea name="text" placeholder="What's happenin'?" id="text" cols="53" rows="8"></textarea>
+        <div class="post-button">
+            <button class="btn post-selector btn-primary" type="submit">Submit</button>
+        </div>
     </div>
     <div class="column two">
         <h2 class="feed">Cosminis Feed</h2>
@@ -13,21 +17,25 @@
         </div> 
     </div>
     <div class="column three">
-        <h2 class="feed">Friends</h2>
-            <label for="formGroupExampleInput">Search Users</label>
-            <input type="text" [(ngModel)]="userInstance.username" id="formGroupExampleInput" placeholder="Search user to add...">
-            <button type="button" class="btn btn-primary" id ="showcase" (click)="searchUsers(userInstance.username)">search...</button>
+
+        <div class="searchbar">
+            <h2 class="friends-text">Friends</h2>
+            <input type="text" [(ngModel)]="userInstance.username" placeholder="Search user to add ..." class="username">
+            <button class="btn search-button btn-primary" (click)="searchUsers(userInstance.username)" type="button">Submit</button>
+        </div>
         <div class="card PostsFeed text-white bg-dark mb-3" >
             <div class="search-body" *ngIf="doesExist">
                 <h5 class="card-title" >{{userInstance.username}}</h5>
                 <button type="button" class="btn btn-primary" id ="addButton" (click)="searchAndAdd(userInstance.username)">Add Friend!</button>
             </div>
-        </div>         
-        <div class="card PostsFeed text-white bg-dark mb-3" *ngFor="let us of users">
-            <div class="card-body">
-                <h5 class="card-title">{{us.password}}</h5>
-            </div>
         </div> 
-    </div>
+        <div class="friends">
+            <div class="card PostsFeed text-white bg-dark mb-3" *ngFor="let us of users" >
+                <div class="card-body">
+                    <h5 class="card-title">{{us.password}}</h5>
+                </div>           
+            </div>
+        </div>    
+    </div>       
 </section>
 

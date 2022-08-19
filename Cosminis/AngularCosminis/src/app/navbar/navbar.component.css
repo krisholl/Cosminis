@@ -36,10 +36,10 @@
     border-color: black;
 }
 
-.HomeButton
-{
+.home-button {
     background: url(https://media.istockphoto.com/photos/purple-space-stars-picture-id157639696?k=20&m=157639696&s=612x612&w=0&h=SdmnpR_xWbXDcd36SggDN0hPX18CqgUjgZ1WQsAK_18=) no-repeat center center;
     background-size: cover;
+    font-size: 36px;
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
     -moz-background-clip:text;
