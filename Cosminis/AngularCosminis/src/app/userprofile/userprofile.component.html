@@ -17,10 +17,9 @@
         </div> 
     </div>
     <div class="column three">
-
         <div class="searchbar">
             <h2 class="friends-text">Friends</h2>
-            <input type="text" [(ngModel)]="userInstance.username" placeholder="Search user to add ..." class="username">
+            <input type="text" [(ngModel)]="userInstance.username" placeholder="Search user to add..." class="username">
             <button class="btn search-button btn-primary" (click)="searchUsers(userInstance.username)" type="button">Submit</button>
         </div>
         <div class="card PostsFeed text-white bg-dark mb-3" >

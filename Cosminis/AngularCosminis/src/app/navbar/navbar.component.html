@@ -5,23 +5,23 @@
     </div>    
     <div class="NavMiddle">
         <div class="child-container">
-            <div class="midchild" *ngIf="Loggedin()">Eggcount:{{userEgg}}</div>
-            <div class="midchild" *ngIf="Loggedin()">Gold:{{userGold}}</div>
+            <div class="midchild" *ngIf="Loggedin()">Eggcount: {{userEgg}}</div>
+            <div class="midchild" *ngIf="Loggedin()">Gold: {{userGold}}</div>
         </div>
         <div class="child-container">
-            <div class="midchild" *ngIf="Loggedin()">SF:{{SpicyFoodCount}}</div>
-            <div class="midchild" *ngIf="Loggedin()">CF:{{LeafyFoodCount}}</div>
-            <div class="midchild" *ngIf="Loggedin()">LF:{{ColdFoodCount}}</div>
-            <div class="midchild" *ngIf="Loggedin()">FF:{{FluffyFoodCount}}</div>
-            <div class="midchild" *ngIf="Loggedin()">BF:{{BlessedFoodCount}}</div>
-            <div class="midchild" *ngIf="Loggedin()">CF:{{CursedFoodCount}}</div>
+            <div class="midchild" *ngIf="Loggedin()">SF: {{SpicyFoodCount}}</div>
+            <div class="midchild" *ngIf="Loggedin()">CF: {{LeafyFoodCount}}</div>
+            <div class="midchild" *ngIf="Loggedin()">LF: {{ColdFoodCount}}</div>
+            <div class="midchild" *ngIf="Loggedin()">FF: {{FluffyFoodCount}}</div>
+            <div class="midchild" *ngIf="Loggedin()">BF: {{BlessedFoodCount}}</div>
+            <div class="midchild" *ngIf="Loggedin()">CF: {{CursedFoodCount}}</div>
         </div>
         <div class="child-container">
-            <div class="midchild"> CompanionMood:{{DisplayCompanionMood}}</div>
-            <div class="midchild"> CompanionHunger:{{DisplayCompanionHunger}}</div>    
+            <div class="midchild"> CompanionMood: {{DisplayCompanionMood}}</div>
+            <div class="midchild"> CompanionHunger: {{DisplayCompanionHunger}}</div>    
         </div>
     </div>
     <div class="NavRight">
-        <button *ngIf="Loggedin()" type="button" (click)="Logout()" class="btn btn-light">Logout</button>
+        <button *ngIf="Loggedin()" type="button" (click)="Logout()" class="btn log-out btn-light">Logout</button>
     </div>
 </section>

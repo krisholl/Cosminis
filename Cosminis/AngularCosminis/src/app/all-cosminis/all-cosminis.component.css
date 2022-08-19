@@ -6,7 +6,7 @@ h1 {
 	display: flex;
 	justify-content: space-around;
 	flex-wrap: wrap;
-	row-gap: 50px;
+	row-gap: 95px;
 	column-gap: 40px;
 }
 
