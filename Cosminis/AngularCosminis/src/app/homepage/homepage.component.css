@@ -82,3 +82,8 @@
     height: 300px;
     width: 300px;
 }
+
+.btn {
+    background: plum;
+    opacity: 80%;
+}

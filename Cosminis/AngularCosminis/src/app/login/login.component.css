@@ -5,3 +5,16 @@
     height:50vh;
     align-items: center;
 }
+
+.card-header
+{
+    text-align: center;
+    font-size: 25.788px;
+}
+
+.card-body
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
