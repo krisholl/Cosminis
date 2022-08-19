@@ -5,15 +5,23 @@
     justify-content: space-around;
 }
 
-.row1
-{
+.row1 {
     background-color: midnightblue;
     height:25vh;
     width: 25%;
     border-width: 3px;
     border-style: solid;
     border-color:black;
-    margin-bottom: 50px;
+    margin-bottom: 150px;
+}
+
+.row2 {
+    background-color: midnightblue;
+    height:25vh;
+    width: 25%;
+    border-width: 3px;
+    border-style: solid;
+    border-color:black;
 }
 
 @keyframes pulse 
@@ -70,7 +78,7 @@
     padding-bottom: 100px;
 }
 
-.btn btn-light
-{
-
+.show-case {
+    height: 300px;
+    width: 300px;
 }
