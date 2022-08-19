@@ -12,6 +12,9 @@
             <div>Emotion: {{com.emotionString}}</div>
             <div>Mood: {{com.mood}}</div>
             <div>Hunger: {{com.hunger}}</div>
+            
+            <h6 class = "showcaselol" *ngIf="users.showcaseCompanionFk == com.companionId">*~Showcase~*</h6>
+            <button type="button" class="btn btn-primary" id ="showcase" *ngIf="users.showcaseCompanionFk != com.companionId" (click)="SetShowcase(com.companionId)">Set as Showcase!</button>
         </div>
     </div> 
 </div>

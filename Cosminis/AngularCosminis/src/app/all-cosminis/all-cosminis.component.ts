@@ -1,6 +1,7 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Component, OnDestroy, OnInit, EventEmitter, Output} from '@angular/core';
 import { ComsinisApiServiceService } from '../services/Comsini-api-service/comsinis-api-service.service';
+import { InteractionService } from '../services/Interaction-Api-Service/interaction.service';
 import { Cosminis } from '../Models/Cosminis';
 import { Router } from '@angular/router';
 import { Users } from '../Models/User';
@@ -13,7 +14,7 @@ import { Users } from '../Models/User';
 export class AllCosminisComponent implements OnInit 
 {
 
-  constructor(private api:ComsinisApiServiceService, private router: Router) { }
+  constructor(private api:ComsinisApiServiceService, private router: Router, private interapi:InteractionService) { }
   showCosminis!:Promise<boolean>;
   cosminis : Cosminis[] = []
   DisplayName = new Map<number, string>();
@@ -30,6 +31,19 @@ export class AllCosminisComponent implements OnInit
     emotion : 100,
     mood : 100,
     hunger : 100
+  }
+
+  users : Users = 
+  {
+    username : 'DefaultUserName',
+    password: "NoOneIsGoingToSeeThis",
+    account_age : new Date(),
+    eggTimer : new Date(),
+    goldCount : 1,
+    eggCount : 1,
+    showcaseCompanion_fk:1,
+    showcaseCompanionFk:1,
+    aboutMe:"I am Boring... zzzz snoringgg",
   }
 
   gotoHome(){
@@ -56,6 +70,27 @@ export class AllCosminisComponent implements OnInit
       this.showCosminis=Promise.resolve(true);
     })
   }
+
+  SetShowcase(companionID: number) : void 
+  {
+      console.log(companionID);
+      let stringUser : string = sessionStorage.getItem('currentUser') as string;
+      this.users = JSON.parse(stringUser);
+      let currentUserID : number = this.users.userId as number;
+
+    this.interapi.SetShowcaseCompanion(currentUserID, companionID).subscribe((res) => 
+    {
+      console.log(res);
+      this.cosminis1 = res;
+      console.log(this.cosminis1);
+      if(this.users.showcaseCompanionFk != companionID)
+      {
+        this.users.showcaseCompanionFk = companionID;
+        window.sessionStorage.setItem('currentUser', JSON.stringify(this.users));
+      }
+      this.showCosminis=Promise.resolve(true);
+    })
+  }  
 
   getCosminiByUserID(ID : number) : void 
   {
@@ -107,8 +142,10 @@ showCards = false;
 
     let stringUser : string = sessionStorage.getItem('currentUser') as string;
     let currentUser : Users = JSON.parse(stringUser);
+    console.log(currentUser);
     let currentUserID : number = currentUser.userId as number;
     console.log(currentUserID);
     this.getCosminiByUserID(currentUserID);
+    this.SetShowcase(currentUser.showcaseCompanionFk as number);
   }
 }
