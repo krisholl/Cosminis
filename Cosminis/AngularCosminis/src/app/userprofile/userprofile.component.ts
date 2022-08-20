@@ -42,6 +42,7 @@ export class UserprofileComponent implements OnInit {
   }
 
   posts : Posts[] = []
+  ownersPosts : Posts[] = []
 
   postInstance : Posts =
   {
@@ -122,9 +123,19 @@ export class UserprofileComponent implements OnInit {
   {
     this.api.getPostsByUserId(ID).subscribe((res) => 
     {
-      console.log(res);
-      this.posts = res;
-      console.log(this.postInstance);
+      this.ownersPosts = res;
+      let postUser:Users;
+      let userID:number;
+      for(let i=0; i<this.ownersPosts.length; i++)
+      {
+        userID = this.ownersPosts[i].userIdFk;
+        this.userApi.Find(userID).subscribe((res) =>
+        {
+          postUser = res;
+          console.log(postUser);
+          this.ownersPosts[i].posterNickname = postUser.password;
+        })
+      }  
     })
   }
 
@@ -313,6 +324,8 @@ export class UserprofileComponent implements OnInit {
     let stringUser : string = sessionStorage.getItem('currentUser') as string;
     let currentUser : Users = JSON.parse(stringUser);
     let currentUsername = currentUser.username;
+    let currentUserId = currentUser.userId;
+    this.updatePostFeed(currentUserId as number);
     this.friendsPostFeed(currentUsername);
     this.showAllFriends(currentUsername);
     this.showPendingFriends("Pending");
