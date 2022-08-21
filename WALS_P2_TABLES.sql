@@ -109,7 +109,7 @@ insert into WALS_P2.foodStats (foodElement_fk, description, foodName, hungerRest
 
 insert into WALS_P2.foodInventory (userId_fk, foodStatsId_fk, foodCount) values (4, 1, -49999);
 
-select * from WALS_P2.users;
+select * from WALS_P2.friends;
 delete from WALS_P2.friends;
 
 update WALS_P2.foodInventory set userId_fk = 4, foodStatsId_fk = 1, foodCount = 10;
@@ -229,7 +229,7 @@ delete from WALS_P2.foodStats where foodStatsId = 4;
 
 delete from WALS_P2.companions where companionId = 2;
 
-delete from WALS_P2.users where userId = 16;
+delete from WALS_P2.friends where userId_from = 15;
 
 create table WAL_P2.users;
 

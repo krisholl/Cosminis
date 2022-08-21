@@ -431,17 +431,15 @@ public class FriendsRepo : IFriendsDAO
         {
             throw new UserNotFound();
         }
-        //Console.Writeline("1"); 
         IEnumerable<Friends> checkIfExists =
             (from Friends in _context.Friends
             where (Friends.UserIdTo == addingUser.UserId) || (Friends.UserIdFrom == addingUser.UserId)
-            select Friends);
+            select Friends).ToList();
 
             try
             {  
                 if(checkIfExists == null)
                 {
-                    //Console.Writeline("2"); 
                     Friends newRelationship = new Friends
                     {
                         UserIdFrom = (int)addingUser.UserId,
@@ -459,7 +457,6 @@ public class FriendsRepo : IFriendsDAO
                 }
                 else
                 {
-                    //Console.Writeline("3"); 
                     List<Friends> friendsList = checkIfExists.ToList();
 
                     foreach(Friends friendInstance in friendsList)
@@ -479,6 +476,8 @@ public class FriendsRepo : IFriendsDAO
                                 _context.SaveChanges();
 
                                 _context.ChangeTracker.Clear();
+
+                                return friendInstance;
                             }
                             else
                             {
@@ -487,7 +486,6 @@ public class FriendsRepo : IFriendsDAO
                         }
                     }
                 }
-                //Console.Writeline("3"); 
                 Friends newRelationshipChance2 = new Friends
                     {
                         UserIdFrom = (int)addingUser.UserId,
@@ -507,7 +505,7 @@ public class FriendsRepo : IFriendsDAO
             {
                 throw;
             }
-        //Console.Writeline("4"); 
+
         Friends existingRelationship = FriendsByUserIds((int)addingUser.UserId, (int)requestReceiver.UserId);
 
         return existingRelationship;  

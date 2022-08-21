@@ -127,6 +127,7 @@ export class UserprofileComponent implements OnInit {
   {
     this.api.getPostsByUserId(ID).subscribe((res) => 
     {
+      res.reverse();
       this.ownersPosts = res;
       let postUser:Users;
       let userID:number;
@@ -202,6 +203,7 @@ export class UserprofileComponent implements OnInit {
   {
     this.api.getAllFriendsPosts(username).subscribe((res) => 
     {
+      res.reverse();
       this.posts = res;
       let postUser:Users;
       let userID:number;
