@@ -156,13 +156,13 @@ public class FriendServices
         }
     }   
 
-    public Friends AddFriendByUserId(int requesterId, int addedId)
+    public Friends AddFriendByUserId(int userToAddId, int requestReceiver)
     {
-        User user2Add2 = new User();
-        user2Add2.UserId = addedId;
+        User user2Add2 = _userRepo.GetUserByUserId(requestReceiver);
+
         try
         {
-            Friends checkRelationship = _friendsRepo.AddFriendByUserId(requesterId, addedId);
+            Friends checkRelationship = _friendsRepo.AddFriendByUserId(userToAddId, requestReceiver);
             if(checkRelationship == null)
             {
                 throw new RelationshipNotFound();

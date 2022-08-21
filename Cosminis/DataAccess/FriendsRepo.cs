@@ -346,168 +346,139 @@ public class FriendsRepo : IFriendsDAO
         return relationsList;                  
     }
 
-    public Friends AddFriendByUserId(int requesterId, int addedId)
+    public Friends AddFriendByUserId(int userToAddId, int acceptingUserId)
     {
-        User addingUser = _context.Users.Find(requesterId);
-        User requestReceiver = _context.Users.Find(addedId);
+        User toBeAccepted = _context.Users.Find(userToAddId);
+        User requestReceiver = _context.Users.Find(acceptingUserId);
 
-        if(addingUser == null || requestReceiver == null)
+        if(toBeAccepted == null || requestReceiver == null)
         {
             throw new UserNotFound();
         }
 
         IEnumerable<Friends> checkIfExists =
             (from Friends in _context.Friends
-            where (Friends.UserIdTo == addingUser.UserId) || (Friends.UserIdFrom == addingUser.UserId)
-            select Friends);
-
-            try
-            {  
-                if(checkIfExists == null)
+            where (Friends.UserIdTo == toBeAccepted.UserId) || (Friends.UserIdFrom == toBeAccepted.UserId)
+            select Friends).ToList();
+            
+        foreach(Friends friendInstance in checkIfExists)
+        {
+            if((friendInstance.UserIdTo == requestReceiver.UserId) || (friendInstance.UserIdFrom == requestReceiver.UserId))
+            {
+                Console.WriteLine(friendInstance.Status);
+                if(friendInstance.Status == "Accepted")
                 {
-                    Friends newRelationship = new Friends
-                    {
-                        UserIdFrom = (int)addingUser.UserId,
-                        UserIdTo = (int)requestReceiver.UserId,
-                        Status = "Pending"
-                    };
+                    //Console.WriteLine("A");               //These comments for testing
+                    throw new DuplicateFriends();
+                }     
 
-                    _context.Friends.Add(newRelationship);
+                else if(friendInstance.Status == "Blocked")
+                {
+                    //Console.WriteLine("B");
+                    throw new BlockedUser();
+                }
+                else if(friendInstance.Status == "Removed")
+                {
+                    //Console.WriteLine("R");
+                    friendInstance.Status = "Pending";
 
                     _context.SaveChanges();
 
                     _context.ChangeTracker.Clear();
 
-                    return newRelationship;
-                }
-                else
+                    return friendInstance;                    
+                }                
+            }
+            else
+            {
+                //Console.WriteLine("N");
+                Friends newRelationship = new Friends
                 {
-                    List<Friends> friendsList = checkIfExists.ToList();
+                    UserIdFrom = (int)toBeAccepted.UserId,
+                    UserIdTo = (int)requestReceiver.UserId,
+                    Status = "Pending"
+                };
 
-                    foreach(Friends friendInstance in friendsList)
-                    {
-                        if((friendInstance.UserIdTo == requestReceiver.UserId) || (friendInstance.UserIdFrom == requestReceiver.UserId))
-                        {
-                            if(friendInstance.Status == "Blocked")
-                            {
-                                throw new BlockedUser();
-                            }                            
-                            throw new DuplicateFriends();
-                        }
-                    }
-                }
-
-                Friends newRelationshipChance2 = new Friends
-                    {
-                        UserIdFrom = (int)addingUser.UserId,
-                        UserIdTo = (int)requestReceiver.UserId,
-                        Status = "Pending"
-                    };
-            
-                _context.Friends.Add(newRelationshipChance2);
+                _context.Friends.Add(newRelationship);
 
                 _context.SaveChanges();
 
                 _context.ChangeTracker.Clear();
 
-                return newRelationshipChance2;
-            }
-            catch(ResourceNotFound)
-            {
-                throw;
-            }
+                return newRelationship;                
+            }            
+        }            
 
-        Friends existingRelationship = FriendsByUserIds((int)addingUser.UserId, (int)requestReceiver.UserId);
-        
-        return existingRelationship;  
+        Friends returnRelationship = FriendsByUserIds((int)toBeAccepted.UserId, (int)requestReceiver.UserId);
+
+        return returnRelationship;
     }
 
-    public Friends AddFriendByUsername(string requesterUsername, string addedUsername)
+    public Friends AddFriendByUsername(string userToAdd, string acceptingUser)
     {
-        User addingUser = _userRepo.GetUserByUserName(requesterUsername);
-        User requestReceiver = _userRepo.GetUserByUserName(addedUsername);
+        User toBeAccepted = _userRepo.GetUserByUserName(userToAdd);               //searching friends
+        User requestReceiver = _userRepo.GetUserByUserName(acceptingUser);
 
-        if(addingUser == null || requestReceiver == null)
-        {
+        if(toBeAccepted == null || requestReceiver == null)                               //checking null
+        {           
             throw new UserNotFound();
         }
-        IEnumerable<Friends> checkIfExists =
+        IEnumerable<Friends> checkIfExists =                                            //checking "friendships" objects, return to list
             (from Friends in _context.Friends
-            where (Friends.UserIdTo == addingUser.UserId) || (Friends.UserIdFrom == addingUser.UserId)
+            where (Friends.UserIdTo == toBeAccepted.UserId) || (Friends.UserIdFrom == toBeAccepted.UserId)
             select Friends).ToList();
 
-            try
-            {  
-                if(checkIfExists == null)
+        foreach(Friends friendInstance in checkIfExists)
+        {
+            if((friendInstance.UserIdTo == requestReceiver.UserId) || (friendInstance.UserIdFrom == requestReceiver.UserId))
+            {
+                Console.WriteLine(friendInstance.Status);
+                if(friendInstance.Status == "Accepted")
                 {
-                    Friends newRelationship = new Friends
-                    {
-                        UserIdFrom = (int)addingUser.UserId,
-                        UserIdTo = (int)requestReceiver.UserId,
-                        Status = "Pending"
-                    };
+                    //Console.WriteLine("A");               //These comments for testing
+                    throw new DuplicateFriends();
+                }     
 
-                    _context.Friends.Add(newRelationship);
+                else if(friendInstance.Status == "Blocked")
+                {
+                    //Console.WriteLine("B");
+                    throw new BlockedUser();
+                }
+                else if(friendInstance.Status == "Removed")
+                {
+                    //Console.WriteLine("R");
+                    friendInstance.Status = "Pending";
 
                     _context.SaveChanges();
 
                     _context.ChangeTracker.Clear();
 
-                    return newRelationship;
-                }
-                else
+                    return friendInstance;                    
+                }                
+            }
+            else
+            {
+                //Console.WriteLine("N");
+                Friends newRelationship = new Friends
                 {
-                    List<Friends> friendsList = checkIfExists.ToList();
+                    UserIdFrom = (int)toBeAccepted.UserId,
+                    UserIdTo = (int)requestReceiver.UserId,
+                    Status = "Pending"
+                };
 
-                    foreach(Friends friendInstance in friendsList)
-                    {
-                        if((friendInstance.UserIdTo == requestReceiver.UserId) || (friendInstance.UserIdFrom == requestReceiver.UserId))
-                        {
-                            Console.WriteLine(friendInstance.Status);
-                            if(friendInstance.Status == "Blocked")
-                            {
-                                throw new BlockedUser();
-                            }
-
-                            else if(friendInstance.Status == "Removed")
-                            {
-                                friendInstance.Status = "Pending";
-
-                                _context.SaveChanges();
-
-                                _context.ChangeTracker.Clear();
-
-                                return friendInstance;
-                            }
-                            else
-                            {
-                                throw new DuplicateFriends();
-                            }                
-                        }
-                    }
-                }
-                Friends newRelationshipChance2 = new Friends
-                    {
-                        UserIdFrom = (int)addingUser.UserId,
-                        UserIdTo = (int)requestReceiver.UserId,
-                        Status = "Pending"
-                    };
-            
-                _context.Friends.Add(newRelationshipChance2);
+                _context.Friends.Add(newRelationship);
 
                 _context.SaveChanges();
 
                 _context.ChangeTracker.Clear();
 
-                return newRelationshipChance2;
-            }
-            catch(ResourceNotFound)
-            {
-                throw;
-            }
+                return newRelationship;                
+            }            
+        }
+        //Console.WriteLine("F");
 
-        Friends existingRelationship = FriendsByUserIds((int)addingUser.UserId, (int)requestReceiver.UserId);
+        Friends returnRelationship = FriendsByUserIds((int)toBeAccepted.UserId, (int)requestReceiver.UserId);
 
-        return existingRelationship;  
+        return returnRelationship;  
     }    
 }
