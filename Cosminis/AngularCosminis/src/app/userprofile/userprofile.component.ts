@@ -89,6 +89,7 @@ export class UserprofileComponent implements OnInit {
         console.log(alert);
       }
     })
+    this.doesExist = false;
   }
 
   searchUsers(searchedUser : string) : void
@@ -184,21 +185,21 @@ export class UserprofileComponent implements OnInit {
     let acceptingUser = JSON.parse(stringUser);
     
     this.searchUsers(newFriend);
-    
-    this.friendApi.EditFriendship(acceptingUser.userId, this.userInstance.userId as number, "Accepted").subscribe((res) => 
+
+    this.friendApi.FriendsByUserIds(acceptingUser.userId, this.userInstance.userId as number).subscribe((res) =>
     {
       this.friendshipInstance = res;
-      
-      console.log(this.friendshipInstance);
-      window.sessionStorage.setItem('currentUser', JSON.stringify(acceptingUser));
-      
-      if(this.friendshipInstance.status == 'Accepted')
-      {
-        console.log(res);
-        alert("Friend request accepted! Enjoy your blossoming friendship :3");
-        console.log(alert);
-      }
+
+      this.friendshipInstance.status = 'Accepted';
+
+      this.friendApi.EditFriendship(acceptingUser.userId, this.userInstance.userId as number, "Accepted").subscribe((res) => 
+      {           
+        window.sessionStorage.setItem('currentUser', JSON.stringify(acceptingUser));
+      })
+      alert("Friend request accepted! Enjoy your blossoming friendship :3");
+      console.log(alert);      
     })
+    this.doesExist = false;
   }
 
   showPendingFriends(status : string)
@@ -209,6 +210,7 @@ export class UserprofileComponent implements OnInit {
     
     this.searchRelationshipsByStatus(status) 
     {
+      this.friendPending = true; 
       for(let i=0;i<this.friends.length;i++)
       {
         if(currentID==this.friends[i].userIdFrom)
@@ -216,6 +218,7 @@ export class UserprofileComponent implements OnInit {
           this.userApi.Find(this.friends[i].userIdTo).subscribe((res) =>
           {
             this.pendingFriends[i] = res;
+              
             console.log(this.users[i].username);
           })
         }
@@ -223,7 +226,7 @@ export class UserprofileComponent implements OnInit {
         {
           this.userApi.Find(this.friends[i].userIdFrom).subscribe((res) =>
           {
-            this.pendingFriends[i] = res;
+            this.pendingFriends[i] = res;  
             console.log(this.users[i].username);
           })
         }
@@ -246,8 +249,7 @@ export class UserprofileComponent implements OnInit {
         {
           this.userApi.Find(this.friends[i].userIdTo).subscribe((res) =>
           {
-            this.pendingFriends[i] = res;
-            this.friendPending = true;            
+            this.pendingFriends[i] = res;         
             console.log(this.pendingFriends[i].username);
           })
         }
@@ -267,45 +269,47 @@ export class UserprofileComponent implements OnInit {
   removeFriends(friendToRemove : string)
   {
     let stringUser : string = sessionStorage.getItem('currentUser') as string;
-    let acceptingUser = JSON.parse(stringUser);
+    let removingUser = JSON.parse(stringUser);
     
     this.searchUsers(friendToRemove); 
     
-    this.friendApi.EditFriendship(acceptingUser.userId, this.userInstance.userId as number, "Removed").subscribe((res) => 
+    this.friendApi.FriendsByUserIds(removingUser.userId, this.userInstance.userId as number).subscribe((res) =>
     {
       this.friendshipInstance = res;
 
-      console.log(this.friendshipInstance);
+      this.friendshipInstance.status = 'Removed';
 
-      if(this.friendshipInstance.status == 'Removed')
-      {
-        console.log(res);
-        alert("You have removed this friend, they will no longer appear on your friends list.");
-        console.log(alert);
-      }
-    })    
+      this.friendApi.EditFriendship(removingUser.userId, this.userInstance.userId as number, "Removed").subscribe((res) => 
+      {           
+        window.sessionStorage.setItem('currentUser', JSON.stringify(removingUser));
+      })
+      alert("This friend has been removed.");
+      console.log(alert);      
+    })
+    this.doesExist = false;
   }
 
   blockUsers(userToBlock : string)
   {
     let stringUser : string = sessionStorage.getItem('currentUser') as string;
-    let acceptingUser = JSON.parse(stringUser);
+    let blockingUser = JSON.parse(stringUser);
     
     this.searchUsers(userToBlock); 
     
-    this.friendApi.EditFriendship(acceptingUser.userId, this.userInstance.userId as number, "Blocked").subscribe((res) => 
+    this.friendApi.FriendsByUserIds(blockingUser.userId, this.userInstance.userId as number).subscribe((res) =>
     {
       this.friendshipInstance = res;
 
-      console.log(this.friendshipInstance);
+      this.friendshipInstance.status = 'Removed';
 
-      if(this.friendshipInstance.status == 'Blocked')
-      {
-        console.log(res);
-        alert("You have blocked this user, they will no longer appear on your feed and will not be able to add you as a friend.");
-        console.log(alert);
-      }
-    })    
+      this.friendApi.EditFriendship(blockingUser.userId, this.userInstance.userId as number, "Removed").subscribe((res) => 
+      {           
+        window.sessionStorage.setItem('currentUser', JSON.stringify(blockingUser));
+      })
+      alert("This user has been blocked. They will no longer appear on your feed and they will not be able to add you as a friend.");
+      console.log(alert);      
+    })   
+    this.doesExist = false;
   }
 
   ngOnInit(): void 
