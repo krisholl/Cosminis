@@ -18,5 +18,9 @@ export class PostSpiServicesService {
 
   getAllFriendsPosts(username : string) : Observable<Posts[]> {
     return this.http.get(this.url + `viewFriendsPosts?username=${username}`) as Observable<Posts[]>;
-  }    
+  }   
+
+  SubmitPostResourceGen(content: string, postersId : number) : Observable<Posts> {
+    return this.http.post(this.url + `submitPost?Content=${content}&PosterID=${postersId}`, content) as Observable<Posts>; 
+  } 
 }

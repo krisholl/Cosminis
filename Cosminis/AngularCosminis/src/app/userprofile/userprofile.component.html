@@ -4,9 +4,9 @@
         <h2>Post Into the Cosmos!</h2>
         <textarea name="text" placeholder="What's happenin'?" id="text" cols="53" rows="8"></textarea>
         <div class="post-button">
-            <button class="btn post-selector btn-primary" type="submit">Submit</button>
+            <button class="btn post-selector btn-primary" (click)="submitPost()" type="button">Submit</button>
         </div>
-        <div class="card owners-feed mb-3" *ngFor="let pot of ownersPosts">
+        <div class="card owners-feed mb-3" *ngFor="let pot of ownersPosts.reverse()">
             <div class="card-body">
                 <h5 class="owner-title">{{pot.posterNickname}}</h5>
                 <div class="owner-content">{{pot.content}}</div>
@@ -15,7 +15,7 @@
     </div>
     <div class="column two">
         <h2 class="feed">Cosminis Feed</h2>
-        <div class="card friends-feed mb-3" *ngFor="let pot of posts">
+        <div class="card friends-feed mb-3" *ngFor="let pot of posts.reverse()">
             <div class="card-body">
                 <h5 class="card-title">{{pot.posterNickname}}</h5>
                 <div>{{pot.content}}</div>
