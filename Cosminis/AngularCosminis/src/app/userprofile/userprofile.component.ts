@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { PostSpiServicesService } from '../services/Post-api-services/post-spi-services.service';
 import { UserApiServicesService } from '../services/User-Api-Service/user-api-services.service';
 import { FriendsService } from '../services/Friends-api-service/friends.service';
+import { ResourceApiServicesService } from '../services/Resource-Api-Service/resource-api-service.service';
 import { Posts } from '../Models/Posts';
 import { Users } from '../Models/User';
 import { Router } from '@angular/router';
 import { Friends } from '../Models/Friends';
+import { FoodElement } from '../Models/FoodInventory';
 
 @Component({
   selector: 'app-userprofile',
@@ -14,7 +16,7 @@ import { Friends } from '../Models/Friends';
 })
 export class UserprofileComponent implements OnInit {
 
-  constructor(private api:PostSpiServicesService, private router: Router, private userApi:UserApiServicesService, private friendApi:FriendsService) { }
+  constructor(private api:PostSpiServicesService, private router: Router, private userApi:UserApiServicesService, private friendApi:FriendsService, private resourceApi: ResourceApiServicesService) { }
 
   friendshipInstance : Friends =
   {
@@ -42,6 +44,7 @@ export class UserprofileComponent implements OnInit {
   }
 
   posts : Posts[] = []
+  ownersPosts : Posts[] = []
 
   postInstance : Posts =
   {
@@ -50,6 +53,7 @@ export class UserprofileComponent implements OnInit {
     content : "Shrek",    
   }
 
+  foodDisplay : FoodElement[] = []
   friends : Friends[] = []
   users : Users[] = []
   pendingFriends : Users[] = []
@@ -123,9 +127,74 @@ export class UserprofileComponent implements OnInit {
   {
     this.api.getPostsByUserId(ID).subscribe((res) => 
     {
-      console.log(res);
-      this.posts = res;
-      console.log(this.postInstance);
+      this.ownersPosts = res;
+      let postUser:Users;
+      let userID:number;
+      for(let i=0; i<this.ownersPosts.length; i++)
+      {
+        userID = this.ownersPosts[i].userIdFk;
+        this.userApi.Find(userID).subscribe((res) =>
+        {
+          postUser = res;
+          console.log(postUser);
+          this.ownersPosts[i].posterNickname = postUser.password;
+        })
+      }  
+    })
+  }
+
+  CheckFood():boolean
+  {
+    let stringUser : string = sessionStorage.getItem('currentUser') as string;
+    console.log(stringUser);
+    let currentUser : Users = JSON.parse(stringUser);
+    this.resourceApi.CheckFood(currentUser.userId as number).subscribe((res) =>
+    {
+      this.foodDisplay= res;
+      if(this.foodDisplay.length>0)
+      {
+        window.sessionStorage.setItem('SpicyFoodCount', this.foodDisplay[0].foodCount as unknown as string);
+        window.sessionStorage.setItem('ColdFoodCount', this.foodDisplay[1].foodCount as unknown as string);
+        window.sessionStorage.setItem('LeafyFoodCount', this.foodDisplay[2].foodCount as unknown as string);
+        window.sessionStorage.setItem('FluffyFoodCount', this.foodDisplay[3].foodCount as unknown as string);
+        window.sessionStorage.setItem('BlessedFoodCount', this.foodDisplay[4].foodCount as unknown as string);
+        window.sessionStorage.setItem('CursedFoodCount', this.foodDisplay[5].foodCount as unknown as string);
+        return true;
+      }
+      else
+      {
+        window.sessionStorage.setItem('SpicyFoodCount', '0');
+        window.sessionStorage.setItem('ColdFoodCount', '0');
+        window.sessionStorage.setItem('LeafyFoodCount', '0');
+        window.sessionStorage.setItem('FluffyFoodCount', '0');
+        window.sessionStorage.setItem('BlessedFoodCount', '0');
+        window.sessionStorage.setItem('CursedFoodCount', '0');
+        return false;
+      }
+    });
+    return false;
+  }
+
+  loggedIn: boolean = false;
+
+  submitPost() : void 
+  {
+    let stringUser : string = sessionStorage.getItem('currentUser') as string;
+    let currentUser : Users = JSON.parse(stringUser);
+    let postersId = currentUser.userId;
+
+    this.inputValue = (document.getElementById('text') as HTMLInputElement).value;
+    let postsContent = this.inputValue; 
+
+    this.api.SubmitPostResourceGen(postsContent, postersId as number).subscribe((res) =>
+    {
+      this.userApi.LoginOrReggi(currentUser).subscribe((res) =>
+      {
+        currentUser = res;
+        window.sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+        this.CheckFood();
+        alert("Your post has been submitted, please refresh to see your post below.");
+      })
     })
   }
 
@@ -317,6 +386,8 @@ export class UserprofileComponent implements OnInit {
     let stringUser : string = sessionStorage.getItem('currentUser') as string;
     let currentUser : Users = JSON.parse(stringUser);
     let currentUsername = currentUser.username;
+    let currentUserId = currentUser.userId;
+    this.updatePostFeed(currentUserId as number);
     this.friendsPostFeed(currentUsername);
     this.showAllFriends(currentUsername);
     this.showPendingFriends("Pending");
