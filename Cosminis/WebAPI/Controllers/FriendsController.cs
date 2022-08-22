@@ -169,11 +169,11 @@ public class FriendsController
         }	
     }      
 
-    public IResult AddFriendByUserId(int requesterId, int addedId)
+    public IResult AddFriendByUserId(int userToAddId, int requestReceiver)
     {
     	try
     	{
-    		Friends newFriends = _friendServices.AddFriendByUserId(requesterId, addedId);
+    		Friends newFriends = _friendServices.AddFriendByUserId(userToAddId, requestReceiver);
     		return Results.Created("/Friends/AddFriend", newFriends); 
     	}
         catch(UserNotFound)
@@ -186,7 +186,7 @@ public class FriendsController
         }
     	catch(DuplicateFriends)
         {
-            return Results.Conflict("You are either friends or never will be!!"); 
+            return Results.Conflict("You are already friends!!"); 
         }
     	catch(BlockedUser)
         {
@@ -194,11 +194,11 @@ public class FriendsController
         }         	
     }
 
-    public IResult AddFriendByUsername(string requesterUsername, string addedUsername)
+    public IResult AddFriendByUsername(string userToAdd, string requestReceiver)
     {
     	try
     	{
-    		Friends newFriends = _friendServices.AddFriendByUsername(requesterUsername, addedUsername);
+    		Friends newFriends = _friendServices.AddFriendByUsername(userToAdd, requestReceiver);
     		return Results.Created("/Friends/AddFriendByUsername", newFriends); 
     	}
         catch(UserNotFound)
@@ -211,7 +211,7 @@ public class FriendsController
         }
     	catch(DuplicateFriends)
         {
-            return Results.Conflict("You are either friends or never will be!!"); 
+            return Results.Conflict("You are already friends!!"); 
         }	
     	catch(BlockedUser)
         {
