@@ -17,7 +17,7 @@ export class FriendsService {
   }
 
   addFriendByUsername(username : string, username2 : string) : Observable<Friends> {
-    return this.http.post(this.url + `Friends/AddFriendByUsername?requesterUsername=${username}&addedUsername=${username2}`, username) as Observable<Friends>;
+    return this.http.post(this.url + `Friends/AddFriendByUsername?userToAdd=${username}&requestReceiver=${username2}`, username) as Observable<Friends>;
   } 
 
   EditFriendship(editingUserID : number, user2BeEdited : number, status : string) : Observable<Friends> {

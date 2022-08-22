@@ -229,3 +229,13 @@ public class GottaBuySomething : Exception
         System.Runtime.Serialization.SerializationInfo info,
         System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 }
+
+public class PendingFriends : Exception
+{
+    public PendingFriends() { }
+    public PendingFriends(string message) : base(message) { }
+    public PendingFriends(string message, System.Exception inner) : base(message, inner) { }
+    protected PendingFriends(
+        System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+}

@@ -158,48 +158,37 @@ public class FriendServices
 
     public Friends AddFriendByUserId(int userToAddId, int requestReceiver)
     {
+        Console.WriteLine("In services");
         User user2Add2 = _userRepo.GetUserByUserId(requestReceiver);
 
-        try
+        Friends checkRelationship = _friendsRepo.AddFriendByUserId(userToAddId, requestReceiver);
+        if(checkRelationship == null)
         {
-            Friends checkRelationship = _friendsRepo.AddFriendByUserId(userToAddId, requestReceiver);
-            if(checkRelationship == null)
-            {
-                throw new RelationshipNotFound();
-            }            
+            throw new RelationshipNotFound();
+        }            
 
-            int goldToAdd = 5;
+        int goldToAdd = 5;
 
-            _ResourceRepo.AddGold(user2Add2, goldToAdd);
+        _ResourceRepo.AddGold(user2Add2, goldToAdd);
 
-            return checkRelationship;
-        }
-        catch (ResourceNotFound)
-        {
-            throw;
-        }
+        return checkRelationship;
     }
 
-    public Friends AddFriendByUsername(string requesterUsername, string addedUsername)
+    public Friends AddFriendByUsername(string userToAdd, string requestReceiver)
     {
-        User user2Add2 = _userRepo.GetUserByUserName(addedUsername);
-        try
+        Console.WriteLine("In services");        
+        User user2Add2 = _userRepo.GetUserByUserName(requestReceiver);
+
+        Friends checkRelationship = _friendsRepo.AddFriendByUsername(userToAdd, requestReceiver);
+        if(checkRelationship == null)
         {
-            Friends checkRelationship = _friendsRepo.AddFriendByUsername(requesterUsername, addedUsername);
-            if(checkRelationship == null)
-            {
-                throw new RelationshipNotFound();
-            }            
+            throw new RelationshipNotFound();
+        }            
 
-            int goldToAdd = 5;
+        int goldToAdd = 5;
 
-            _ResourceRepo.AddGold(user2Add2, goldToAdd);
+        _ResourceRepo.AddGold(user2Add2, goldToAdd);
 
-            return checkRelationship;
-        }
-        catch (ResourceNotFound)
-        {
-            throw;
-        }
+        return checkRelationship;
     }      
 }
