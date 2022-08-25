@@ -16,8 +16,8 @@ export class FriendsService {
     return this.http.get(this.url + `Friends/RelationshipStatusByUsername?username=${username}&status=Accepted`) as Observable<Friends[]>;  
   }
 
-  addFriendByUsername(username : string, username2 : string) : Observable<Friends> {
-    return this.http.post(this.url + `Friends/AddFriendByUsername?userToAdd=${username}&requestReceiver=${username2}`, username) as Observable<Friends>;
+  addFriendByUsername(userToAdd : string, requestReceiver : string) : Observable<Friends> {
+    return this.http.post(this.url + `Friends/AddFriendByUsername?userToAdd=${userToAdd}&requestReceiver=${requestReceiver}`, userToAdd) as Observable<Friends>;
   } 
 
   EditFriendship(editingUserID : number, user2BeEdited : number, status : string) : Observable<Friends> {

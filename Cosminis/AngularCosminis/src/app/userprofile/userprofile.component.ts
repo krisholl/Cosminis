@@ -74,12 +74,12 @@ export class UserprofileComponent implements OnInit {
     console.log(this.inputValue);
   }
 
-  searchAndAdd(username2 : string)
+  searchAndAdd(requestReceiver : string)
   {
     let stringUser : string = sessionStorage.getItem('currentUser') as string;
     let searchingUser = JSON.parse(stringUser);
     
-    this.searchUsers(username2);
+    this.searchUsers(requestReceiver);
 
     this.friendApi.addFriendByUsername(searchingUser.username, this.userInstance.username).subscribe((res) => 
     {
