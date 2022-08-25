@@ -38,7 +38,7 @@ public class FriendsRepo : IFriendsDAO
         IEnumerable<Friends> friendsQuery =
             (from Friends in _context.Friends
             where (Friends.UserIdTo == userToLookup.UserId) || (Friends.UserIdFrom == userToLookup.UserId)
-            select Friends);
+            select Friends).ToList();
 
         if(friendsQuery == null)
         {
@@ -46,11 +46,6 @@ public class FriendsRepo : IFriendsDAO
         }
                
             List<Friends> friendsList = friendsQuery.ToList();
-            
-            if(friendsList.Count() < 1)
-            {
-                throw new ResourceNotFound();
-            }
 
             return friendsList;
         }
@@ -356,62 +351,60 @@ public class FriendsRepo : IFriendsDAO
             throw new UserNotFound();
         }
 
-        IEnumerable<Friends> checkIfExists =
-            (from Friends in _context.Friends
-            where (Friends.UserIdTo == toBeAccepted.UserId) || (Friends.UserIdFrom == toBeAccepted.UserId)
-            select Friends).ToList();
-            
-        foreach(Friends friendInstance in checkIfExists)
+        Friends friendInstance = FriendsByUserIds((int)requestReceiver.UserId, (int)toBeAccepted.UserId);
+
+        Console.WriteLine(friendInstance);
+
+        if(friendInstance.Status != null)
         {
-            if((friendInstance.UserIdTo == requestReceiver.UserId) || (friendInstance.UserIdFrom == requestReceiver.UserId))
+            Console.WriteLine(friendInstance.Status);
+            if(friendInstance.Status == "Accepted")
             {
-                Console.WriteLine(friendInstance.Status);
-                if(friendInstance.Status == "Accepted")
-                {
-                    //Console.WriteLine("A");               //These comments for testing
-                    throw new DuplicateFriends();
-                }     
-
-                else if(friendInstance.Status == "Blocked")
-                {
-                    //Console.WriteLine("B");
-                    throw new BlockedUser();
-                }
-                else if(friendInstance.Status == "Removed")
-                {
-                    //Console.WriteLine("R");
-                    friendInstance.Status = "Pending";
-
-                    _context.SaveChanges();
-
-                    _context.ChangeTracker.Clear();
-
-                    return friendInstance;                    
-                }                
+                Console.WriteLine("A");               //These comments for testing
+                throw new DuplicateFriends();
+            }     
+            else if(friendInstance.Status == "Blocked")
+            {
+                Console.WriteLine("B");
+                throw new BlockedUser();
             }
-            else
+            else if(friendInstance.Status == "Pending")
             {
-                //Console.WriteLine("N");
-                Friends newRelationship = new Friends
-                {
-                    UserIdFrom = (int)toBeAccepted.UserId,
-                    UserIdTo = (int)requestReceiver.UserId,
-                    Status = "Pending"
-                };
-
-                _context.Friends.Add(newRelationship);
+                Console.WriteLine("P");
+                throw new PendingFriends();
+            }
+            else if(friendInstance.Status == "Removed")
+            {
+                Console.WriteLine("R");
+                friendInstance.Status = "Pending";
 
                 _context.SaveChanges();
 
                 _context.ChangeTracker.Clear();
 
-                return newRelationship;                
-            }            
+                return friendInstance;                    
+            }                
+        }
+        else if(friendInstance.Status == null)
+        {
+            Console.WriteLine("N");
+            Friends newRelationship = new Friends
+            {
+                UserIdFrom = (int)toBeAccepted.UserId,
+                UserIdTo = (int)requestReceiver.UserId,
+                Status = "Pending"
+            };
+
+            _context.Friends.Add(newRelationship);
+
+            _context.SaveChanges();
+
+            _context.ChangeTracker.Clear();
+
+            return newRelationship;                
         }            
-
-        Friends returnRelationship = FriendsByUserIds((int)toBeAccepted.UserId, (int)requestReceiver.UserId);
-
-        return returnRelationship;
+                   
+        return friendInstance;
     }
 
     public Friends AddFriendByUsername(string userToAdd, string acceptingUser)
@@ -423,62 +416,60 @@ public class FriendsRepo : IFriendsDAO
         {           
             throw new UserNotFound();
         }
-        IEnumerable<Friends> checkIfExists =                                            //checking "friendships" objects, return to list
-            (from Friends in _context.Friends
-            where (Friends.UserIdTo == toBeAccepted.UserId) || (Friends.UserIdFrom == toBeAccepted.UserId)
-            select Friends).ToList();
+        
+        Friends friendInstance = FriendsByUserIds((int)requestReceiver.UserId, (int)toBeAccepted.UserId);
 
-        foreach(Friends friendInstance in checkIfExists)
+        Console.WriteLine(friendInstance);
+
+        if(friendInstance.Status != null)
         {
-            if((friendInstance.UserIdTo == requestReceiver.UserId) || (friendInstance.UserIdFrom == requestReceiver.UserId))
+            Console.WriteLine(friendInstance.Status);
+            if(friendInstance.Status == "Accepted")
             {
-                Console.WriteLine(friendInstance.Status);
-                if(friendInstance.Status == "Accepted")
-                {
-                    //Console.WriteLine("A");               //These comments for testing
-                    throw new DuplicateFriends();
-                }     
-
-                else if(friendInstance.Status == "Blocked")
-                {
-                    //Console.WriteLine("B");
-                    throw new BlockedUser();
-                }
-                else if(friendInstance.Status == "Removed")
-                {
-                    //Console.WriteLine("R");
-                    friendInstance.Status = "Pending";
-
-                    _context.SaveChanges();
-
-                    _context.ChangeTracker.Clear();
-
-                    return friendInstance;                    
-                }                
+                Console.WriteLine("A");               //These comments for testing
+                throw new DuplicateFriends();
+            }     
+            else if(friendInstance.Status == "Blocked")
+            {
+                Console.WriteLine("B");
+                throw new BlockedUser();
             }
-            else
+            else if(friendInstance.Status == "Pending")
             {
-                //Console.WriteLine("N");
-                Friends newRelationship = new Friends
-                {
-                    UserIdFrom = (int)toBeAccepted.UserId,
-                    UserIdTo = (int)requestReceiver.UserId,
-                    Status = "Pending"
-                };
-
-                _context.Friends.Add(newRelationship);
+                Console.WriteLine("P");
+                throw new PendingFriends();
+            }
+            else if(friendInstance.Status == "Removed")
+            {
+                Console.WriteLine("R");
+                friendInstance.Status = "Pending";
 
                 _context.SaveChanges();
 
                 _context.ChangeTracker.Clear();
 
-                return newRelationship;                
-            }            
+                return friendInstance;                    
+            }                
         }
-        //Console.WriteLine("F");
+        else if(friendInstance.Status == null)
+        {
+            Console.WriteLine("N");
+            Friends newRelationship = new Friends
+            {
+                UserIdFrom = (int)toBeAccepted.UserId,
+                UserIdTo = (int)requestReceiver.UserId,
+                Status = "Pending"
+            };
 
-        Friends returnRelationship = FriendsByUserIds((int)toBeAccepted.UserId, (int)requestReceiver.UserId);
+            _context.Friends.Add(newRelationship);
 
-        return returnRelationship;  
-    }    
+            _context.SaveChanges();
+
+            _context.ChangeTracker.Clear();
+
+            return newRelationship;                
+        }            
+                   
+        return friendInstance;
+    }  
 }

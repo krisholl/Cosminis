@@ -180,10 +180,6 @@ public class FriendsController
         {
             return Results.NotFound("No user with this ID exists."); 
         }        
-        catch(ResourceNotFound)
-        {
-            return Results.NotFound("There is no user with this ID in our system.");
-        }
     	catch(DuplicateFriends)
         {
             return Results.Conflict("You are already friends!!"); 
@@ -191,7 +187,11 @@ public class FriendsController
     	catch(BlockedUser)
         {
             return Results.Conflict("The information you have entered is not valid"); 
-        }         	
+        }  
+        catch(PendingFriends)
+        {
+            return Results.Conflict("This friendship is already pending.");
+        }               	
     }
 
     public IResult AddFriendByUsername(string userToAdd, string requestReceiver)
@@ -203,12 +203,8 @@ public class FriendsController
     	}
         catch(UserNotFound)
         {
-            return Results.NotFound("No user with this ID exists."); 
+            return Results.NotFound("No user with this username exists."); 
         }        
-        catch(ResourceNotFound)
-        {
-            return Results.NotFound("There is no user with this username in our system.");
-        }
     	catch(DuplicateFriends)
         {
             return Results.Conflict("You are already friends!!"); 
@@ -216,6 +212,10 @@ public class FriendsController
     	catch(BlockedUser)
         {
             return Results.Conflict("The information you have entered is not valid"); 
-        }         
+        } 
+        catch(PendingFriends)
+        {
+            return Results.Conflict("This friendship is already pending.");
+        }                
     }     
 }
