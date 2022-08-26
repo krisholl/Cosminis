@@ -161,8 +161,6 @@ public class ResourceRepo : IResourceGen
 
         int totalFoodCost = ((foodQtyArr.Sum()) * 10);                            //each food costs 10 gold.
 
-        Console.WriteLine(totalFoodCost);                                         //for testing
-
         int eggCost = (eggQty * 100);                                                     //eggs each cost 100 gold.
 
         int totalCost = ((totalFoodCost + eggCost) * -1);                                  //Stores total gold cost to remove from user.     
@@ -183,7 +181,7 @@ public class ResourceRepo : IResourceGen
         for(int i = 1; i <= 6; i++)                                                //Total food purchased will be added to this at the end.
         { 
             FoodInventory userFoodInstance = _context.FoodInventories.Find(userToBuy.UserId, i);//i also serving as food element as it iterates
-            Console.WriteLine(userFoodInstance);
+
             if (userFoodInstance == null)                                                               //For each element of the List, 0 if currently null.
             {
                 FoodInventory newFood = new FoodInventory()
@@ -197,7 +195,6 @@ public class ResourceRepo : IResourceGen
             }
 
             userFoodInstance.FoodCount = userFoodInstance.FoodCount + foodQtyArr[k];                //adds qty of food to foodInstance in foodList if applicable
-            Console.WriteLine(k);
 
             k++;
         }                               

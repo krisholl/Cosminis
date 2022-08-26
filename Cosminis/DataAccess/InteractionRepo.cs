@@ -360,14 +360,6 @@ public class InteractionRepo : Interactions
         {
             companionToPet.Mood = 100;
         }
-
-        Console.WriteLine(agitationBaseRoll);
-        Console.WriteLine(hungerMod);
-        Console.WriteLine(moodMod);
-        Console.WriteLine(showcaseMod);
-        Console.WriteLine(totalRoll);
-        Console.WriteLine(companionToPet.Mood);
-        Console.WriteLine(moodToOffset);
         
         companionToPet.TimeSinceLastPet = DateTime.Now;            
 

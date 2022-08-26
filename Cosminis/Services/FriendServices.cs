@@ -158,7 +158,6 @@ public class FriendServices
 
     public Friends AddFriendByUserId(int userToAddId, int requestReceiver)
     {
-        Console.WriteLine("In services");
         User user2Add2 = _userRepo.GetUserByUserId(requestReceiver);
 
         Friends checkRelationship = _friendsRepo.AddFriendByUserId(userToAddId, requestReceiver);
@@ -175,8 +174,7 @@ public class FriendServices
     }
 
     public Friends AddFriendByUsername(string userToAdd, string requestReceiver)
-    {
-        Console.WriteLine("In services");        
+    {       
         User user2Add2 = _userRepo.GetUserByUserName(requestReceiver);
 
         Friends checkRelationship = _friendsRepo.AddFriendByUsername(userToAdd, requestReceiver);

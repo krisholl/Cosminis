@@ -369,7 +369,6 @@ public class FriendsRepo : IFriendsDAO
             }
             else if(friendInstance.Status == "Removed")         //If they are simply removed, then you can still send a new request
             {
-                Console.WriteLine("R");
                 friendInstance.Status = "Pending";              //The request becomes 'pending' again if it is true.
 
                 _context.SaveChanges();
@@ -381,7 +380,6 @@ public class FriendsRepo : IFriendsDAO
         }
         else if(friendInstance.Status == null)                  //If the initial relationship search is non existent, it creates a new pending relationship!
         {
-            Console.WriteLine("N");
             Friends newRelationship = new Friends
             {
                 UserIdFrom = (int)toBeAccepted.UserId,
@@ -403,39 +401,32 @@ public class FriendsRepo : IFriendsDAO
 
     public Friends AddFriendByUsername(string userToAdd, string acceptingUser)//Same as above but by username
     {
-        User toBeAccepted = _userRepo.GetUserByUserName(userToAdd);               //searching friends
+        User toBeAccepted = _userRepo.GetUserByUserName(userToAdd);               
         User requestReceiver = _userRepo.GetUserByUserName(acceptingUser);
 
-        if(toBeAccepted == null || requestReceiver == null)                       //checking null
+        if(toBeAccepted == null || requestReceiver == null)                       
         {           
             throw new UserNotFound();
         }
         
         Friends friendInstance = FriendsByUserIds((int)requestReceiver.UserId, (int)toBeAccepted.UserId);
 
-        Console.WriteLine(friendInstance);
-
         if(friendInstance.Status != null)
         {
-            Console.WriteLine(friendInstance.Status);
             if(friendInstance.Status == "Accepted")
             {
-                Console.WriteLine("A");               //These comments for testing
                 throw new DuplicateFriends();
             }     
             else if(friendInstance.Status == "Blocked")
             {
-                Console.WriteLine("B");
                 throw new BlockedUser();
             }
             else if(friendInstance.Status == "Pending")
             {
-                Console.WriteLine("P");
                 throw new PendingFriends();
             }
             else if(friendInstance.Status == "Removed")
             {
-                Console.WriteLine("R");
                 friendInstance.Status = "Pending";
 
                 _context.SaveChanges();
@@ -447,7 +438,6 @@ public class FriendsRepo : IFriendsDAO
         }
         else if(friendInstance.Status == null)
         {
-            Console.WriteLine("N");
             Friends newRelationship = new Friends
             {
                 UserIdFrom = (int)toBeAccepted.UserId,
