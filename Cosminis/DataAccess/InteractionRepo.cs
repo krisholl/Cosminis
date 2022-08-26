@@ -220,6 +220,7 @@ public class InteractionRepo : Interactions
 
     /// <summary>
     /// Allows a user to pet a companion, changing the said companion's mood base on their hunger level
+    /// These numbers may change in the end, but that is less important than having the logic down of course.
     /// </summary>
     /// <param name="petterID"></param>
     /// <param name="companionID"></param>

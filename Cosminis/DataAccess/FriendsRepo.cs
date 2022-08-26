@@ -19,12 +19,12 @@ public class FriendsRepo : IFriendsDAO
         _userRepo = userRepo;
     }
 
-    public List<Friends> GetAllRelationships()
+    public List<Friends> GetAllRelationships()                          //Getting EVERY friendship in the database. I mostly made this for practice at the time.
     {
         return _context.Friends.ToList();
     }
 
-    public List<Friends> ViewAllFriends(int userIdToLookup)
+    public List<Friends> ViewAllFriends(int userIdToLookup)             //More useful... gets ALLLL "friends" ('relationships' to be specific) of a particular user
     {
         try
         {
@@ -35,29 +35,29 @@ public class FriendsRepo : IFriendsDAO
             throw new UserNotFound();
         }
 
-        IEnumerable<Friends> friendsQuery =
+        IEnumerable<Friends> friendsQuery =                             //This will return friends EVEN IF THEY ARE REMOVED OR BLOCKED BTW... one for only 'accepted' friends below.
             (from Friends in _context.Friends
             where (Friends.UserIdTo == userToLookup.UserId) || (Friends.UserIdFrom == userToLookup.UserId)
             select Friends).ToList();
 
-        if(friendsQuery == null)
+        if(friendsQuery == null)                                        //Throws an exception if the user is unpopular.
         {
             throw new RelationshipNotFound();
         }
                
-            List<Friends> friendsList = friendsQuery.ToList();
+        List<Friends> friendsList = friendsQuery.ToList();              //...Otherwise it adds what it finds to a list to return in two lines.
 
-            return friendsList;
+        return friendsList;
         }
-        catch(ResourceNotFound)
+        catch(ResourceNotFound)                                         //Another likely unreachable catch statement.
         {
-            throw;
+            throw;                                                     
         }                                  
     }
     
-    public Friends FriendsByUserIds(int searchingUserId, int user2BeSearchedFor)
+    public Friends FriendsByUserIds(int searchingUserId, int user2BeSearchedFor)//Pretty useful. Finds relationships between two specific people if it exists
     {
-        User searchingUser = _context.Users.Find(searchingUserId);
+        User searchingUser = _context.Users.Find(searchingUserId);              //lets look for two users and return null if null
         if(searchingUser == null)
         {
             throw new UserNotFound();
@@ -67,33 +67,33 @@ public class FriendsRepo : IFriendsDAO
         {
             throw new UserNotFound();
         }
-        List<Friends> quieriedFriendsList = ViewAllFriends((int)searchingUser.UserId);
+        List<Friends> quieriedFriendsList = ViewAllFriends((int)searchingUser.UserId);//Getting all friends by user 1
 
         if(quieriedFriendsList == null)
         {
             throw new RelationshipNotFound();
         }
 
-        List<Friends> searchedFriendsList = ViewAllFriends((int)friend2BFound.UserId);
+        List<Friends> searchedFriendsList = ViewAllFriends((int)friend2BFound.UserId);//Getting all friends by user 2
 
-        if(searchedFriendsList == null)
+        if(searchedFriendsList == null)             
         {
             throw new RelationshipNotFound();
         }
 
         Friends returnRelationship = new Friends();
 
-        foreach(Friends friendInstance in quieriedFriendsList)
+        foreach(Friends friendInstance in quieriedFriendsList)                      //Looking through the second friendship
         {
-            if(searchedFriendsList.Contains(friendInstance))
+            if(searchedFriendsList.Contains(friendInstance))                        //if it contains the first one then we got a match
             {
-                returnRelationship = friendInstance;
+                returnRelationship = friendInstance;                            
             }
         }
-        return returnRelationship;
+        return returnRelationship;                  //I kinda use friendship and relationship interchangeably FYI. This returns the searched relationship.
     }
     
-    public Friends EditFriendship(int editingUserID, int user2BeEdited, string status)//this does not delete removed/blocked friends. I may add this later.
+    public Friends EditFriendship(int editingUserID, int user2BeEdited, string status)//Edits friendships(relationship) 'status' "Accepted, Pending, Removed, Blocked."
     {   
         User editingUser = _context.Users.Find(editingUserID);
         if(editingUser == null)
@@ -107,39 +107,39 @@ public class FriendsRepo : IFriendsDAO
             throw new UserNotFound();
         }
         
-        Friends statusToBeEdited = FriendsByUserIds((int)editingUser.UserId, (int)friend2BeEdited.UserId);
+        Friends statusToBeEdited = FriendsByUserIds((int)editingUser.UserId, (int)friend2BeEdited.UserId);//Grabs a relationship between two users
 
-        statusToBeEdited.Status = status;
+        statusToBeEdited.Status = status;                                   //changes the status to the input status
 
         _context.SaveChanges();
 
         _context.ChangeTracker.Clear(); 
 
-        return statusToBeEdited;  
+        return statusToBeEdited;                                            //returns the edited relationship
     }
 
-    public Friends SearchByRelationshipId(int relationshipId)
+    public Friends SearchByRelationshipId(int relationshipId)           //Searching for a specific relationship by the relationship Id, and returning it
     {
         return _context.Friends.FirstOrDefault(friends => friends.RelationshipId == relationshipId) ?? throw new ResourceNotFound();
     }
 
-    public List<Friends> CheckRelationshipStatusByUsername(string username, string status)
+    public List<Friends> CheckRelationshipStatusByUsername(string username, string status)//looks for all relationships of a specific status for 1 user. (All accepted, all pending....)
     {   
         User quieriedUser = _userRepo.GetUserByUserName(username);
 
-        List<Friends> quieriedUsersList = ViewAllFriends((int)quieriedUser.UserId);
+        List<Friends> quieriedUsersList = ViewAllFriends((int)quieriedUser.UserId);//Gets a list of all the current friends of selected user
 
-        List<Friends> statusList = new List<Friends>();
+        List<Friends> statusList = new List<Friends>();                            //This will be for the return
 
         if(quieriedUsersList == null)
         {
             throw new ResourceNotFound();
         }
-        foreach(Friends friendSearch in quieriedUsersList)
+        foreach(Friends friendSearch in quieriedUsersList)                         //Go through the queried list...
         {
-            if(friendSearch.Status.ToString() == status)
+            if(friendSearch.Status.ToString() == status)                           //Filter the results by status....
             {
-                statusList.Add(friendSearch);
+                statusList.Add(friendSearch);                                      //Add the relationships to the final status list to return
             }
         }
         if(statusList.Count() < 1)
@@ -147,20 +147,20 @@ public class FriendsRepo : IFriendsDAO
             throw new ResourceNotFound();
         }
 
-        return statusList;
+        return statusList;                      
     }
 
-    public List<Friends> CheckRelationshipStatusByUserId(int searchingId, string status)
+    public List<Friends> CheckRelationshipStatusByUserId(int searchingId, string status)//Same thing as above but by userId instead of username
     {   
-        User quieriedUser = _context.Users.Find(searchingId);
-        if(quieriedUser == null)
+        User quieriedUser = _context.Users.Find(searchingId);                       
+        if(quieriedUser == null)                                                    
         {
             throw new UserNotFound();
         }
 
-        List<Friends> quieriedUsersList = ViewAllFriends((int)quieriedUser.UserId);
+        List<Friends> quieriedUsersList = ViewAllFriends((int)quieriedUser.UserId); 
 
-        List<Friends> statusList = new List<Friends>();
+        List<Friends> statusList = new List<Friends>();                             
 
         if(quieriedUsersList == null)
         {
@@ -205,38 +205,38 @@ public class FriendsRepo : IFriendsDAO
         }
     }
     */
-    public List<Friends> ViewRelationShipsByStatus(string status)
+    public List<Friends> ViewRelationShipsByStatus(string status)//Gets all relationships in the database of a particular status
     {
-        List<Friends> relationsList = new List<Friends>();
+        List<Friends> relationsList = new List<Friends>();       //List of relationships to return
 
-        switch(status) 
-        {
-        case "Pending":
+        switch(status)                                           
+        {                                                        //Using a switch based on entered.
+        case "Pending":                                          //Searching based on the 'Pending' relationship status.
             try
             {
-            IEnumerable<Friends> statusQuery =
-                from Friends in _context.Friends
+            IEnumerable<Friends> statusQuery =                   
+                from Friends in _context.Friends                 //(Logic the same in below cases)
                 where Friends.Status == RelationshipStatus.Pending.ToString()
                 select Friends;
 
-            foreach(Friends friendsReturn in statusQuery)
-            {
+            foreach(Friends friendsReturn in statusQuery)        //Iterates through the query and adds the appropriate relationships to a list.
+            {                                                       
                 relationsList.Add(friendsReturn);
             }  
 
-            if(relationsList.Count() < 1)
+            if(relationsList.Count() < 1)                        //If the list is empty it throws an exception.
             {
                 throw new RelationshipNotFound();
             }
 
-            return relationsList;
+            return relationsList;                                //Returns the list.
             }
-            catch(ResourceNotFound)
+            catch(ResourceNotFound)                         
             {
                 throw;
             }
             break;
-        case "Accepted":
+        case "Accepted":                                         //Searching based on the 'Accepted' relationship status.
             try
             {
             IEnumerable<Friends> statusQuery =
@@ -261,7 +261,7 @@ public class FriendsRepo : IFriendsDAO
                 throw;
             }
             break;
-        case "Removed":
+        case "Removed":                                          //Searching based on the 'Removed' relationship status.
             try
             {
             IEnumerable<Friends> statusQuery =
@@ -286,7 +286,7 @@ public class FriendsRepo : IFriendsDAO
                 throw;
             }
             break;
-        case "Blocked":
+        case "Blocked":                                          //Searching based on the 'Blocked' relationship status.
             try
             {
             IEnumerable<Friends> statusQuery =
@@ -311,7 +311,7 @@ public class FriendsRepo : IFriendsDAO
                 throw;
             }
             break;    
-        default:
+        default:                                                 //Default condition searches based on the 'Accepted' relationship status.
             try
             {
             IEnumerable<Friends> statusQuery =
@@ -338,45 +338,39 @@ public class FriendsRepo : IFriendsDAO
             break;
         };
 
-        return relationsList;                  
+        return relationsList;                                    //Returns relationslist
     }
 
-    public Friends AddFriendByUserId(int userToAddId, int acceptingUserId)
+    public Friends AddFriendByUserId(int userToAddId, int acceptingUserId)//Adds a friend/creates a relationship via user Id. Next method is the same, but by username.
     {
-        User toBeAccepted = _context.Users.Find(userToAddId);
-        User requestReceiver = _context.Users.Find(acceptingUserId);
+        User toBeAccepted = _context.Users.Find(userToAddId);             //The user who is getting a friend request
+        User requestReceiver = _context.Users.Find(acceptingUserId);      //The user sending the friend request
 
-        if(toBeAccepted == null || requestReceiver == null)
+        if(toBeAccepted == null || requestReceiver == null)               //If either user doesn't exists, returns null
         {
             throw new UserNotFound();
         }
 
-        Friends friendInstance = FriendsByUserIds((int)requestReceiver.UserId, (int)toBeAccepted.UserId);
+        Friends friendInstance = FriendsByUserIds((int)requestReceiver.UserId, (int)toBeAccepted.UserId);//Searching to see if these users are in a friend relationship yet
 
-        Console.WriteLine(friendInstance);
-
-        if(friendInstance.Status != null)
+        if(friendInstance.Status != null)                       //If they are ALREADY FRIENDS(in a 'relationship'), this will check what their status is
         {
-            Console.WriteLine(friendInstance.Status);
-            if(friendInstance.Status == "Accepted")
+            if(friendInstance.Status == "Accepted")             //If 'Accepted' it will say "you are friends already, yo."
             {
-                Console.WriteLine("A");               //These comments for testing
                 throw new DuplicateFriends();
             }     
-            else if(friendInstance.Status == "Blocked")
+            else if(friendInstance.Status == "Blocked")         //We don't even give them information if it is a blocked relationship. "There is no information."
             {
-                Console.WriteLine("B");
                 throw new BlockedUser();
             }
-            else if(friendInstance.Status == "Pending")
+            else if(friendInstance.Status == "Pending")         //If they are in a 'Pending' relationship, it will return "This relationship is already pending."
             {
-                Console.WriteLine("P");
                 throw new PendingFriends();
             }
-            else if(friendInstance.Status == "Removed")
+            else if(friendInstance.Status == "Removed")         //If they are simply removed, then you can still send a new request
             {
                 Console.WriteLine("R");
-                friendInstance.Status = "Pending";
+                friendInstance.Status = "Pending";              //The request becomes 'pending' again if it is true.
 
                 _context.SaveChanges();
 
@@ -385,7 +379,7 @@ public class FriendsRepo : IFriendsDAO
                 return friendInstance;                    
             }                
         }
-        else if(friendInstance.Status == null)
+        else if(friendInstance.Status == null)                  //If the initial relationship search is non existent, it creates a new pending relationship!
         {
             Console.WriteLine("N");
             Friends newRelationship = new Friends
@@ -397,22 +391,22 @@ public class FriendsRepo : IFriendsDAO
 
             _context.Friends.Add(newRelationship);
 
-            _context.SaveChanges();
+            _context.SaveChanges();                             //Saves the new relationship.
 
             _context.ChangeTracker.Clear();
 
             return newRelationship;                
         }            
                    
-        return friendInstance;
+        return friendInstance;                                  //Returns the relationship instance if applicable.
     }
 
-    public Friends AddFriendByUsername(string userToAdd, string acceptingUser)
+    public Friends AddFriendByUsername(string userToAdd, string acceptingUser)//Same as above but by username
     {
         User toBeAccepted = _userRepo.GetUserByUserName(userToAdd);               //searching friends
         User requestReceiver = _userRepo.GetUserByUserName(acceptingUser);
 
-        if(toBeAccepted == null || requestReceiver == null)                               //checking null
+        if(toBeAccepted == null || requestReceiver == null)                       //checking null
         {           
             throw new UserNotFound();
         }

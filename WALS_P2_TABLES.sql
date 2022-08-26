@@ -109,6 +109,8 @@ insert into WALS_P2.foodStats (foodElement_fk, description, foodName, hungerRest
 
 insert into WALS_P2.foodInventory (userId_fk, foodStatsId_fk, foodCount) values (4, 1, -49999);
 
+insert into WALS_P2.friends (userId_to, userId_from, status) values (15, 12, 'Pending');
+
 select * from WALS_P2.friends;
 delete from WALS_P2.friends;
 
@@ -229,7 +231,7 @@ delete from WALS_P2.foodStats where foodStatsId = 4;
 
 delete from WALS_P2.companions where companionId = 2;
 
-delete from WALS_P2.friends where userId_from = 15;
+delete from WALS_P2.friends where userId_to = 15;
 
 create table WAL_P2.users;
 
